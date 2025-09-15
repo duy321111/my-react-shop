@@ -38,7 +38,7 @@ const Orders = () => {
       <div className="grid">
         <div className="grid__row">
           <div className="orders-table-container">
-            <h1> Đơn hàng của bạn</h1>
+            <h1> Đơn hàng của bạn </h1>
             <table className="orders-table">
               <thead>
                 <tr>

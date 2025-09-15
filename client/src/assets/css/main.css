@@ -361,6 +361,7 @@
 /* authen-form */
 .auth-form{
     width:500px; 
+    margin-top: 20px;
     border-radius: 5px;
     background-color: var(--white-color);
     overflow: hidden;

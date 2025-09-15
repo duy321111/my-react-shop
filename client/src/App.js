@@ -9,6 +9,8 @@ import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
   function App() {
     return (
@@ -22,6 +24,8 @@ import OrderDetail from './pages/OrderDetail';
           <Route path="/Profile" element ={<Profile/>}/>
           <Route path="/Orders" element ={<Orders/>}/>
           <Route path="/OrderDetail" element ={<OrderDetail/>}/>
+          <Route path="/Login" element ={<Login/>}/>
+          <Route path="/Register" element ={<Register/>}/>
         </Routes>
       </Router>
     );

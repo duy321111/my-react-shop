@@ -1,6 +1,6 @@
 // src/pages/Home.js
 import React from 'react';
-import Header from '../components/Header';
+import Header from "../components/Header/Header";
 import ProductList from '../components/ProductList';
 import Cart from '../components/Cart';
 import Footer from '../components/Footer';

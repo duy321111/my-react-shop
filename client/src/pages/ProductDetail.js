@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
 import Tabs from "../components/Tab/Tab";

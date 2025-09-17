@@ -59,6 +59,17 @@
     display: block;
 }
 
+.header__navbar-user-item button{  
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--white-color);
+    border:none;
+    font-size: 1.4rem;
+    padding: 6px 16px;
+    display: block;
+    cursor: pointer;
+}
+
 .header__navbar-user-item a:first-child{
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
@@ -153,13 +164,21 @@
 .header__navbar-item:hover,
 .header__navbar-item-link:hover,
 .header__navbar-icon-link:hover{
-   cursor:pointer;
+   cursor: pointer;
    color:rgba(255, 255, 255, 0.7)
 }
 
 
 .header__navbar-item--strong{
+    
     font-weight: 400;
+}
+
+.header__navbar-item--strong a{
+    text-decoration: none; 
+    color: inherit;        /* lấy màu chữ từ cha */
+    cursor: pointer;
+  
 }
 
 .header__navbar-item--separate::after{

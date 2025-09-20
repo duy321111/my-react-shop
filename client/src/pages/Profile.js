@@ -44,10 +44,26 @@ const Profile = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) setForm({ ...form, avatar: URL.createObjectURL(file) });
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await fetch(`http://localhost:5000/upload/${user._id}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      setForm({ ...form, avatar: data.url });
+    } catch (err) {
+      console.error("Upload error:", err);
+    }
   };
+
 
   const handleSaveProfile = () => {
     const token = localStorage.getItem("token");
@@ -117,7 +133,7 @@ const Profile = () => {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="avatar-box">
-            <img src={form.avatar || "https://via.placeholder.com/120"} alt="avatar" className="avatar" />
+            <img src={`http://localhost:5000${form.avatar}`} alt="avatar" className="avatar" />
             <label htmlFor="upload" className="upload-btn"><p>Thay ảnh</p></label>
             <input type="file" id="upload" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
             <h3 className="username">{user.name}</h3>

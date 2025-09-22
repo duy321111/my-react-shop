@@ -4,15 +4,37 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const [form, setForm] = useState({
+    name: "",
+    avatar: "",
+    phone: "",
+    gender: "",
+    email: "",
+    province: "",
+    ward: "",
+    detail: ""
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       axios
         .get("http://localhost:5000/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` }
         })
-        .then((res) => setUser(res.data))
+        .then((res) => {
+          setUser(res.data);
+          setForm({
+            name: res.data.name || "",
+            avatar: res.data.avatar || "",
+            phone: res.data.phone || "",
+            gender: res.data.gender || "",
+            email: res.data.email || "",
+            province: "",
+            ward: "",
+            detail: ""
+          });
+        })
         .catch(() => setUser(null));
     }
   }, []);
@@ -100,10 +122,8 @@ export default function Navbar() {
         {user ? (
           <li className="header__navbar-item header__navbar-user">
             <img
-              src={
-                user.avatar ||
-                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              }
+              src={`http://localhost:5000${form.avatar}` || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                
               alt="avatar"
               className="header__navbar-user-img"
             />

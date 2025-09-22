@@ -17,8 +17,6 @@ app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/auth", authRoutes);
-
-
 app.use("/upload", uploadRoutes);
 
 // Connect DB

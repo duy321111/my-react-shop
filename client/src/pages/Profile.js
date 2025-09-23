@@ -26,7 +26,6 @@ const Profile = () => {
     axios
       .get("https://provinces.open-api.vn/api/v2/p/?depth=1") 
       .then((res) => {
-
         const updatedProvinces = res.data.filter(p => true); 
         setProvinces(updatedProvinces);
       })
@@ -58,13 +57,11 @@ const Profile = () => {
     }
   }, []);
 
- 
   const handleProvinceChange = (e) => {
     const provinceCode = e.target.value;
     setForm({ ...form, province: provinceCode, ward: "" });
 
     if (provinceCode) {
-    
       axios
         .get(`https://provinces.open-api.vn/api/v2/p/${provinceCode}?depth=2`) 
         .then((res) => {
@@ -144,6 +141,23 @@ const Profile = () => {
         setUser(res.data);
         setForm({ ...form, province: "", ward: "", detail: "" });
         setWards([]);
+      })
+      .catch((err) => console.error(err.response?.data || err.message));
+  };
+
+  // Xử lý xóa địa chỉ
+  const handleDeleteAddress = (index) => {
+    const token = localStorage.getItem("token");
+    const updatedAddresses = (user.addresses || []).filter((_, i) => i !== index);
+
+    axios
+      .put(
+        "http://localhost:5000/auth/update",
+        { addresses: updatedAddresses },
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        setUser(res.data);
       })
       .catch((err) => console.error(err.response?.data || err.message));
   };
@@ -241,13 +255,21 @@ const Profile = () => {
             <>
               <ul>
                 {user.addresses?.map((addr, index) => (
-                  <li key={addr._id || index}>
-                    {addr.detail}, {addr.ward}, {addr.province} {/* Bỏ district */}
+                  <li key={addr._id || index} className="address-item">
+                    <div className="address__item-info">
+                      <span>{addr.detail}, {addr.ward}, {addr.province}</span>
+                    </div>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDeleteAddress(index)}
+                    >
+                      Xóa
+                    </button>
                   </li>
                 ))}
               </ul>
               <div className="form-group">
-                <label>Tỉnh/Thành phố </label>
+                <label>Tỉnh/Thành phố</label>
                 <select name="province" className="changeAdress" value={form.province} onChange={handleProvinceChange}>
                   <option value="">Chọn Tỉnh/Thành phố</option>
                   {provinces.map((province) => (

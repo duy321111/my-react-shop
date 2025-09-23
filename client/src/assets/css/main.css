@@ -2380,6 +2380,12 @@ h2 {
     outline: none;
 }
 
+.address-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 
 .btn-save:hover {

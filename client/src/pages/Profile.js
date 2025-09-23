@@ -14,16 +14,30 @@ const Profile = () => {
     email: "",
     province: "",
     ward: "",
-    detail: ""
+    detail: "",
+    currentPassword: "",
+    newPassword: "",
   });
+  const [provinces, setProvinces] = useState([]); 
+  const [wards, setWards] = useState([]); 
 
-  // Lấy dữ liệu user
+  // Fetch dữ liệu tỉnh/thành mới (cập nhật 2025) và user khi component mount
   useEffect(() => {
+    axios
+      .get("https://provinces.open-api.vn/api/v2/p/?depth=1") 
+      .then((res) => {
+
+        const updatedProvinces = res.data.filter(p => true); 
+        setProvinces(updatedProvinces);
+      })
+      .catch((err) => console.error("Error fetching provinces 2025:", err));
+
+    // Fetch dữ liệu user
     const token = localStorage.getItem("token");
     if (token) {
       axios
         .get("http://localhost:5000/auth/me", {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
           setUser(res.data);
@@ -35,15 +49,39 @@ const Profile = () => {
             email: res.data.email || "",
             province: "",
             ward: "",
-            detail: ""
+            detail: "",
+            currentPassword: "",
+            newPassword: "",
           });
         })
         .catch(() => setUser(null));
     }
   }, []);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+ 
+  const handleProvinceChange = (e) => {
+    const provinceCode = e.target.value;
+    setForm({ ...form, province: provinceCode, ward: "" });
 
+    if (provinceCode) {
+    
+      axios
+        .get(`https://provinces.open-api.vn/api/v2/p/${provinceCode}?depth=2`) 
+        .then((res) => {
+          setWards(res.data.wards || []); 
+        })
+        .catch((err) => console.error("Error fetching wards after merge:", err));
+    } else {
+      setWards([]);
+    }
+  };
+
+  // Xử lý thay đổi input
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Xử lý upload ảnh
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -64,64 +102,73 @@ const Profile = () => {
     }
   };
 
-
+  // Xử lý lưu hồ sơ
   const handleSaveProfile = () => {
     const token = localStorage.getItem("token");
 
-    axios.put(
-      "http://localhost:5000/auth/me",
-      {
-        name: form.name,
-        avatar: form.avatar,
-        phone: form.phone,
-        gender: form.gender
-      },
-      { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
-    )
-    .then(res => setUser(res.data))
-    .catch(err => console.error(err.response?.data || err.message));
+    axios
+      .put(
+        "http://localhost:5000/auth/update",
+        {
+          name: form.name,
+          avatar: form.avatar,
+          phone: form.phone,
+          gender: form.gender,
+        },
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      )
+      .then((res) => setUser(res.data))
+      .catch((err) => console.error(err.response?.data || err.message));
   };
 
-    const handleAddAddress = () => {
+  const handleAddAddress = () => {
     const token = localStorage.getItem("token");
-    const newAddresses = [...(user.addresses || []), {
-      province: form.province,
-      ward: form.ward,
-      detail: form.detail,
-      isDefault: false
-    }];
+    const selectedProvince = provinces.find((p) => p.code === parseInt(form.province))?.name || "";
+    const newAddresses = [
+      ...(user.addresses || []),
+      {
+        province: selectedProvince, 
+        ward: form.ward, 
+        detail: form.detail,
+        isDefault: false,
+      },
+    ];
 
-    axios.put(
-      "http://localhost:5000/auth/me",
-      { addresses: newAddresses },
-      { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
-    )
-    .then(res => {
-      setUser(res.data); 
-      setForm({ ...form, province: "", ward: "", detail: "" });
-    })
-    .catch(err => console.error(err.response?.data || err.message));
-  };  
+    axios
+      .put(
+        "http://localhost:5000/auth/update",
+        { addresses: newAddresses },
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        setUser(res.data);
+        setForm({ ...form, province: "", ward: "", detail: "" });
+        setWards([]);
+      })
+      .catch((err) => console.error(err.response?.data || err.message));
+  };
 
+  // Xử lý đổi mật khẩu
   const handleChangePassword = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    axios.put(
-      "http://localhost:5000/auth/change-password", // cần backend hỗ trợ route này
-      {
-        currentPassword: form.currentPassword,
-        newPassword: form.newPassword
-      },
-      { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
-    )
-    .then(res => {
-      alert("Đổi mật khẩu thành công!");
-      setForm({ ...form, currentPassword: "", newPassword: "" }); // reset form
-    })
-    .catch(err => {
-      alert(err.response?.data?.message || "Đổi mật khẩu thất bại");
-    });
+    axios
+      .put(
+        "http://localhost:5000/auth/change-password",
+        {
+          currentPassword: form.currentPassword,
+          newPassword: form.newPassword,
+        },
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        alert("Đổi mật khẩu thành công!");
+        setForm({ ...form, currentPassword: "", newPassword: "" });
+      })
+      .catch((err) => {
+        alert(err.response?.data?.message || "Đổi mật khẩu thất bại");
+      });
   };
 
   if (!user) return <p>Loading...</p>;
@@ -134,17 +181,30 @@ const Profile = () => {
         <div className="sidebar">
           <div className="avatar-box">
             <img src={`http://localhost:5000${form.avatar}`} alt="avatar" className="avatar" />
-            <label htmlFor="upload" className="upload-btn"><p>Thay ảnh</p></label>
-            <input type="file" id="upload" accept="image/*" style={{ display: "none" }} onChange={handleImageChange} />
+            <label htmlFor="upload" className="upload-btn">
+              <p>Thay ảnh</p>
+            </label>
+            <input
+              type="file"
+              id="upload"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
             <h3 className="username">{user.name}</h3>
           </div>
-
           <div className="menu">
             <p className="menu-title">Tài Khoản Của Tôi</p>
             <ul>
-              <li className={activeTab === "profile" ? "active" : ""} onClick={() => setActiveTab("profile")}>Hồ Sơ</li>
-              <li className={activeTab === "address" ? "active" : ""} onClick={() => setActiveTab("address")}>Địa Chỉ</li>
-              <li className={activeTab === "password" ? "active" : ""} onClick={() => setActiveTab("password")}>Đổi Mật Khẩu</li>
+              <li className={activeTab === "profile" ? "active" : ""} onClick={() => setActiveTab("profile")}>
+                Hồ Sơ
+              </li>
+              <li className={activeTab === "address" ? "active" : ""} onClick={() => setActiveTab("address")}>
+                Địa Chỉ
+              </li>
+              <li className={activeTab === "password" ? "active" : ""} onClick={() => setActiveTab("password")}>
+                Đổi Mật Khẩu
+              </li>
             </ul>
           </div>
         </div>
@@ -152,7 +212,13 @@ const Profile = () => {
         {/* Main content */}
         <div className="profile-main">
           {activeTab === "profile" && (
-            <form className="profile-form" onSubmit={(e) => { e.preventDefault(); handleSaveProfile(); }}>
+            <form
+              className="profile-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSaveProfile();
+              }}
+            >
               <div className="form-group">
                 <label>Tên</label>
                 <input type="text" name="name" value={form.name} onChange={handleChange} />
@@ -165,7 +231,9 @@ const Profile = () => {
                 <label>Số điện thoại</label>
                 <input type="text" name="phone" value={form.phone} onChange={handleChange} />
               </div>
-              <button className="btn-save" type="submit">Lưu</button>
+              <button className="btn-save" type="submit">
+                Lưu
+              </button>
             </form>
           )}
 
@@ -174,14 +242,45 @@ const Profile = () => {
               <ul>
                 {user.addresses?.map((addr, index) => (
                   <li key={addr._id || index}>
-                    {addr.detail}, {addr.ward}, {addr.province}
+                    {addr.detail}, {addr.ward}, {addr.province} {/* Bỏ district */}
                   </li>
                 ))}
               </ul>
-              <input type="text" name="province" placeholder="Tỉnh/Thành phố" value={form.province} onChange={handleChange} />
-              <input type="text" name="ward" placeholder="Phường/Xã" value={form.ward} onChange={handleChange} />
-              <input type="text" name="detail" placeholder="Số nhà, đường" value={form.detail} onChange={handleChange} />
-              <button onClick={handleAddAddress}>Thêm</button>
+              <div className="form-group">
+                <label>Tỉnh/Thành phố </label>
+                <select name="province" className="changeAdress" value={form.province} onChange={handleProvinceChange}>
+                  <option value="">Chọn Tỉnh/Thành phố</option>
+                  {provinces.map((province) => (
+                    <option key={province.code} value={province.code}>
+                      {province.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Phường/Xã (trực thuộc tỉnh)</label>
+                <select name="ward" className="changeAdress" value={form.ward} onChange={handleChange} disabled={!form.province}>
+                  <option value="">Chọn Phường/Xã</option>
+                  {wards.map((ward) => (
+                    <option key={ward.code} value={ward.name}>
+                      {ward.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Số nhà, đường</label>
+                <input
+                  type="text"
+                  name="detail"
+                  placeholder="Số nhà, đường"
+                  value={form.detail}
+                  onChange={handleChange}
+                />
+              </div>
+              <button className="btn-save" onClick={handleAddAddress}>
+                Thêm
+              </button>
             </>
           )}
 
@@ -189,16 +288,27 @@ const Profile = () => {
             <form onSubmit={handleChangePassword}>
               <div className="form-group">
                 <label>Mật khẩu hiện tại</label>
-                <input type="password" name="currentPassword" value={form.currentPassword || ""} onChange={handleChange} />
+                <input
+                  type="password"
+                  name="currentPassword"
+                  value={form.currentPassword || ""}
+                  onChange={handleChange}
+                />
               </div>
               <div className="form-group">
                 <label>Mật khẩu mới</label>
-                <input type="password" name="newPassword" value={form.newPassword || ""} onChange={handleChange} />
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={form.newPassword || ""}
+                  onChange={handleChange}
+                />
               </div>
-              <button className="btn-save" type="submit">Đổi mật khẩu</button>
+              <button className="btn-save" type="submit">
+                Đổi mật khẩu
+              </button>
             </form>
           )}
-
         </div>
       </div>
       <Footer />

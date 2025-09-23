@@ -2365,6 +2365,22 @@ h2 {
     outline: none;
 }
 
+.profile-main .form-group .changeAdress {
+    width: 50%;
+    border: 1px solid #ddd;
+    font-size: 1.4rem;
+    padding: 8px;
+    margin-top: 2px;
+    border-radius: 3px;
+
+}
+
+.profile-main .form-group .changeAdress:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+
 
 .btn-save:hover {
     background: var(--primary-color);

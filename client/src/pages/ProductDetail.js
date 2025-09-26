@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+// src/pages/ProductDetail.js
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
 import Tabs from "../components/Tab/Tab";
-const ProductDetail = () => {
-  // Danh sách ảnh giả định (sau này lấy từ API)
-  const thumbs = [
-    "img/lap.png",
-    "img/dongho.webp",
-    "img/lap.png",
-  ];
 
-  // State cho ảnh chính
-  const [mainImage, setMainImage] = useState(thumbs[0]);
+const ProductDetail = () => {
+  const { id } = useParams(); // lấy id từ URL
+  const [product, setProduct] = useState(null);
+  const [mainImage, setMainImage] = useState("");
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const data = await res.json();
+        setProduct(data);
+        setMainImage(data.image);
+      } catch (error) {
+        console.error("Lỗi khi tải sản phẩm:", error);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (!product) {
+    return <p>Đang tải sản phẩm...</p>;
+  }
 
   return (
     <div className="app__container">
@@ -21,16 +37,16 @@ const ProductDetail = () => {
         <div className="grid__row product-detail">
           {/* Cột ảnh sản phẩm */}
           <div className="grid__column-6">
-            {/* Ảnh chính */}
             <div className="grid__row product-img">
-            <img
-              src={mainImage}
-              alt="product"
-              className="product-detail__img"
-            />
+              <img
+                src={mainImage}
+                alt={product.name}
+                className="product-detail__img"
+              />
             </div>
+
             <div className="grid__row img-preview">
-              {thumbs.map((img, index) => (
+              {product.images?.map((img, index) => (
                 <img
                   key={index}
                   src={img}
@@ -44,43 +60,50 @@ const ProductDetail = () => {
           {/* Cột thông tin sản phẩm */}
           <div className="grid__column-6">
             <div className="product-info">
-              <h1>Đồng hồ đeo tay nam Wokai dây da nâu mặt nâu lịch lãm sang trọng</h1>
-              <div className="product-info price">
-                <p className="product-info price-current">25,000,000₫</p>
-                <p className="product-info price-old">25,000,000₫</p>
+              <h1>{product.name}</h1>
+                <div className="price">
+                  <p className="price-current">
+                    {product.priceCurrent?.toLocaleString()}₫
+                  </p>
+                  {product.priceOld && (
+                    <p className="price-old">
+                      {product.priceOld.toLocaleString()}₫
+                    </p>
+                  )}
+                </div>
+
+              <div className="brand-origin">
+                {product.brand && <p>Thương hiệu: {product.brand}</p>}
+                {product.origin && <p>Xuất xứ: {product.origin}</p>}
               </div>
             </div>
-            
-            <div class="product-promo">
-              <h3>Khuyến mãi:</h3>
-              <ul>
-                <li>Giảm ngay 25% cho sinh viên</li>
-                <li>Tặng balo + chuột không dây</li>
-                <li>Trả góp 0% qua thẻ tín dụng</li>
-              </ul>
-            </div>
+
+            {product.promotions && product.promotions.length > 0 && (
+              <div className="product-promo">
+                <h3>Khuyến mãi:</h3>
+                <ul>
+                  {product.promotions.map((promo, index) => (
+                    <li key={index}>{promo}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="qnt-selector">
               <p>Chọn số lượng:</p>
-              <QuantitySelector/>
+              <QuantitySelector />
             </div>
 
             <div className="buy-btn">
-              <button className="buy-now">
-                Mua ngay
-              </button> 
-            
-             <br></br>
-
-              <button className="add-to-cart">
-                Thêm vào giỏ hàng
-              </button> 
+              <button className="buy-now">Mua ngay</button>
+              <br />
+              <button className="add-to-cart">Thêm vào giỏ hàng</button>
             </div>
           </div>
         </div>
-        
+
         <div className="grid__row tabs">
-              <Tabs/>
+          <Tabs />
         </div>
       </div>
       <Footer />

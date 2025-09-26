@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function SearchArea() {
   return (
     <div className="header-with-search">
         <div className="header__logo">
-            <a href="index.html" className="header__logo-link">
-                <img src="/img/logo-removebg-preview.png" className="header__logo-img"/> 
-            </a>
+            <Link to="/" className="header__logo-link">
+                <img src="/img/logo-removebg-preview.png" className="header__logo-img" alt="Logo" />
+            </Link>
         </div>
         
         <div className="header__search">

@@ -12,6 +12,7 @@ import OrderDetail from './pages/OrderDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+
   function App() {
     return (
       <Router>
@@ -26,6 +27,7 @@ import Register from './pages/Register';
           <Route path="/OrderDetail" element ={<OrderDetail/>}/>
           <Route path="/Login" element ={<Login/>}/>
           <Route path="/Register" element ={<Register/>}/>
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </Router>
     );

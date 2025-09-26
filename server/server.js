@@ -5,6 +5,8 @@ import cors from "cors";
 import path from "path";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/upload.js";
+import productRoutes from "./routes/product.js";
+
 dotenv.config();
 const app = express();
 
@@ -18,6 +20,7 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/upload", uploadRoutes);
+app.use("/api/products", productRoutes);
 
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)

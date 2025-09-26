@@ -103,7 +103,7 @@ const ProductDetail = () => {
         </div>
 
         <div className="grid__row tabs">
-          <Tabs />
+          <Tabs productId={product._id} />
         </div>
       </div>
       <Footer />

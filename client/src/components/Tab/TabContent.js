@@ -1,7 +1,7 @@
 import React from "react";
 import Reviews from "./Reviews";
 
-const TabContent = ({ activeTab }) => {
+const TabContent = ({ activeTab,productId }) => {
     const contents = [
       <div key="desc" className="tab-desc">
         <h3>Giới thiệu sản phẩm</h3>
@@ -43,7 +43,7 @@ const TabContent = ({ activeTab }) => {
           </tbody>
         </table>
       </div>,
-      <Reviews key="reviews" />
+      <Reviews key="reviews" productId={productId}/>
     ];
   return <div className="tab-content">{contents[activeTab]}</div>;
 };

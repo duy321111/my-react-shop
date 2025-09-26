@@ -6,6 +6,7 @@ import path from "path";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/upload.js";
 import productRoutes from "./routes/product.js";
+import reviewRoutes from "./routes/review.js";
 
 dotenv.config();
 const app = express();
@@ -17,10 +18,14 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 
+
+
 // Routes
 app.use("/auth", authRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/reviews", reviewRoutes);
+
 
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)

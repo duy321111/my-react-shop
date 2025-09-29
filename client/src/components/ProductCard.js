@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
         <div
           className="home-product-item__img"
            style={{
-                  backgroundImage: `url(${process.env.PUBLIC_URL}${product.image.startsWith("/") ? product.image : "/" + product.image})`
+                  backgroundImage: `url(img/${process.env.PUBLIC_URL}${product.image.startsWith("/") ? product.image : "/" + product.image})`
                 }}
         ></div>
 
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
 
         {/* Thương hiệu & xuất xứ */}
         <div className="home-product-item__origin">
-          <span className="home-product-item__brand">{product.brand}</span>
+          <span className="home-product-item__brand">{product.brand?.name}</span>
           <span className="home-product-item__origin-name">
             {product.origin}
           </span>

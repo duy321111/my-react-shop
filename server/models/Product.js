@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true }, // Tên sản phẩm
-    brand: { type: String },                // Thương hiệu
+    brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand", required: true },            // Thương hiệu
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+
     origin: { type: String },               // Xuất xứ
     description: { type: String },          // Mô tả chi tiết
 

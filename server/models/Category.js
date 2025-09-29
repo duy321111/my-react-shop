@@ -1,12 +1,11 @@
-// models/Category.js
 import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  slug: { type: String, unique: true },
   description: { type: String },
   image: { type: String },
+  brands: [{ type: mongoose.Schema.Types.ObjectId, ref: "Brand" }], // nhiều brand
   parentCategory: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }
-});
+}, { timestamps: true });
 
 export default mongoose.model("Category", categorySchema);

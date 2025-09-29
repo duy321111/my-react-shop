@@ -1,67 +1,33 @@
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 export default function Menu() {
+  const categories = [
+    { name: "Laptop", icon: "fa-laptop" },
+    { name: "Điện thoại", icon: "fa-mobile-screen-button" },
+    { name: "Đồng hồ", icon: "fa-clock" },
+    { name: "Tablet", icon: "fa-tablet-screen-button" },
+    { name: "Loa/Mic/Webcam", icon: "fa-microphone" },
+    { name: "Màn hình", icon: "fa-display" },
+    { name: "Chuột", icon: "fa-computer-mouse" },
+    { name: "Bàn phím", icon: "fa-keyboard" },
+  ];
+
   return (
     <div className="header__menu">
-        <ul className="header__menu-list">
-            <li className="header__menu-list-item">
-                <Link to="/category" className="header__menu-item-info">
-                    <i class="fa-solid fa-laptop"></i>
-                    <span>Laptop</span>
-                </Link>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-mobile-screen-button"></i>
-                    <span>Điện thoại</span>
-                </a>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-clock"></i>
-                    <span>Đồng hồ</span>
-                </a>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-tablet-screen-button"></i>
-                    <span>Tablet</span>
-                </a>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-microphone"></i>
-                    <span>Loa/Mic/Webcam</span>
-                </a>
-            </li>
-        
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-display"></i>
-                    <span>Màn hình</span>
-                </a>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-computer-mouse"></i>
-                    <span>Chuột</span>
-                </a>
-            </li>
-
-            <li className="header__menu-list-item">
-                <a href="./category.html" className="header__menu-item-info">
-                    <i className="fa-solid fa-keyboard"></i>
-                    <span>Bàn phím</span>
-                </a>
-            </li>
-        </ul>
-
+      <ul className="header__menu-list">
+        {categories.map((cat) => (
+          <li key={cat.name} className="header__menu-list-item">
+          
+            <Link
+              to={`/category/${encodeURIComponent(cat.name)}`}
+              className="header__menu-item-info"
+            >
+              <i className={`fa-solid ${cat.icon}`}></i>
+              <span>{cat.name}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

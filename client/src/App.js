@@ -28,6 +28,7 @@ import Register from './pages/Register';
           <Route path="/Login" element ={<Login/>}/>
           <Route path="/Register" element ={<Register/>}/>
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/category/:categoryName" element={<Category />} />
         </Routes>
       </Router>
     );

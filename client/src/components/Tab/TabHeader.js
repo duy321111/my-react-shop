@@ -3,6 +3,7 @@ const TabHeader = ({activeTab, setActiveTab}) => {
     const headers = ["Mô tả", "Thông số kỹ thuật", "Đánh giá"];
 
     return(
+        
         <div className="tab-header">
             {headers.map((title,index)=>(
                 <div

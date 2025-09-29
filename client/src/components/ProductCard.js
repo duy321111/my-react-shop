@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
         <div
           className="home-product-item__img"
            style={{
-                  backgroundImage: `url(img/${process.env.PUBLIC_URL}${product.image.startsWith("/") ? product.image : "/" + product.image})`
+                  backgroundImage: `url(/img/${process.env.PUBLIC_URL}${ product.image})`
                 }}
         ></div>
 

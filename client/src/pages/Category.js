@@ -19,7 +19,7 @@ const CategoryPage = () => {
     const fetchProducts = async () => {
       try {
         let url = `http://localhost:5000/api/products?category=${categoryName}`;
-        if (selectedBrand) url += `&brand=${selectedBrand}`;
+       
 
         const res = await axios.get(url);
         setProducts(res.data);

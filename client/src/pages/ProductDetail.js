@@ -7,7 +7,7 @@ import QuantitySelector from "../components/QuantitySelector";
 import Tabs from "../components/Tab/Tab";
 
 const ProductDetail = () => {
-  const { id } = useParams(); // lấy id từ URL
+  const { id } = useParams(); 
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
 
@@ -17,7 +17,9 @@ const ProductDetail = () => {
         const res = await fetch(`http://localhost:5000/api/products/${id}`);
         const data = await res.json();
         setProduct(data);
-        setMainImage(data.image);
+        
+
+        setMainImage(`${process.env.PUBLIC_URL}/img/${data.image}`);
       } catch (error) {
         console.error("Lỗi khi tải sản phẩm:", error);
       }
@@ -46,12 +48,21 @@ const ProductDetail = () => {
             </div>
 
             <div className="grid__row img-preview">
+              <img
+                  src={`${process.env.PUBLIC_URL}/img/${product.image}`}
+                  className="product-preview__img"
+                  onClick={() =>
+                    setMainImage(`${process.env.PUBLIC_URL}/img/${product.image}`)
+                  }
+                />
               {product.images?.map((img, index) => (
                 <img
                   key={index}
-                  src={img}
+                  src={`${process.env.PUBLIC_URL}/img/${img}`}
                   className="product-preview__img"
-                  onClick={() => setMainImage(img)}
+                  onClick={() =>
+                    setMainImage(`${process.env.PUBLIC_URL}/img/${img}`)
+                  }
                 />
               ))}
             </div>
@@ -61,20 +72,34 @@ const ProductDetail = () => {
           <div className="grid__column-6">
             <div className="product-info">
               <h1>{product.name}</h1>
-                <div className="price">
-                  <p className="price-current">
-                    {product.priceCurrent?.toLocaleString()}₫
+              <div className="price">
+                <p className="price-current">
+                  {product.priceCurrent?.toLocaleString()}₫
+                </p>
+                {product.priceOld && (
+                  <p className="price-old">
+                    {product.priceOld.toLocaleString()}₫
                   </p>
-                  {product.priceOld && (
-                    <p className="price-old">
-                      {product.priceOld.toLocaleString()}₫
-                    </p>
-                  )}
-                </div>
+                )}
+              </div>
 
               <div className="brand-origin">
-                {product.brand && <p>Thương hiệu: {product.brand}</p>}
-                {product.origin && <p>Xuất xứ: {product.origin}</p>}
+                {product.brand && (
+                  <p>
+                    Thương hiệu:{" "}
+                    {typeof product.brand === "string"
+                      ? product.brand
+                      : product.brand.name}
+                  </p>
+                )}
+                {product.origin && (
+                  <p>
+                    Xuất xứ:{" "}
+                    {typeof product.origin === "string"
+                      ? product.origin
+                      : product.origin.name}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -83,7 +108,11 @@ const ProductDetail = () => {
                 <h3>Khuyến mãi:</h3>
                 <ul>
                   {product.promotions.map((promo, index) => (
-                    <li key={index}>{promo}</li>
+                    <li key={index}>
+                      {typeof promo === "string"
+                        ? promo
+                        : promo.name || JSON.stringify(promo)}
+                    </li>
                   ))}
                 </ul>
               </div>

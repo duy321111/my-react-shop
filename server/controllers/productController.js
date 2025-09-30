@@ -1,34 +1,47 @@
+import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import Brand from "../models/Brand.js";
 
-// Lấy tất cả sản phẩm, filter theo category/brand
+// 📦 Lấy tất cả sản phẩm, filter theo category/brand
 export const getProducts = async (req, res) => {
-    const { category: categoryName, brand: brandName } = req.query;
+    const { category: categoryName, brand: brandId } = req.query;
+
     try {
-        let filter = {};
+    let filter = {};
 
-        if (categoryName) {
-            const category = await Category.findOne({ name: new RegExp(`^${categoryName}$`, "i") });
-            if (!category) return res.status(404).json({ message: "Category not found" });
-            filter.category = category._id;
+    //  Lọc theo category name (frontend gửi tên category)
+    if (categoryName) {
+        const category = await Category.findOne({
+        name: new RegExp(`^${categoryName}$`, "i"),
+        });
+        if (!category)
+        return res.status(404).json({ message: "Category not found" });
+        filter.category = category._id;
+    }
+
+    // Lọc theo brand _id nếu không phải "all"
+    if (brandId && brandId !== "all") {
+        if (!mongoose.Types.ObjectId.isValid(brandId)) {
+        return res.status(400).json({ message: "Invalid brand ID" });
         }
 
-        if (brandName) {
-            const brand = await Brand.findOne({ name: new RegExp(`^${brandName}$`, "i") });
-            if (!brand) return res.status(404).json({ message: "Brand not found" });
-            filter.brand = brand._id;
-        }
+        const brand = await Brand.findById(brandId);
+        if (!brand) return res.status(404).json({ message: "Brand not found" });
 
-        const products = await Product.find(filter)
-            .populate("brand", "name")
-            .populate("category", "name");
+        filter.brand = brand._id;
+    }
 
-        res.json(products);
+    const products = await Product.find(filter)
+        .populate("brand", "name")
+        .populate("category", "name");
+
+    res.json(products);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
     }
 };
+
 
 
 // Lấy sản phẩm theo ID

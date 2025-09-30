@@ -11,28 +11,33 @@ import Category from "../components/Category";
 const CategoryPage = () => {
   const { categoryName } = useParams(); // lấy từ URL /category/:categoryName
   const [products, setProducts] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState("all"); 
   const [loading, setLoading] = useState(true);
 
-  // Fetch products khi category hoặc brand thay đổi
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        let url = `http://localhost:5000/api/products?category=${categoryName}`;
-       
+        //  Tạo URL động dựa vào brand
+        let url = `http://localhost:5000/api/products?category=${encodeURIComponent(categoryName)}`;
+
+        if (selectedBrand && selectedBrand !== "all") {
+          url += `&brand=${encodeURIComponent(selectedBrand)}`;
+        }
 
         const res = await axios.get(url);
         setProducts(res.data);
       } catch (err) {
-        console.error(err);
+        console.error("Lỗi khi load sản phẩm:", err);
       } finally {
         setLoading(false);
       }
     };
-    if (categoryName) fetchProducts();
-  }, [categoryName, selectedBrand]);
 
-  if (loading) return <div>Loading...</div>;
+    if (categoryName) fetchProducts();
+  }, [categoryName, selectedBrand]); 
+
+
 
   return (
     <div className="app">

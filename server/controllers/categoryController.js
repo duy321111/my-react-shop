@@ -6,9 +6,8 @@ export const getBrandsByCategory = async (req, res) => {
   try {
     const { categoryNameOrId } = req.params;
 
-    // Tìm category theo name (ignore case)
     const category = await Category.findOne({
-    name: new RegExp(`^${categoryNameOrId}$`, "i") // i = ignore case
+    name: new RegExp(`^${categoryNameOrId}$`, "i") 
     }).populate("brands");
     ;
 

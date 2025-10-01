@@ -36,7 +36,7 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ message: "Đăng nhập thành công", token });
+    res.json({ message: "Đăng nhập thành công", token,user, });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Lỗi server" });

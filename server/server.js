@@ -8,6 +8,8 @@ import uploadRoutes from "./routes/upload.js";
 import productRoutes from "./routes/product.js";
 import reviewRoutes from "./routes/review.js";
 import categoryRoutes from "./routes/category.js";
+import cartRoutes from "./routes/cart.js";
+
 
 dotenv.config();
 const app = express();
@@ -27,6 +29,8 @@ app.use("/upload", uploadRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/cart", cartRoutes);
+
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("DB connected"))

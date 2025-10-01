@@ -1,50 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Reviews from "./Reviews";
 
-const TabContent = ({ activeTab,productId }) => {
-    const contents = [
-      <div key="desc" className="tab-desc">
-        <h3>Giới thiệu sản phẩm</h3>
-        <p>
-          Laptop <strong>HP Victus Gaming</strong> trang bị CPU Intel Core i5 thế hệ 12,
-          RAM 16GB, SSD 512GB, card RTX 3050 – chiến game mượt, đồ họa nặng ổn định.
-        </p>
-        <ul>
-          <li>Thiết kế trẻ trung, viền mỏng sang trọng</li>
-          <li>Bàn phím LED RGB cho game thủ</li>
-          <li>Pin bền bỉ, tối ưu cho công việc & giải trí</li>
-        </ul>
-      </div>,
+const TabContent = ({ activeTab, productId }) => {
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-      <div key="spec" className="tab-specs">
-        <h3>Thông số kỹ thuật</h3>
-        <table>
-          <tbody>
-            <tr>
-              <td>CPU</td>
-              <td>Intel Core i5 Gen 12</td>
-            </tr>
-            <tr>
-              <td>RAM</td>
-              <td>16GB DDR4</td>
-            </tr>
-            <tr>
-              <td>Ổ cứng</td>
-              <td>SSD 512GB</td>
-            </tr>
-            <tr>
-              <td>Card đồ họa</td>
-              <td>NVIDIA RTX 3050</td>
-            </tr>
-            <tr>
-              <td>Màn hình</td>
-              <td>15.6 inch FullHD 144Hz</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>,
-      <Reviews key="reviews" productId={productId}/>
-    ];
+  // 📦 Lấy sản phẩm từ API theo productId
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/products/${productId}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy sản phẩm:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (productId) fetchProduct();
+  }, [productId]);
+
+  if (loading) return <div>Đang tải dữ liệu sản phẩm...</div>;
+  if (!product) return <div>Không tìm thấy sản phẩm</div>;
+
+  const contents = [
+ 
+    <div key="desc" className="tab-desc">
+      <h3>Giới thiệu sản phẩm</h3>
+      <p>{product.description || "Chưa có mô tả chi tiết cho sản phẩm này."}</p>
+    </div>,
+
+    <div key="spec" className="tab-specs">
+      <h3>Thông số kỹ thuật</h3>
+      <table>
+        <tbody>
+
+          {product.specifications?.length > 0 && (
+            <>
+              {product.specifications.map((spec, idx) => (
+                <tr key={idx}>
+                  <td>{spec.key}</td>
+                  <td>{spec.value}</td>
+                </tr>
+              ))}
+            </>
+          )}
+        </tbody>
+      </table>
+    </div>,
+
+    <Reviews key="reviews" productId={productId} />,
+  ];
+
   return <div className="tab-content">{contents[activeTab]}</div>;
 };
 

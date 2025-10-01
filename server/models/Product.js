@@ -2,31 +2,36 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true }, // Tên sản phẩm
-    brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand", required: true },            // Thương hiệu
+    name: { type: String, required: true }, 
+    brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand", required: true },  
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
 
-    origin: { type: String },               // Xuất xứ
-    description: { type: String },          // Mô tả chi tiết
+    origin: { type: String },               
+    description: { type: String },          
 
-    image: { type: String, required: true }, // Ảnh đại diện
-    images: [{ type: String }],              // Danh sách ảnh chi tiết
+    image: { type: String, required: true }, 
+    images: [{ type: String }],              
 
-    priceOld: { type: Number, required: true },      // Giá gốc
-    priceCurrent: { type: Number, required: true },  // Giá hiện tại
-    saleOff: { type: Number, default: 0 },           // % giảm giá
+    priceOld: { type: Number, required: true },      
+    priceCurrent: { type: Number, required: true },  
+    saleOff: { type: Number, default: 0 },           
 
-    rating: { type: Number, default: 0, min: 0, max: 5 }, // Số sao trung bình
-    sold: { type: Number, default: 0 },                  // Số lượng đã bán
-    quantityAvailable: { type: Number, default: 0 },     // Số lượng còn lại
+    rating: { type: Number, default: 0, min: 0, max: 5 }, 
+    sold: { type: Number, default: 0 },                  
+    quantityAvailable: { type: Number, default: 0 },     
 
-    isFavorite: { type: Boolean, default: false },       // Có nằm trong yêu thích không
+    isFavorite: { type: Boolean, default: false },       
 
-    promotions: [                                        // Danh sách khuyến mãi
-      { type: String }
+    promotions: [ { type: String } ],
+
+    specifications: [
+      {
+        key: { type: String, required: true },   // Tên thông số (ví dụ: CPU, RAM,...)
+        value: { type: String, required: true }  // Giá trị tương ứng
+      }
     ]
   },
-  { timestamps: true } // Tự động thêm createdAt & updatedAt
+  { timestamps: true }
 );
 
 export default mongoose.model("Product", productSchema);

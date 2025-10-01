@@ -27,7 +27,7 @@ export default function SearchArea() {
 
             </div>
 
-            <div className="header__search-selection">
+            {/* <div className="header__search-selection">
                 <span className="header__search-select-lable">Trong shop</span>
                 <i className="header__search-select-icon fa-solid fa-angle-down"></i>
                 <ul className="header__search-option">
@@ -45,7 +45,7 @@ export default function SearchArea() {
                         <i className="fa-solid fa-check"></i>
                     </li>
                 </ul>
-            </div>
+            </div> */}
 
             <button className="header__search-btn">
                 <i className="header__search-btn-icon fa-solid fa-magnifying-glass"></i>

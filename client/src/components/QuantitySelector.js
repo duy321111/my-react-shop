@@ -1,25 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 
-const QuantitySelector = () => {
-  const [quantity, setQuantity] = useState(1);
-
-  const increase = () => setQuantity(prev => prev + 1);
-  const decrease = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+const QuantitySelector = ({ quantity, onChange }) => {
+  const decrease = () => onChange(Math.max(1, quantity - 1));
+  const increase = () => onChange(quantity + 1);
+  const handleInput = (e) => onChange(Math.max(1, parseInt(e.target.value) || 1));
 
   return (
     <div className="quantity-container">
-        
-      <button className="quantity-btn" onClick={decrease}>−</button>
+      <button type="button" className="quantity-btn" onClick={decrease}>
+        −
+      </button>
       <input
-        type="input"
+        type="number"
         value={quantity}
         min="1"
-        onChange={(e) =>
-          setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-        }
+        onChange={handleInput}
         className="quantity-input"
       />
-      <button className="quantity-btn" onClick={increase}>+</button>
+      <button type="button" className="quantity-btn" onClick={increase}>
+        +
+      </button>
     </div>
   );
 };

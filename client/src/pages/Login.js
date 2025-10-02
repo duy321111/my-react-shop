@@ -13,13 +13,18 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:5000/auth/login", { email, password });
+
+      // Lưu cả token và user vào localStorage
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       alert("Đăng nhập thành công!");
       navigate("/"); 
     } catch (err) {
       alert(err.response?.data?.message || "Đăng nhập thất bại!");
     }
   };
+
 
   return (
     <div className="app__container">

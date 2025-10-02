@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 const Cart = () => {
-  const cartItems = [
-    { name: "Bộ kem đặc trị vùng mặt", price: 200000000, quantity: 3 },
-    { name: "aaaa", price: 0, quantity: 0 },
-    { name: "Bộ kem đặc trị vùng mặt (dài)", price: 200000000, quantity: 3 },
-    // Thêm các item khác tương tự
-  ];
+  const [cartItems, setCartItems] = useState([]);
+  const userId = "6721abc123"; 
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/cart/${userId}`);
+        const data = await res.json();
+        setCartItems(data?.items || []);
+      } catch (error) {
+        console.error("Lỗi lấy giỏ hàng:", error);
+      }
+    };
+    fetchCart();
+  }, []);
+
+  const handleRemove = async (productId) => {
+    try {
+      await fetch(`http://localhost:5000/api/cart/${userId}/${productId}`, {
+        method: "DELETE",
+      });
+      setCartItems(cartItems.filter((item) => item.productId !== productId));
+    } catch (error) {
+      console.error("Lỗi xóa sản phẩm:", error);
+    }
+  };
 
   return (
     <div className="cart">
-      <h3>3</h3>
-      <p>Chưa có sản phẩm</p>
+      <h3>{cartItems.length}</h3>
+      {cartItems.length === 0 && <p>Chưa có sản phẩm</p>}
+
       <div className="cart-items">
-        {cartItems.map((item, index) => (
-          <div key={index} className="cart-item">
+        {cartItems.map((item) => (
+          <div key={item.productId} className="cart-item">
             <p>{item.name}</p>
             <p>
               {item.price.toLocaleString()}đ x {item.quantity}
             </p>
-            <button>Xóa</button>
+            <button onClick={() => handleRemove(item.productId)}>Xóa</button>
           </div>
         ))}
       </div>
+
       <button>Xem giỏ hàng</button>
     </div>
   );

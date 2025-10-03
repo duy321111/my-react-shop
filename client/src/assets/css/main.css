@@ -1571,10 +1571,17 @@ i.home-product-item__like-icon-fill{
     width: 52px;
     height: 36px;
     text-align: center;
+    margin: 0;
     font-size: 1.6rem;
     font-weight: 500;
     border: none;
     outline: none;
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 

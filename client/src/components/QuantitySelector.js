@@ -6,20 +6,22 @@ const QuantitySelector = ({ quantity, onChange }) => {
   const handleInput = (e) => onChange(Math.max(1, parseInt(e.target.value) || 1));
 
   return (
-    <div className="quantity-container">
-      <button type="button" className="quantity-btn" onClick={decrease}>
-        −
-      </button>
-      <input
-        type="number"
-        value={quantity}
-        min="1"
-        onChange={handleInput}
-        className="quantity-input"
-      />
-      <button type="button" className="quantity-btn" onClick={increase}>
-        +
-      </button>
+    <div className="QuantitySelector-Cart-wrap">
+      <div className="quantity-container">
+        <button type="button" className="quantity-btn" onClick={decrease}>
+          −
+        </button>
+        <input
+          type="number"
+          value={quantity}
+          min="1"
+          onChange={handleInput}
+          className="quantity-input"
+        />
+        <button type="button" className="quantity-btn" onClick={increase}>
+          +
+        </button>
+      </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import QuantitySelector from "../components/QuantitySelector";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]); // ✅ sản phẩm đã chọn
   const [loading, setLoading] = useState(true);
 
   // Lấy user và token từ localStorage
@@ -27,9 +28,7 @@ const Cart = () => {
         const res = await axios.get(
           `http://localhost:5000/api/cart/${user._id}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         setCartItems(res.data.items || []);
@@ -45,7 +44,7 @@ const Cart = () => {
   // 2. Thay đổi số lượng
   const handleQuantityChange = async (productId, newQuantity) => {
     try {
-      const res = await axios.put(
+      await axios.put(
         `http://localhost:5000/api/cart/${user._id}/${productId}`,
         {
           productId,
@@ -57,20 +56,18 @@ const Cart = () => {
         }
       );
 
-      //  Cập nhật lại cartItems từ dữ liệu trả về
+      // Cập nhật lại UI
       setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.productId._id === productId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    )
+        prevItems.map((item) =>
+          item.productId._id === productId
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      );
     } catch (err) {
       console.error("Lỗi cập nhật số lượng:", err);
     }
   };
-
-
 
   // 3. Xóa sản phẩm khỏi giỏ hàng
   const handleDelete = async (productId) => {
@@ -82,17 +79,34 @@ const Cart = () => {
         }
       );
       setCartItems(res.data.items);
+      setSelectedItems((prev) => prev.filter((id) => id !== productId)); // ✅ bỏ chọn nếu đã xóa
     } catch (err) {
       console.error("Lỗi xóa sản phẩm:", err);
     }
   };
 
+  // 4. Tick chọn từng sản phẩm
+  const handleSelectItem = (productId) => {
+    setSelectedItems((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId) // bỏ chọn
+        : [...prev, productId] // thêm vào danh sách chọn
+    );
+  };
 
-  // 4. Tính tổng tiền
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  // 5. Tick chọn tất cả
+  const handleSelectAll = () => {
+    if (selectedItems.length === cartItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cartItems.map((item) => item.productId._id));
+    }
+  };
+
+  // 6. Tính tổng tiền chỉ của sản phẩm được chọn
+  const total = cartItems
+    .filter((item) => selectedItems.includes(item.productId._id))
+    .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   if (loading) return <p>Đang tải giỏ hàng...</p>;
 
@@ -108,6 +122,18 @@ const Cart = () => {
         <table>
           <thead>
             <tr>
+              <th>
+                <div className="check-box">
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedItems.length === cartItems.length &&
+                      cartItems.length > 0
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </div>
+              </th>
               <th>Sản phẩm</th>
               <th>Giá</th>
               <th>Số lượng</th>
@@ -119,7 +145,21 @@ const Cart = () => {
             {cartItems.map((item) => (
               <tr key={item.productId._id}>
                 <td>
-                  <img src={`${process.env.PUBLIC_URL}/img/${item.image}`} alt={item.name} width="70" />
+                  <div className="check-box">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(item.productId._id)}
+                      onChange={() => handleSelectItem(item.productId._id)}
+                    />
+                  </div>
+                </td>
+
+                <td>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/img/${item.image}`}
+                    alt={item.name}
+                    width="70"
+                  />
                   <p>{item.name}</p>
                 </td>
                 <td>{item.price.toLocaleString()}đ</td>
@@ -148,16 +188,22 @@ const Cart = () => {
         <div className="cart-summary">
           <p>
             <b>
-              Tổng cộng: <strong>{total.toLocaleString()}đ</strong>
+              Tổng cộng ({selectedItems.length} sản phẩm):{" "}
+              <strong>{total.toLocaleString()}đ</strong>
             </b>
           </p>
         </div>
 
         <div className="cart-actions">
-          <a href="/category">
+          <a href="/">
             <i className="fas fa-circle-arrow-left"></i> Tiếp tục mua sắm
           </a>
-          <button disabled={total === 0}>Thanh toán ngay</button>
+          <button
+            disabled={selectedItems.length === 0}
+            onClick={() => console.log("Thanh toán:", selectedItems)}
+          >
+            Thanh toán ngay
+          </button>
         </div>
       </div>
       <Footer />

@@ -1538,6 +1538,10 @@ i.home-product-item__like-icon-fill{
     color:var(--text-color);
 }
 
+.qnt-selector .QuantitySelector-Cart-wrap{
+    display: block;
+}
+
 .quantity-container {
     display: flex;
     align-items: center;

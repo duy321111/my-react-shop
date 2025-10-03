@@ -154,7 +154,10 @@ export default function SearchArea() {
                         
                     </ul>
 
-                    <a href="" className="header__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
+                    <Link to="/cart" className="header__cart-view-cart btn btn--primary">
+                        Xem giỏ hàng
+                    </Link>
+
                 </div>
             </div>
         </div>

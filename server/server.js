@@ -9,7 +9,7 @@ import productRoutes from "./routes/product.js";
 import reviewRoutes from "./routes/review.js";
 import categoryRoutes from "./routes/category.js";
 import cartRoutes from "./routes/cart.js";
-
+import orderRoutes from "./routes/order.js";
 
 
 dotenv.config();
@@ -31,6 +31,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
 
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)

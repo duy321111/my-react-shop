@@ -82,6 +82,7 @@ const Checkout = () => {
           productId: item.productId._id,
           quantity: item.quantity,
           price: item.price,
+          image: item.image
         })),
         totalAmount: total,
         paymentMethod,
@@ -100,7 +101,7 @@ const Checkout = () => {
 
       alert("Đặt hàng thành công!");
       localStorage.removeItem("selectedItems");
-      window.location.href = "/";
+      window.location.href = "/orders";
     } catch (err) {
       console.error("Lỗi khi đặt hàng:", err);
       alert("Đặt hàng thất bại!");

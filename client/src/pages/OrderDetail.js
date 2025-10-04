@@ -1,34 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
 const OrderDetail = () => {
-  const orderItems = [
-    {
-      id: 1,
-      name: "Bàn phím Corsair K65 Plus Wireless Led RGB/Switch Corsair Red linear...",
-      image: "https://product.hstatic.net/1000026716/product/corsair-k65.jpg", // demo link ảnh
-      quantity: 1,
-      price: 3890000,
-    },
-    {
-      id: 2,
-      name: "Chuột Logitech G102 Gen2 Lightsync RGB",
-      image: "https://product.hstatic.net/1000026716/product/logitech-g102.jpg",
-      quantity: 2,
-      price: 350000,
-    },
-  ];
+  const { orderId } = useParams(); // lấy id đơn hàng từ URL /orders/:orderId
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
 
   const formatPrice = (num) => num.toLocaleString("vi-VN") + "đ";
 
+  useEffect(() => {
+    const fetchOrderDetail = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/orders/detail/${orderId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setOrder(res.data);
+      } catch (err) {
+        console.error("Lỗi khi tải chi tiết đơn hàng:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrderDetail();
+  }, [orderId, token]);
+
+  if (loading) return <div>Đang tải chi tiết đơn hàng...</div>;
+  if (!order) return <div>Không tìm thấy đơn hàng</div>;
+
   return (
     <div className="app__container">
-      <Header/>
+      <Header />
       <div className="grid">
         <div className="grid__row">
           <div className="order-detail-container">
-            <h2>Chi tiết đơn hàng</h2>
+            <h2>Chi tiết đơn hàng #{order._id}</h2>
+            <p><strong>Trạng thái:</strong> {order.status}</p>
+            <p><strong>Phương thức thanh toán:</strong> {order.paymentMethod === "cod" ? "Khi nhận hàng" : "Chuyển khoản"}</p>
+            <p>
+              <strong>Địa chỉ giao hàng:</strong>{" "}
+              {`${order.address.detail}, ${order.address.ward}, ${order.address.province}`}
+            </p>
+            <p><strong>Ngày đặt:</strong> {new Date(order.createdAt).toLocaleString()}</p>
+            {order.note && <p><strong>Ghi chú:</strong> {order.note}</p>}
+
             <table className="order-detail-table">
               <thead>
                 <tr>
@@ -40,11 +58,15 @@ const OrderDetail = () => {
                 </tr>
               </thead>
               <tbody>
-                {orderItems.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
+                {order.items.map((item) => (
+                  <tr key={item._id}>
+                    <td>{item.productId?.name || "Sản phẩm đã xoá"}</td>
                     <td>
-                      <img src={item.image} alt={item.name} className="product-img" />
+                      <img
+                        src={`${process.env.PUBLIC_URL}/img/${item.image}` || "https://via.placeholder.com/100"}
+                        alt={item.productId?.name}
+                        className="product-img"
+                      />
                     </td>
                     <td>{item.quantity}</td>
                     <td>{formatPrice(item.price)}</td>
@@ -57,20 +79,13 @@ const OrderDetail = () => {
             <div className="order-summary">
               <p>
                 <strong>Tổng tiền:</strong>{" "}
-                <span className="total">
-                  {formatPrice(
-                    orderItems.reduce(
-                      (sum, item) => sum + item.price * item.quantity,
-                      0
-                    )
-                  )}
-                </span>
+                <span className="total">{formatPrice(order.totalAmount)}</span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

@@ -24,11 +24,12 @@ import Register from './pages/Register';
           <Route path="/Checkout" element ={<Checkout/>}/>
           <Route path="/Profile" element ={<Profile/>}/>
           <Route path="/Orders" element ={<Orders/>}/>
-          <Route path="/OrderDetail" element ={<OrderDetail/>}/>
           <Route path="/Login" element ={<Login/>}/>
           <Route path="/Register" element ={<Register/>}/>
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/category/:categoryName" element={<Category />} />
+          <Route path="/orders/:orderId" element={<OrderDetail />} />
+
         </Routes>
       </Router>
     );

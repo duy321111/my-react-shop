@@ -1,74 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
+
+
 const Orders = () => {
-  const orders = [
-    {
-      id: 1,
-      status: "Đã giao",
-      address: "Thôn 7",
-      payment: "Khi nhận hàng",
-      total: "3.890.000đ",
-      date: "2024-08-25",
-      note: "Giao sớm",
-    },
-    {
-      id: 2,
-      status: "Đã giao",
-      address: "Thôn 30",
-      payment: "Khi nhận hàng",
-      total: "10.490.000đ",
-      date: "2024-07-25",
-      note: "",
-    },
-    {
-      id: 3,
-      status: "Đang giao hàng",
-      address: "Thôn 7",
-      payment: "Khi nhận hàng",
-      total: "4.280.000đ",
-      date: "2024-12-25",
-      note: "Giao sớm",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await axios.get(`http://localhost:5000/api/orders/${user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setOrders(res.data);
+    };
+    fetchOrders();
+  }, [user._id, token]);
 
   return (
     <div className="app__container">
-      <Header/>
+      <Header />
       <div className="grid">
         <div className="grid__row">
           <div className="orders-table-container">
-            <h1> Đơn hàng của bạn </h1>
+            <h1>Đơn hàng của bạn</h1>
             <table className="orders-table">
               <thead>
                 <tr>
                   <th>ĐƠN HÀNG</th>
                   <th>TRẠNG THÁI</th>
-                  <th>ĐỊA CHỈ NHẬN HÀNG</th>
-                  <th>PHƯƠNG THỨC THANH TOÁN</th>
+                  <th>ĐỊA CHỈ</th>
+                  <th>THANH TOÁN</th>
                   <th>THÀNH TIỀN</th>
                   <th>NGÀY ĐẶT</th>
                   <th>GHI CHÚ</th>
-                  <th>TÙY CHỌN</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((o) => (
-                  <tr key={o.id}>
-                    <td>{o.id}</td>
-                    <td className={o.status === "Đã giao" ? "status success" : "status pending"}>
-                      {o.status}
-                    </td>
-                    <td>{o.address}</td>
-                    <td>{o.payment}</td>
-                    <td>{o.total}</td>
-                    <td>{o.date}</td>
-                    <td>{o.note}</td>
+                  <tr key={o._id}>
+                    <td>{o._id}</td>
+                    <td>{o.status}</td>
+                    <td>{`${o.address.detail}, ${o.address.ward}, ${o.address.province}`}</td>
+                    <td>{o.paymentMethod === "cod" ? "Khi nhận hàng" : "Chuyển khoản"}</td>
+                    <td>{o.totalAmount.toLocaleString()}đ</td>
+                    <td>{new Date(o.createdAt).toLocaleDateString()}</td>
                     <td>
-                      <a href="#" className="detail-link">
-                        Chi tiết
-                      </a>
+                      <Link to={`/orders/${o._id}`}>Xem chi tiết</Link>
                     </td>
+
                   </tr>
                 ))}
               </tbody>
@@ -76,7 +59,7 @@ const Orders = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

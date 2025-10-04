@@ -119,7 +119,6 @@ const Checkout = () => {
     );
   };
 
-  if (loading) return <p>Đang tải dữ liệu...</p>;
 
   return (
     <div className="app__container">

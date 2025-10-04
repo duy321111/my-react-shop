@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// Client
 import Home from './pages/Home';
 import Category from './pages/Category';
 import ProductDetail from './pages/ProductDetail';
@@ -12,11 +13,18 @@ import OrderDetail from './pages/OrderDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+// Server
+import Dashboard from "./pages/admin/Dashboard";
+import Products from "./pages/admin/Products";
+import OrdersAdmin from "./pages/admin/OrdersAdmin";
 
   function App() {
     return (
       <Router>
         <Routes>
+
+          {/* Client */}
+
           <Route path="/" element={<Home />} />
           <Route path="/category" element={<Category />} />
           <Route path="/ProductDetail" element={<ProductDetail />} />
@@ -30,6 +38,10 @@ import Register from './pages/Register';
           <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/orders/:orderId" element={<OrderDetail />} />
 
+          {/* Admin */}
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/products" element={<Products />} />
+          <Route path="/admin/orders" element={<OrdersAdmin />} />
         </Routes>
       </Router>
     );

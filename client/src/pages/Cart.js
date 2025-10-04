@@ -6,14 +6,12 @@ import QuantitySelector from "../components/QuantitySelector";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]); // ✅ sản phẩm đã chọn
+  const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Lấy user và token từ localStorage
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
-  // Nếu chưa đăng nhập thì chuyển về login
   useEffect(() => {
     if (!user || !token) {
       alert("Bạn cần đăng nhập để xem giỏ hàng!");
@@ -21,15 +19,13 @@ const Cart = () => {
     }
   }, [user, token]);
 
-  // 1. Lấy giỏ hàng khi load trang
+  // Lấy giỏ hàng từ API
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const res = await axios.get(
           `http://localhost:5000/api/cart/${user._id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setCartItems(res.data.items || []);
       } catch (err) {
@@ -41,24 +37,16 @@ const Cart = () => {
     if (user?._id) fetchCart();
   }, [user?._id, token]);
 
-  // 2. Thay đổi số lượng
+  // Cập nhật số lượng
   const handleQuantityChange = async (productId, newQuantity) => {
     try {
       await axios.put(
         `http://localhost:5000/api/cart/${user._id}/${productId}`,
-        {
-          productId,
-          quantity: newQuantity,
-          userId: user._id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { productId, quantity: newQuantity, userId: user._id },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      // Cập nhật lại UI
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
+      setCartItems((prev) =>
+        prev.map((item) =>
           item.productId._id === productId
             ? { ...item, quantity: newQuantity }
             : item
@@ -69,32 +57,30 @@ const Cart = () => {
     }
   };
 
-  // 3. Xóa sản phẩm khỏi giỏ hàng
+  // Xóa sản phẩm
   const handleDelete = async (productId) => {
     try {
       const res = await axios.delete(
         `http://localhost:5000/api/cart/${user._id}/${productId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setCartItems(res.data.items);
-      setSelectedItems((prev) => prev.filter((id) => id !== productId)); // ✅ bỏ chọn nếu đã xóa
+      setSelectedItems((prev) => prev.filter((id) => id !== productId));
     } catch (err) {
       console.error("Lỗi xóa sản phẩm:", err);
     }
   };
 
-  // 4. Tick chọn từng sản phẩm
+  //  Chọn từng sản phẩm
   const handleSelectItem = (productId) => {
     setSelectedItems((prev) =>
       prev.includes(productId)
-        ? prev.filter((id) => id !== productId) // bỏ chọn
-        : [...prev, productId] // thêm vào danh sách chọn
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
     );
   };
 
-  // 5. Tick chọn tất cả
+  // Chọn tất cả
   const handleSelectAll = () => {
     if (selectedItems.length === cartItems.length) {
       setSelectedItems([]);
@@ -103,17 +89,22 @@ const Cart = () => {
     }
   };
 
-  // 6. Tính tổng tiền chỉ của sản phẩm được chọn
+  //Tính tổng tiền sản phẩm đã chọn
   const total = cartItems
     .filter((item) => selectedItems.includes(item.productId._id))
     .reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // Thanh toán: lưu danh sách sản phẩm chọn rồi điều hướng sang checkout
+  const handleCheckout = () => {
+    localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
+    window.location.href = "/checkout";
+  };
 
   if (loading) return <p>Đang tải giỏ hàng...</p>;
 
   return (
     <div className="app__container">
       <Header />
-
       <div className="cart-container">
         <div className="cart-title">
           <i className="fas fa-shopping-cart"></i> Giỏ hàng của bạn
@@ -141,6 +132,7 @@ const Cart = () => {
               <th>Thao tác</th>
             </tr>
           </thead>
+
           <tbody>
             {cartItems.map((item) => (
               <tr key={item.productId._id}>
@@ -153,7 +145,6 @@ const Cart = () => {
                     />
                   </div>
                 </td>
-
                 <td>
                   <img
                     src={`${process.env.PUBLIC_URL}/img/${item.image}`}
@@ -200,7 +191,7 @@ const Cart = () => {
           </a>
           <button
             disabled={selectedItems.length === 0}
-            onClick={() => console.log("Thanh toán:", selectedItems)}
+            onClick={handleCheckout}
           >
             Thanh toán ngay
           </button>

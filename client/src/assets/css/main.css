@@ -2085,6 +2085,51 @@ td p {
     box-shadow: 0 6px 20px rgba(0,0,0,0.06);
 }
 
+.address-modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 400px;
+  max-width: 90%;
+  font-size: 1.6rem;
+}
+
+.address-option {
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  justify-content: space-between;
+
+}
+
+.address-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.address-modal-actions button {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 1.4rem;
+  border-radius: 6px;
+}
+
+.address-modal-actions button:last-child {
+  background: #ccc;
+  color: #000;
+}
+
 h2 {
     font-size: 1.8rem;
     margin-bottom: 10px;

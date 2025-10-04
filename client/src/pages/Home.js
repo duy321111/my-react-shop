@@ -16,7 +16,6 @@ const Home = () => {
       .get("http://localhost:5000/api/products")
       .then((res) => {
         const allProducts = res.data;
-
         setPromoProducts(allProducts.filter((p) => p.saleOff > 0));
         setNewProducts(allProducts.slice(-10)); 
       })

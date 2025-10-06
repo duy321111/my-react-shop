@@ -10,7 +10,7 @@ import reviewRoutes from "./routes/review.js";
 import categoryRoutes from "./routes/category.js";
 import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/order.js";
-
+import adminRoutes from "./routes/admin.js"
 
 dotenv.config();
 const app = express();
@@ -32,7 +32,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
-
+app.use("/api/admin", adminRoutes);
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("DB connected"))

@@ -1,0 +1,91 @@
+.admin__logo-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.admin__login-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+ 
+}
+
+.admin__login-wrap .login-form {
+  width: 100%;
+  color: #333;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.admin__login-form .login-form{
+  width: 100%;
+}
+
+
+
+h1 {
+  color: #343a40; /* Vàng */
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.login-form input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #343a40; 
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  font-size: 1.6rem;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #343a40; 
+  color: #ffffff; 
+  font-size: 1.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color:var(--primary-color); 
+}
+
+.button a {
+  color: #000000;
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: 15px;
+  display: inline-block;
+}
+
+.button a:hover {
+  color: #d6a700; 
+}
+
+.success {
+  color: #45a049;
+  padding: 10px;
+}
+
+.error {
+  color: rgb(255, 69, 69);
+  padding: 10px;
+}

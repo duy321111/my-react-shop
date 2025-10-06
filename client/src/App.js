@@ -17,6 +17,7 @@ import Register from './pages/Register';
 import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
 import OrdersAdmin from "./pages/admin/OrdersAdmin";
+import LoginAdmin from "./pages/admin/Login";
 
   function App() {
     return (
@@ -42,6 +43,7 @@ import OrdersAdmin from "./pages/admin/OrdersAdmin";
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/products" element={<Products />} />
           <Route path="/admin/orders" element={<OrdersAdmin />} />
+          <Route path="/admin/login" element={<LoginAdmin />} />
         </Routes>
       </Router>
     );

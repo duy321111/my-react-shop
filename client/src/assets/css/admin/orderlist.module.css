@@ -1,0 +1,173 @@
+.wrapper {
+  padding: 10px 5px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* ===== BẢNG ĐƠN HÀNG ===== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 1.4rem;
+}
+
+.table th {
+  background: #f1f1f1;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: #f9fafb;
+}
+
+/* ===== Trạng thái ===== */
+.statusSelect {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f8f9fa;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+
+/* ===== Nút chi tiết ===== */
+.detailBtn {
+  padding: 6px 14px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background 0.3s;
+}
+
+.detailBtn:hover {
+  background: #0056b3;
+}
+
+/* ===== Loading ===== */
+.loading {
+  padding: 40px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #555;
+}
+
+/* ===== MODAL CHI TIẾT ===== */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modalContent h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e1e2f;
+}
+
+.modalContent h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #1e1e2f;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.itemList li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.itemList img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.closeBtn {
+  margin-top: 20px;
+  padding: 10px 18px;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: block;
+  margin-left: auto;
+}
+
+.closeBtn:hover {
+  background: #b71c1c;
+}
+
+/* ===== Tổng kết đơn ===== */
+.order-summary {
+  margin-top: 30px;
+  text-align: right;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.order-summary .total {
+  color: #007bff;
+  font-size: 1.8rem;
+  font-weight: bold;
+}

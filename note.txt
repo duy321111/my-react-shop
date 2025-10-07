@@ -1,9 +1,4 @@
-import React from "react";
-import AdminSidebar from "../../components/admin/Sidebar";
-import AdminHeader from "../../components/admin/HeaderAdmin";
-
-const Dashboard = () => {
-  return (
+return (
     <div className="grid-full-width">
       <div className="grid__row">
         <div className="grid__column-2">
@@ -16,7 +11,3 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-export default Dashboard;
-// 

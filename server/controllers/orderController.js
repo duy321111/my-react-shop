@@ -38,3 +38,33 @@ export const getOrderDetail = async (req, res) => {
     res.status(500).json({ message: "Lỗi khi lấy chi tiết đơn hàng" });
   }
 };
+
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("userId", "name email") // thông tin người mua
+      .populate("items.productId", "name") // tên sản phẩm
+      .sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi khi lấy danh sách hoá đơn" });
+  }
+};
+
+// Cập nhật trạng thái đơn hàng (Admin)
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findByIdAndUpdate(
+      req.params.orderId,
+      { status },
+      { new: true }
+    );
+    if (!order) return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
+    res.status(200).json({ message: "Cập nhật trạng thái thành công", order });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi khi cập nhật trạng thái đơn hàng" });
+  }
+};

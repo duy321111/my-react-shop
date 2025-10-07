@@ -26,7 +26,7 @@ export default function SearchArea() {
                 </div>
 
             </div>
-
+{/*  */}
             {/* <div className="header__search-selection">
                 <span className="header__search-select-lable">Trong shop</span>
                 <i className="header__search-select-icon fa-solid fa-angle-down"></i>

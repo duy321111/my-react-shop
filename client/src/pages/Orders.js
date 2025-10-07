@@ -30,7 +30,7 @@ const Orders = () => {
             <table className="orders-table">
               <thead>
                 <tr>
-                  <th>ĐƠN HÀNG</th>
+                  <th>MÃ ĐƠN HÀNG</th>
                   <th>TRẠNG THÁI</th>
                   <th>ĐỊA CHỈ</th>
                   <th>THANH TOÁN</th>
@@ -42,7 +42,7 @@ const Orders = () => {
               <tbody>
                 {orders.map((o) => (
                   <tr key={o._id}>
-                    <td>{o._id}</td>
+                    <td>{o._id.slice(-7).toUpperCase()}</td>
                     <td>{o.status}</td>
                     <td>{`${o.address.detail}, ${o.address.ward}, ${o.address.province}`}</td>
                     <td>{o.paymentMethod === "cod" ? "Khi nhận hàng" : "Chuyển khoản"}</td>

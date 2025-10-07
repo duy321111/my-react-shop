@@ -57,9 +57,7 @@
   color: #fff;
 }
 
-.menuGroup {
-  margin-top: 15px;
-}
+
 
 .menuItem {
   font-size: 1.4rem;
@@ -67,7 +65,13 @@
   padding: 10px 20px;
   text-transform: uppercase;
   color: #9ca3af;
-  }
+  cursor: default;
+}
+
+.menuGroup:hover .menuItem {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}
 
 .submenu {
   padding-left: 20px;
@@ -81,6 +85,32 @@
 .submenu li a:hover {
   color: #fff;
 }
+
+/* Ẩn submenu mặc định */
+.submenu {
+  display: none;
+ 
+  padding-left: 15px;
+  list-style: none;
+}
+
+.menuGroup:hover .submenu {
+  margin-top: 12px;
+  display: block;
+  padding-left: 10px;
+}
+
+/* Thêm hiệu ứng hover cho từng mục con */
+.submenu li {
+  padding: 5px 0;
+  transition: transform 0.5s ease;
+}
+
+.submenu li:hover {
+  transform: translateX(5px);
+}
+
+
 
 /* Content */
 .content {
@@ -189,3 +219,4 @@
 .btnNo:hover {
   background: #6b7280;
 }
+

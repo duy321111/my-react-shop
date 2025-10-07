@@ -40,7 +40,7 @@ import LoginAdmin from "./pages/admin/Login";
           <Route path="/orders/:orderId" element={<OrderDetail />} />
 
           {/* Admin */}
-          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/products" element={<Products />} />
           <Route path="/admin/orders" element={<OrdersAdmin />} />
           <Route path="/admin/login" element={<LoginAdmin />} />

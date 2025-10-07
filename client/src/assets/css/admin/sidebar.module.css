@@ -1,0 +1,190 @@
+.adminWrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f5f7;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Sidebar */
+.sidebarWrapper {
+  width: 240px;
+  background: #1e1e2f;
+  color: #fff;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.logo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  padding: 0 20px;
+  margin-bottom: 30px;
+}
+
+.logo span {
+  color: #4fd1c5;
+}
+
+/* Menu */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  padding: 12px 20px;
+}
+
+.sidebar ul li a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1.5rem;
+  display: block;
+  transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+  color: #fff;
+}
+
+.menuGroup {
+  margin-top: 15px;
+}
+
+.menuItem {
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  color: #9ca3af;
+  }
+
+.submenu {
+  padding-left: 20px;
+}
+
+.submenu li a {
+  font-size: 14px;
+  color: #a1a1aa;
+}
+
+.submenu li a:hover {
+  color: #fff;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  margin-left: 240px;
+  background: #f4f5f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: #fff;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.userInfo {
+  margin-right: 20px;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.btnLogout {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnLogout:hover {
+  background: #dc2626;
+}
+
+.time {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1e293b;
+  margin-right: auto;
+}
+
+/* Main content */
+.mainContent {
+  flex: 1;
+  padding: 40px;
+}
+
+.mainContent h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Dialog */
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogContent {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  width: 320px;
+  text-align: center;
+}
+
+.dialogActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnYes {
+  background: #10b981;
+  color: #fff;
+}
+
+.btnYes:hover {
+  background: #059669;
+}
+
+.btnNo {
+  background: #9ca3af;
+  color: #fff;
+}
+
+.btnNo:hover {
+  background: #6b7280;
+}

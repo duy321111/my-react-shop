@@ -43,6 +43,23 @@ export default function ProductList() {
     setBrands(res.data);
   };
 
+  const handleDeleteProduct = async (productId) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xoá sản phẩm này không?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:5000/api/products/${productId}`);
+      // Cập nhật lại danh sách sản phẩm sau khi xoá
+      setProducts(products.filter((p) => p._id !== productId));
+      alert("Xoá sản phẩm thành công!");
+    } catch (err) {
+      console.error("Lỗi khi xoá sản phẩm:", err);
+      alert("Xoá sản phẩm thất bại!");
+    }
+  };
+
   //  Lọc theo search + category + brand
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
@@ -150,6 +167,14 @@ export default function ProductList() {
                           onClick={() => setSelectedProduct(product)}
                         >
                           Chi tiết
+                        </button>
+
+                        <button
+                          className={styles.deleteBtn}
+                          onClick={() => handleDeleteProduct(product._id)}
+                          style={{ marginLeft: "10px", backgroundColor: "#e74c3c" }}
+                        >
+                          Xoá
                         </button>
                       </td>
                     </tr>

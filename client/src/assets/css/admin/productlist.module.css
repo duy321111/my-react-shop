@@ -52,6 +52,15 @@
   border-radius: 6px;
 }
 
+.deleteBtn {
+  padding: 6px 12px;
+  background-color: #2d89ef;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -71,12 +80,13 @@
   width: 600px;
   max-height: 80vh;
   overflow-y: auto;
+  font-size: 1.6rem;
 }
 
 .modalImage {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
+  width: 500px;
+  height: 500px;
+  padding-left: 40px;
   margin-bottom: 20px;
 }
 

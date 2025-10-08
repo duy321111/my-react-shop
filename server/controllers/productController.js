@@ -3,7 +3,7 @@ import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import Brand from "../models/Brand.js";
 
-// 📦 Lấy tất cả sản phẩm, filter theo category/brand
+// Lấy tất cả sản phẩm, filter theo category/brand
 export const getProducts = async (req, res) => {
     const { category: categoryName, brand: brandId } = req.query;
 

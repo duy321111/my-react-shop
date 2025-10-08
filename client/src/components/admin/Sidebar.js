@@ -19,7 +19,7 @@ export default function AdminSidebar() {
                 <summary className={styles.menuItem}>Danh mục</summary>
                 <ul className={styles.submenu}>
                   <li><Link to="/admin/catadd">Thêm danh mục</Link></li>
-                  <li><Link to="/admin/catlist">Danh sách danh mục</Link></li>
+                  <li><Link to="/admin/category">Danh sách danh mục</Link></li>
                 </ul>
               </details>
             </li>
@@ -29,7 +29,7 @@ export default function AdminSidebar() {
                 <summary className={styles.menuItem}>Thương hiệu</summary>
                 <ul className={styles.submenu}>
                   <li><Link to="/admin/brandadd">Thêm thương hiệu</Link></li>
-                  <li><Link to="/admin/brandlist">Danh sách thương hiệu</Link></li>
+                  <li><Link to="/admin/brand">Danh sách thương hiệu</Link></li>
                 </ul>
               </details>
             </li>
@@ -39,7 +39,7 @@ export default function AdminSidebar() {
                 <summary className={styles.menuItem}>Sản phẩm</summary>
                 <ul className={styles.submenu}>
                   <li><Link to="/admin/productadd">Thêm sản phẩm</Link></li>
-                  <li><Link to="/admin/productlist">Danh sách sản phẩm</Link></li>
+                  <li><Link to="/admin/products">Danh sách sản phẩm</Link></li>
                 </ul>
               </details>
             </li>

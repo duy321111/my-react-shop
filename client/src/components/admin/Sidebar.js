@@ -28,7 +28,7 @@ export default function AdminSidebar() {
               <details>
                 <summary className={styles.menuItem}>Thương hiệu</summary>
                 <ul className={styles.submenu}>
-                  <li><Link to="/admin/brandadd">Thêm thương hiệu</Link></li>
+                  <li><Link to="/admin/addbrand">Thêm thương hiệu</Link></li>
                   <li><Link to="/admin/brand">Danh sách thương hiệu</Link></li>
                 </ul>
               </details>

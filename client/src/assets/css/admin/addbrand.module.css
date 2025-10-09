@@ -1,0 +1,50 @@
+.wrapper {
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.form {
+  margin-bottom: 30px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+}
+
+.inputRow input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.addBtn {
+  padding: 10px 20px;
+  font-size: 1.6rem;
+  background-color: #34b4dbfb;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.addBtn:hover {
+  background-color: #2980b9;
+}
+
+.brandList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.brandItem {
+  background-color: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 16px;
+}

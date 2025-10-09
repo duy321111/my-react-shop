@@ -11,15 +11,6 @@ export const getAllBrands = async (req, res) => {
   }
 };
 
-export const createBrand = async (req, res) => {
-  try {
-    const newBrand = new Brand(req.body);
-    await newBrand.save();
-    res.status(201).json(newBrand);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
 
 //  Xóa thương hiệu theo ID
 export const deleteBrand = async (req, res) => {
@@ -46,5 +37,23 @@ export const updateBrand = async (req, res) => {
     res.status(200).json(updatedBrand);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+export const addBrand = async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ message: "Tên thương hiệu không được để trống" });
+
+    const existing = await Brand.findOne({ name });
+    if (existing) return res.status(400).json({ message: "Thương hiệu đã tồn tại" });
+
+    const brand = new Brand({ name });
+    await brand.save();
+
+    res.status(201).json(brand);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi server" });
   }
 };

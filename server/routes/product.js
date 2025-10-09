@@ -1,5 +1,5 @@
 import express from "express";
-import { getProducts, getProductById, addProduct, deleteProduct } from "../controllers/productController.js";
+import { getProducts, getProductById, addProduct, deleteProduct, updateProduct } from "../controllers/productController.js";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -46,6 +46,15 @@ router.post(
     { name: "images", maxCount: 10 }, // Ảnh phụ
   ]),
   addProduct
+);
+
+router.put(
+  "/:id",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "images", maxCount: 10 },
+  ]),
+  updateProduct
 );
 
 export default router;

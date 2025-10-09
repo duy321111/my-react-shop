@@ -3,7 +3,7 @@ import axios from "axios";
 import styles from "../../assets/css/admin/productlist.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
-
+import { Link } from "react-router-dom";
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -15,6 +15,16 @@ export default function ProductList() {
   const [brandFilter, setBrandFilter] = useState("Tất cả");
 
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [editProduct, setEditProduct] = useState(null); 
+  const [editForm, setEditForm] = useState({
+    name: "",
+    priceCurrent: "",
+    priceOld: "",
+    quantityAvailable: "",
+    description: "",
+    category: "",
+    brand: "",
+  });
 
   useEffect(() => {
     fetchProducts();
@@ -57,6 +67,22 @@ export default function ProductList() {
     } catch (err) {
       console.error("Lỗi khi xoá sản phẩm:", err);
       alert("Xoá sản phẩm thất bại!");
+    }
+  };
+
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `http://localhost:5000/api/products/${editProduct._id}`,
+        editForm
+      );
+      alert("Cập nhật sản phẩm thành công!");
+      setEditProduct(null);
+      fetchProducts();
+    } catch (err) {
+      console.error("Lỗi khi cập nhật sản phẩm:", err);
+      alert("Cập nhật thất bại!");
     }
   };
 
@@ -169,10 +195,18 @@ export default function ProductList() {
                           Chi tiết
                         </button>
 
+                        <Link to={`/admin/updateproduct/${product._id}`}>
+                          <button
+                            className={styles.editBtn}
+             
+                          >
+                            Sửa
+                          </button>
+                        </Link>
                         <button
                           className={styles.deleteBtn}
                           onClick={() => handleDeleteProduct(product._id)}
-                          style={{ marginLeft: "10px", backgroundColor: "#e74c3c" }}
+                    
                         >
                           Xoá
                         </button>
@@ -229,6 +263,9 @@ export default function ProductList() {
                 </div>
               </div>
             )}
+
+
+
           </div>
         </div>
       </div>

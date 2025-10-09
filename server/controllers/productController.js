@@ -143,3 +143,74 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Error deleting product", error: error.message });
   }
 };
+
+export const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Kiểm tra ID hợp lệ
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid product ID" });
+    }
+
+    const product = await Product.findById(id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const {
+      name,
+      brand,
+      category,
+      origin,
+      description,
+      priceOld,
+      priceCurrent,
+      saleOff,
+      quantityAvailable,
+      promotions,
+      specifications,
+    } = req.body;
+
+    // Parse promotions và specifications nếu có
+    const promoArray = promotions ? JSON.parse(promotions) : product.promotions;
+    const specArray = specifications ? JSON.parse(specifications) : product.specifications;
+
+    // Cập nhật các trường
+    product.name = name || product.name;
+    product.brand = brand || product.brand;
+    product.category = category || product.category;
+    product.origin = origin || product.origin;
+    product.description = description || product.description;
+    product.priceOld = priceOld ? parseFloat(priceOld) : product.priceOld;
+    product.priceCurrent = priceCurrent ? parseFloat(priceCurrent) : product.priceCurrent;
+    product.saleOff = saleOff ? parseFloat(saleOff) : product.saleOff;
+    product.quantityAvailable = quantityAvailable ? parseInt(quantityAvailable) : product.quantityAvailable;
+    product.promotions = promoArray;
+    product.specifications = specArray;
+
+    // Cập nhật ảnh nếu có upload mới
+    if (req.files && req.files["image"]) {
+      // Xoá ảnh cũ
+      const oldImagePath = path.join("public/img", product.image);
+      if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
+
+      product.image = req.files["image"][0].filename;
+    }
+
+    if (req.files && req.files["images"]) {
+      // Xoá các ảnh phụ cũ
+      product.images.forEach((img) => {
+        const imgPath = path.join("public/uploads", img);
+        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      });
+      // Cập nhật ảnh phụ mới
+      product.images = req.files["images"].map((file) => file.filename);
+    }
+
+    await product.save();
+
+    res.json({ message: "Product updated successfully", product });
+  } catch (error) {
+    console.error("Error in updateProduct:", error);
+    res.status(500).json({ message: "Error updating product", error: error.message });
+  }
+};

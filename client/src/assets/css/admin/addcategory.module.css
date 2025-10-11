@@ -1,0 +1,125 @@
+.wrapper {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+label{
+    font-size: 1.6rem;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input[type="text"],
+.form textarea,
+.form select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form input[type="text"]:focus,
+.form textarea:focus,
+.form select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.addBtn {
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addBtn:hover {
+  background-color: #357abd;
+}
+
+/* Chip selector */
+.chipContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background: #4a90e2;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.removeChip {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Danh sách category */
+.categoryList {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.categoryItem {
+  padding: 12px 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: box-shadow 0.2s;
+}
+
+.categoryItem:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.categoryItem strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.categoryItem p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.categoryImg {
+  margin-top: 5px;
+  max-width: 150px;
+  border-radius: 8px;
+}

@@ -22,6 +22,8 @@ import BrandList from './pages/admin/Brand';
 import AddProduct from './pages/admin/addproduct';
 import UpdateProduct from './pages/admin/updateproduct';
 import AddBrand from './pages/admin/addBrand';
+import CategoryAdmin from './pages/admin/Category';
+import AddCategory from './pages/admin/addCategory';
 
   function App() {
     return (
@@ -52,6 +54,8 @@ import AddBrand from './pages/admin/addBrand';
           <Route path="/admin/addproduct" element={<AddProduct/>}/>
           <Route path="/admin/updateproduct/:id" element={<UpdateProduct/>}/>
           <Route path="/admin/addbrand" element={<AddBrand/>}/>
+          <Route path="/admin/category" element={<CategoryAdmin/>}/>
+          <Route path="/admin/addcategory"  element={<AddCategory/>}/>
         </Routes>
       </Router>
     );

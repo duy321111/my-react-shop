@@ -18,7 +18,7 @@ export default function AdminSidebar() {
               <details>
                 <summary className={styles.menuItem}>Danh mục</summary>
                 <ul className={styles.submenu}>
-                  <li><Link to="/admin/catadd">Thêm danh mục</Link></li>
+                  <li><Link to="/admin/addcategory">Thêm danh mục</Link></li>
                   <li><Link to="/admin/category">Danh sách danh mục</Link></li>
                 </ul>
               </details>

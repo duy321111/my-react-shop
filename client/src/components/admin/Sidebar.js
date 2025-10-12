@@ -44,15 +44,8 @@ export default function AdminSidebar() {
               </details>
             </li>
 
-            <li>
-              <details>
-                <summary className={styles.menuItem}>Hoá đơn</summary>
-                <ul className={styles.submenu}>
-                  <li><Link to="/admin/orders">Danh sách hoá đơn</Link></li>
-                </ul>
-              </details>
-            </li>
-
+       
+            <li><Link to="/admin/orders">Hoá đơn</Link></li>
             <li><Link to="/admin/slider">Slider</Link></li>
             <li><Link to="/admin/adminlist">Nội bộ</Link></li>
             <li><Link to="/admin/customer">Khách hàng</Link></li>

@@ -24,6 +24,7 @@ import UpdateProduct from './pages/admin/updateproduct';
 import AddBrand from './pages/admin/addBrand';
 import CategoryAdmin from './pages/admin/Category';
 import AddCategory from './pages/admin/addCategory';
+import Customer from './pages/admin/Customer';
 
   function App() {
     return (
@@ -56,6 +57,7 @@ import AddCategory from './pages/admin/addCategory';
           <Route path="/admin/addbrand" element={<AddBrand/>}/>
           <Route path="/admin/category" element={<CategoryAdmin/>}/>
           <Route path="/admin/addcategory"  element={<AddCategory/>}/>
+          <Route path="/admin/customer" element ={<Customer/>}/>
         </Routes>
       </Router>
     );

@@ -55,7 +55,7 @@ export default function AdminSidebar() {
 
             <li><Link to="/admin/slider">Slider</Link></li>
             <li><Link to="/admin/adminlist">Nội bộ</Link></li>
-            <li><Link to="/admin/customerlist">Khách hàng</Link></li>
+            <li><Link to="/admin/customer">Khách hàng</Link></li>
           </ul>
         </div>
       </div>

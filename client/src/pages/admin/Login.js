@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import '../../assets/css/admin/login.css'
+import styles from "../../assets/css/admin/login.module.css";
 import { Link } from "react-router-dom";
+
 export default function AdminLogin() {
-  const [adminUser, setAdminUser] = useState("");
-  const [adminPass, setAdminPass] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -14,78 +15,79 @@ export default function AdminLogin() {
       const res = await fetch("http://localhost:5000/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ adminUser, adminPass }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
-      setMessage(data.message);
-
-      if (data.message === "success") {
+      if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
+        setMessage("Đăng nhập thành công!");
         window.location.href = "/admin/dashboard";
+      } else {
+        setMessage(data.message || "Đăng nhập thất bại!");
       }
     } catch (err) {
-      setMessage(" Lỗi kết nối đến máy chủ!");
+      setMessage("Lỗi kết nối đến máy chủ!");
     }
   };
 
   return (
-    <div className="app_container">
+    <div className={styles.app_container}>
       <div className="grid">
         <div className="grid__row">
           <div className="grid__column-12">
-            <div className="admin__logo-wrap">
-              <div className="header__logo">
-                <Link to="/" className="header__logo-link">
-                    <img src="/img/logo-removebg-preview.png" className="header__logo-img" alt="Logo" />
+            <div className={styles.admin__logo_wrap}>
+              <div className={styles.header__logo}>
+                <Link to="/" className={styles.header__logo_link}>
+                  <img src="/img/logo-removebg-preview.png"
+                    className={styles.header__logo_img} alt="Logo" />
                 </Link>
               </div>
             </div>
           </div>
         </div>
+
         <div className="grid__row">
           <div className="grid__column-12">
-            <div  className="admin__login-wrap">
-              <form className="login-form" onSubmit={handleSubmit}>
+            <div className={styles.admin__login_wrap}>
+              <form className={styles.login_form} onSubmit={handleSubmit}>
                 <h1>Admin Login</h1>
 
                 {message && (
-                  <span
-                    className={message.includes("success") ? "success" : "error"}
-                  >
+                  <span className={message.includes("thành công") ? styles.success : styles.error}>
                     {message}
                   </span>
                 )}
 
-                <div className="input-group">
+                <div className={styles.input_group}>
                   <input
-                    type="text"
-                    placeholder=" Tên đăng nhập"
+                    type="email"
+                    placeholder="Email đăng nhập"
                     required
-                    value={adminUser}
-                    onChange={(e) => setAdminUser(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
-                <div className="input-group">
+                <div className={styles.input_group}>
                   <input
                     type="password"
                     placeholder="Mật khẩu"
                     required
-                    value={adminPass}
-                    onChange={(e) => setAdminPass(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
-                <div className="input-group">
-                  <input type="submit" value=" Đăng nhập" />
+                <div className={styles.input_group}>
+                  <input type="submit" value="Đăng nhập" />
                 </div>
               </form>
-
             </div>
-              <div className="button">
+
+            <div className={styles.button}>
               <a href="#">Quên mật khẩu?</a>
-              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.admin__logo-wrap{
+.admin__logo_wrap {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,66 +6,57 @@
   margin-top: 50px;
 }
 
-.admin__login-wrap {
+.admin__login_wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
- 
 }
 
-.admin__login-wrap .login-form {
+.login_form {
   width: 100%;
   color: #333;
   display: block;
   justify-content: center;
   align-items: center;
-  
 }
-
-.admin__login-form .login-form{
-  width: 100%;
-}
-
-
 
 h1 {
-  color: #343a40; /* Vàng */
+  color: #343a40;
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
 }
 
-
-.input-group {
+.input_group {
   margin-bottom: 15px;
 }
 
-.login-form input[type="text"],
-input[type="password"] {
+.login_form input[type="email"],
+.login_form input[type="password"] {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
-  border: 1px solid #343a40; 
+  border: 1px solid #343a40;
   border-radius: 5px;
   background-color: #fff;
   color: #333;
   font-size: 1.6rem;
 }
 
-input[type="submit"] {
+.login_form input[type="submit"] {
   width: 100%;
   padding: 12px;
   border: none;
-  background-color: #343a40; 
-  color: #ffffff; 
+  background-color: #343a40;
+  color: #ffffff;
   font-size: 1.6rem;
   border-radius: 5px;
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
-  background-color:var(--primary-color); 
+.login_form input[type="submit"]:hover {
+  background-color: var(--primary-color);
 }
 
 .button a {
@@ -77,7 +68,7 @@ input[type="submit"]:hover {
 }
 
 .button a:hover {
-  color: #d6a700; 
+  color: #d6a700;
 }
 
 .success {
@@ -89,5 +80,3 @@ input[type="submit"]:hover {
   color: rgb(255, 69, 69);
   padding: 10px;
 }
-
-

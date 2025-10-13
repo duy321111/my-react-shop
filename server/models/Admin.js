@@ -1,17 +1,10 @@
-// models/Admin.js
 import mongoose from "mongoose";
 
 const AdminSchema = new mongoose.Schema({
-  adminUser: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  adminPass: {
-    type: String,
-    required: true,
-  },
-});
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ["admin", "staff"], default: "staff" },
+}, { timestamps: true });
 
-const Admin = mongoose.model("Admin", AdminSchema);
-export default Admin;
+export default mongoose.model("Admin", AdminSchema);

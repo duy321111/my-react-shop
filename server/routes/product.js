@@ -1,8 +1,10 @@
 import express from "express";
-import { getProducts, getProductById, addProduct, deleteProduct, updateProduct } from "../controllers/productController.js";
+import { getProducts, getProductById, addProduct, deleteProduct, updateProduct,searchProducts  } from "../controllers/productController.js";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
+
+
 
 // Khởi tạo router
 const router = express.Router();
@@ -37,6 +39,7 @@ const upload = multer({
 
 // Định nghĩa các route
 router.get("/", getProducts); // GET /api/products?category=laptop&brand=hp
+router.get("/search", searchProducts);
 router.get("/:id", getProductById); // GET /api/products/:id
 router.delete("/:id", deleteProduct);
 router.post(
@@ -56,5 +59,6 @@ router.put(
   ]),
   updateProduct
 );
+
 
 export default router;

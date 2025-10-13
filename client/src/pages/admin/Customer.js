@@ -1,7 +1,6 @@
-// src/pages/admin/CustomerList.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "../../assets/css/admin/customer.module.css"; // tạo file css hoặc dùng brand.module.css
+import styles from "../../assets/css/admin/customer.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 
@@ -15,6 +14,7 @@ export default function CustomerList() {
     avatar: ""
   });
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchCustomers();
@@ -24,7 +24,6 @@ export default function CustomerList() {
     setLoading(true);
     try {
       const res = await axios.get("http://localhost:5000/api/user");
-      // giả sử API trả mảng user
       setCustomers(res.data);
     } catch (err) {
       console.error("Lỗi khi tải danh sách khách hàng:", err);
@@ -35,12 +34,10 @@ export default function CustomerList() {
   };
 
   const handleDelete = async (id) => {
-    // Xác nhận xoá
     if (!window.confirm("Bạn có chắc muốn xoá khách hàng này?")) return;
 
     try {
       await axios.delete(`http://localhost:5000/api/user/${id}`);
-      // cập nhật UI tại client
       setCustomers((prev) => prev.filter((c) => c._id !== id));
       alert("Xoá thành công!");
     } catch (err) {
@@ -73,17 +70,27 @@ export default function CustomerList() {
     if (!editingCustomer) return;
 
     try {
-      // PUT theo pattern /api/user/update/:id (giống brand của bạn)
-      await axios.put(`http://localhost:5000/api/user/update/${editingCustomer._id}`, formData);
+      await axios.put(
+        `http://localhost:5000/api/user/update/${editingCustomer._id}`,
+        formData
+      );
       alert("Cập nhật khách hàng thành công!");
       closeEditModal();
-      // Làm mới danh sách
       fetchCustomers();
     } catch (err) {
       console.error("Lỗi khi cập nhật khách hàng:", err);
       alert("Có lỗi xảy ra khi cập nhật khách hàng.");
     }
   };
+
+  // --- FILTER TÌM KIẾM ---
+  const filteredCustomers = customers.filter((cust) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      cust.name?.toLowerCase().includes(term) ||
+      cust.email?.toLowerCase().includes(term)
+    );
+  });
 
   return (
     <div className="grid-full-width">
@@ -97,6 +104,17 @@ export default function CustomerList() {
 
           <div className={styles.wrapper}>
             <h1 className={styles.title}>Danh sách khách hàng</h1>
+
+            {/* Ô tìm kiếm */}
+            <div className={styles.searchBox}>
+              <input
+                type="text"
+                placeholder="Tìm theo tên hoặc email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={styles.searchInput}
+              />
+            </div>
 
             {loading ? (
               <p>Đang tải...</p>
@@ -113,43 +131,47 @@ export default function CustomerList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {customers.length === 0 && (
+                  {filteredCustomers.length === 0 ? (
                     <tr>
                       <td colSpan={6} style={{ textAlign: "center" }}>
-                        Chưa có khách hàng nào.
+                        Không tìm thấy khách hàng.
                       </td>
                     </tr>
+                  ) : (
+                    filteredCustomers.map((cust, index) => (
+                      <tr key={cust._id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {cust.avatar ? (
+                            <img
+                              src={`http://localhost:5000${cust.avatar}`}
+                              alt={cust.name}
+                              className={styles.avatar}
+                            />
+                          ) : (
+                            "—"
+                          )}
+                        </td>
+                        <td>{cust.name || "—"}</td>
+                        <td>{cust.email || "—"}</td>
+                        <td>{cust.phone || "—"}</td>
+                        <td>
+                          <button
+                            onClick={() => openEditModal(cust)}
+                            className={styles.editBtn}
+                          >
+                            Sửa
+                          </button>
+                          <button
+                            onClick={() => handleDelete(cust._id)}
+                            className={styles.deleteBtn}
+                          >
+                            Xoá
+                          </button>
+                        </td>
+                      </tr>
+                    ))
                   )}
-
-                  {customers.map((cust, index) => (
-                    <tr key={cust._id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {cust.avatar ? (
-                          <img src={`http://localhost:5000${cust.avatar}`} alt={cust.name} className={styles.avatar} />
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-                      <td>{cust.name || "—"}</td>
-                      <td>{cust.email || "—"}</td>
-                      <td>{cust.phone || "—"}</td>
-                      <td>
-                        <button
-                          onClick={() => openEditModal(cust)}
-                          className={styles.editBtn}
-                        >
-                          Sửa
-                        </button>
-                        <button
-                          onClick={() => handleDelete(cust._id)}
-                          className={styles.deleteBtn}
-                        >
-                          Xoá
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
                 </tbody>
               </table>
             )}
@@ -189,7 +211,6 @@ export default function CustomerList() {
                       value={formData.phone}
                       onChange={handleChange}
                     />
-
 
                     <div className={styles.modalActions}>
                       <button type="submit" className={styles.saveBtn}>

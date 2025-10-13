@@ -214,3 +214,21 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Error updating product", error: error.message });
   }
 };
+
+export const searchProducts = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword || keyword.trim() === "") {
+      return res.json([]); 
+    }
+
+    const products = await Product.find({
+      name: { $regex: keyword, $options: "i" } // tìm gần đúng, không phân biệt hoa thường
+    }).limit(8); // giới hạn 8 sản phẩm gợi ý
+
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Error searching products" });
+  }
+};

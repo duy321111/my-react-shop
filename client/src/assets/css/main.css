@@ -558,6 +558,64 @@
     border-radius: 2px;
 }
 
+.search-dropdown {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    cursor: pointer;
+    
+}
+
+
+.search-dropdown-info{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+}
+
+.search-dropdown-item img {
+    width: 60px;
+    height: 60px;
+    margin-left: 8px;
+    object-fit: cover;
+}
+
+.search-dropdown-name {
+    margin-left: 14px;
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 4px;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-dropdown-price {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.search-dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+
 .header__cart{
     text-align: center;
     width: 150px;

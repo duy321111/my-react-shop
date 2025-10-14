@@ -12,6 +12,8 @@ export default function Header() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
+    const token = localStorage.getItem("token");
+
   // --- Search API ---
   useEffect(() => {
     if (keyword.trim() === "") {
@@ -53,14 +55,18 @@ export default function Header() {
     fetchCart();
   }, []);
 
-  const handleRemove = async (productId) => {
+  const handleDelete = async (productId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${userId}/${productId}`);
-      setCartItems(cartItems.filter((item) => item.productId !== productId));
-    } catch (error) {
-      console.error("Lỗi xóa sản phẩm:", error);
+      const res = await axios.delete(
+        `http://localhost:5000/api/cart/${user._id}/${productId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setCartItems(res.data.items);
+    } catch (err) {
+      console.error("Lỗi xóa sản phẩm:", err);
     }
   };
+
 
   return (
     <div className="header-with-search">
@@ -136,7 +142,7 @@ export default function Header() {
                   <h4 className="header__cart-heading">Sản phẩm đã thêm</h4>
                   <ul className="header__cart-list-item">
                     {cartItems.map((item) => (
-                      <li key={item.productId} className="header__cart-item">
+                      <li key={item.productId._id} className="header__cart-item">
                         <img
                           src={`${process.env.PUBLIC_URL}/img/${item.image}`}
                           alt=""
@@ -154,7 +160,7 @@ export default function Header() {
                             </div>
                           </div>
                           <div className="header__cart-item-body">
-                            <span className="header__cart-item-remove" onClick={() => handleRemove(item.productId)}>Xoá</span>
+                            <span className="header__cart-item-remove" onClick={() => handleDelete(item.productId._id)}>Xoá</span>
                           </div>
                         </div>
                       </li>

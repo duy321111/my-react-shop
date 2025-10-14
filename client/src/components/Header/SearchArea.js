@@ -53,6 +53,8 @@ export default function Header() {
       }
     };
     fetchCart();
+    window.addEventListener("cartUpdated", fetchCart);  
+    return () => window.removeEventListener("cartUpdated", fetchCart);
   }, []);
 
   const handleDelete = async (productId) => {

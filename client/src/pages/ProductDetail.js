@@ -45,8 +45,8 @@ const ProductDetail = () => {
         image: product.image,
         quantity
       });
-
-      alert(" Đã thêm sản phẩm vào giỏ hàng!");
+      window.dispatchEvent(new Event("cartUpdated"));
+   
       console.log("Giỏ hàng sau khi thêm:", res.data);
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);

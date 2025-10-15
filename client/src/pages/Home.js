@@ -9,7 +9,7 @@ import Banner from "../components/Banner";
 const Home = () => {
   const [promoProducts, setPromoProducts] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
-
+  
   useEffect(() => {
    
     axios

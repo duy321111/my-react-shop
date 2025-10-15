@@ -85,6 +85,19 @@
     background-color: #f4f0f0f7;
 }
 
+.login-success {
+  color: #45a049;
+  padding: 10px;
+  font-size: 1.4rem;
+
+}
+
+.login-error {
+  color: rgb(255, 69, 69);
+  padding: 10px;
+  font-size: 1.4rem;
+}
+
 .header__navbar-user-menu{
     position: absolute;
     z-index: 1;

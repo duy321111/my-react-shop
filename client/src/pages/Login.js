@@ -8,6 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      alert("Đăng nhập thành công!");
+      setMessage("Đăng nhập thành công!");
       navigate("/"); 
     } catch (err) {
       alert(err.response?.data?.message || "Đăng nhập thất bại!");
@@ -61,6 +62,12 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
+
+                  {message && (
+                    <span className={message.includes("thành công") ? "login-success" : "login-error"}>
+                      {message}
+                    </span>
+                  )}
 
                   <div className="auth-form__control">
                     <Link to="/" className="btn btn--normal auth-form__control-back">

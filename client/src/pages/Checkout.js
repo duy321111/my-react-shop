@@ -21,7 +21,6 @@ const Checkout = () => {
         const res = await axios.get(`http://localhost:5000/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("User info:", res.data);
         setUserInfo(res.data);
 
         // Chọn địa chỉ mặc định hoặc địa chỉ đầu tiên
@@ -38,20 +37,30 @@ const Checkout = () => {
     if (token) fetchUserInfo();
   }, [token]);
 
-  // 2. Lấy danh sách sản phẩm đã chọn từ giỏ hàng
+  // 2. Lấy danh sách sản phẩm đã chọn
   useEffect(() => {
     const selected = JSON.parse(localStorage.getItem("selectedItems")) || [];
+
     const fetchCartItems = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/cart/${user._id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const filteredItems = res.data.items.filter((item) =>
-          selected.includes(item.productId._id)
-        );
-        setCartItems(filteredItems);
+        if (selected.length === 0) return;
+
+        // Trường hợp Buy Now: selectedItems là object chứa thông tin sản phẩm
+        if (typeof selected[0] === "object") {
+          setCartItems(selected);
+        }
+        // Trường hợp Cart: selectedItems là mảng productId
+        else if (typeof selected[0] === "string") {
+          const res = await axios.get(`http://localhost:5000/api/cart/${user._id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const filteredItems = res.data.items.filter((item) =>
+            selected.includes(item.productId._id)
+          );
+          setCartItems(filteredItems);
+        }
       } catch (err) {
-        console.error("Lỗi khi lấy sản phẩm giỏ hàng:", err);
+        console.error("Lỗi khi lấy sản phẩm checkout:", err);
       }
     };
 
@@ -73,13 +82,19 @@ const Checkout = () => {
   // 4. Gửi đơn hàng lên backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user?._id) {
+      alert("Bạn cần đăng nhập để đặt hàng!");
+      return;
+    }
+
     try {
       const selectedAddress = userInfo?.addresses?.[selectedAddressIndex] || null;
 
       const orderData = {
         userId: user._id,
         items: cartItems.map((item) => ({
-          productId: item.productId._id,
+          // Nếu Buy Now: item.productId là string, nếu Cart: item.productId._id
+          productId: item.productId?._id || item.productId,
           quantity: item.quantity,
           price: item.price,
           image: item.image
@@ -108,7 +123,7 @@ const Checkout = () => {
     }
   };
 
-  // Hàm hiển thị địa chỉ
+  // Hiển thị địa chỉ
   const renderAddress = () => {
     if (!userInfo?.addresses || userInfo.addresses.length === 0) {
       return <p>Chưa có địa chỉ</p>;
@@ -119,6 +134,7 @@ const Checkout = () => {
     );
   };
 
+  if (loading) return <p>Đang tải...</p>;
 
   return (
     <div className="app__container">
@@ -155,7 +171,6 @@ const Checkout = () => {
                             checked={selectedAddressIndex === index}
                             onChange={() => setSelectedAddressIndex(index)}
                           />
-                    
                         </label>
                       ))}
                       <div className="address-modal-actions">
@@ -173,7 +188,7 @@ const Checkout = () => {
             <h2>Sản phẩm</h2>
             <div className="cart-items">
               {cartItems.map((item) => (
-                <div key={item.productId._id} className="cart-item">
+                <div key={item.productId?._id || item.productId} className="cart-item">
                   <img
                     src={`${process.env.PUBLIC_URL}/img/${item.image}`}
                     alt={item.name}

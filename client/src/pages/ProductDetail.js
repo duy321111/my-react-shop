@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
@@ -10,8 +10,12 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
-  const [quantity, setQuantity] = useState(1); // số lượng chọn
+  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Lấy thông tin sản phẩm
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -28,15 +32,15 @@ const ProductDetail = () => {
 
   if (!product) return <p>Đang tải sản phẩm...</p>;
 
-  //  Hàm thêm vào giỏ hàng
+  // Thêm vào giỏ hàng
   const handleAddToCart = async () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (!user?._id) {
-        alert("Bạn cần đăng nhập trước khi thêm vào giỏ hàng!");
-        return;
-      }
+    if (!user?._id) {
+      alert("Bạn cần đăng nhập trước khi thêm vào giỏ hàng!");
+      navigate("/login");
+      return;
+    }
 
+    try {
       const res = await axios.post("http://localhost:5000/api/cart/add", {
         userId: user._id,
         productId: product._id,
@@ -46,7 +50,6 @@ const ProductDetail = () => {
         quantity
       });
       window.dispatchEvent(new Event("cartUpdated"));
-   
       console.log("Giỏ hàng sau khi thêm:", res.data);
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
@@ -54,6 +57,33 @@ const ProductDetail = () => {
     }
   };
 
+  // Mua ngay → chỉ lưu sản phẩm hiện tại, chuyển thẳng checkout
+  const handleBuyNow = () => {
+    if (!user?._id) {
+      alert("Bạn cần đăng nhập trước khi mua ngay!");
+      navigate("/login");
+      return;
+    }
+
+    if (quantity < 1) {
+      alert("Số lượng phải lớn hơn 0!");
+      return;
+    }
+
+    const selectedItem = [
+      {
+        productId: product._id,
+        name: product.name,
+        price: product.priceCurrent,
+        image: product.image,
+        quantity
+      }
+    ];
+
+    localStorage.setItem("selectedItems", JSON.stringify(selectedItem));
+
+    navigate("/checkout");
+  };
 
   return (
     <div className="app__container">
@@ -63,20 +93,28 @@ const ProductDetail = () => {
           {/* Cột ảnh */}
           <div className="grid__column-6">
             <div className="grid__row product-img">
-              <img src={mainImage} alt={product.name} className="product-detail__img" />
+              <img
+                src={mainImage}
+                alt={product.name}
+                className="product-detail__img"
+              />
             </div>
             <div className="grid__row img-preview">
               <img
                 src={`${process.env.PUBLIC_URL}/img/${product.image}`}
                 className="product-preview__img"
-                onClick={() => setMainImage(`${process.env.PUBLIC_URL}/img/${product.image}`)}
+                onClick={() =>
+                  setMainImage(`${process.env.PUBLIC_URL}/img/${product.image}`)
+                }
               />
               {product.images?.map((img, index) => (
                 <img
                   key={index}
                   src={`${process.env.PUBLIC_URL}/img/${img}`}
                   className="product-preview__img"
-                  onClick={() => setMainImage(`${process.env.PUBLIC_URL}/img/${img}`)}
+                  onClick={() =>
+                    setMainImage(`${process.env.PUBLIC_URL}/img/${img}`)
+                  }
                 />
               ))}
             </div>
@@ -96,7 +134,9 @@ const ProductDetail = () => {
               </div>
 
               <div className="brand-origin">
-                {product.brand && <p>Thương hiệu: {product.brand.name || product.brand}</p>}
+                {product.brand && (
+                  <p>Thương hiệu: {product.brand.name || product.brand}</p>
+                )}
                 {product.origin && <p>Xuất xứ: {product.origin}</p>}
               </div>
             </div>
@@ -112,14 +152,16 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/*  Chọn số lượng */}
+            {/* Chọn số lượng */}
             <div className="qnt-selector">
               <p>Chọn số lượng:</p>
               <QuantitySelector quantity={quantity} onChange={setQuantity} />
             </div>
 
             <div className="buy-btn">
-              <button className="buy-now">Mua ngay</button>
+              <button className="buy-now" onClick={handleBuyNow}>
+                Mua ngay
+              </button>
               <br />
               <button className="add-to-cart" onClick={handleAddToCart}>
                 Thêm vào giỏ hàng

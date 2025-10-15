@@ -8,7 +8,7 @@ import './assets/css/main.css';
 import './assets/css/base.css';
 
 
-
+localStorage.clear();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

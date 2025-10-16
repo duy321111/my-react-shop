@@ -48,7 +48,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="header__navbar">
+    <nav className="header__navbar hide-on-moblie-tablet">
       <ul className="header__navbar-list">
         <li className="header__navbar-item header__navbar-item-has-qr header__navbar-item--separate">
           Vào cửa hàng trên ứng dụng

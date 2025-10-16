@@ -2,7 +2,7 @@ import React from "react";
 
 const Filter = () => {
     return (
-    <div className="home-filter">
+    <div className="home-filter hide-on-moblie-tablet">
         <span className="home-filter__label">Sắp xếp theo</span>
         <button className="home-filter__btn btn">Phổ biến</button>
         <button className="home-filter__btn btn btn--primary">Mới nhất</button>

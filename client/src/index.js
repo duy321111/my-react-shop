@@ -4,8 +4,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import './assets/css/grid.css';
 import './assets/css/main.css';
 import './assets/css/base.css';
+import './assets/css/responsive.css';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

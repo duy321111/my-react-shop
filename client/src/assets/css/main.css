@@ -1290,8 +1290,12 @@ i.home-product-item__like-icon-fill{
     margin-left: 4px;
     font-size: 1rem;
     color: var(--text-color);
+    margin-right:3px
 }
 
+.home-product-sold-text{
+    color:var(--text-color);
+}
 .home-product-item__origin{
     display: flex;
     margin: 3px 10px 0;;

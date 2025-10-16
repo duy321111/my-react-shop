@@ -53,7 +53,11 @@ const ProductCard = ({ product }) => {
             ))}
           </div>
 
-          <span className="home-product-item__sold">{product.sold} đã bán</span>
+          <div className="home-product-item__sold--wrap">
+            <span className="home-product-item__sold">{product.sold}</span>
+            <span className="home-product-sold-text">đã bán</span>
+          </div>
+      
         </div>
 
         {/* Thương hiệu & xuất xứ */}

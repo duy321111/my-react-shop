@@ -73,7 +73,7 @@
     transform-origin: right;
     color: #D3D3D3;
     margin-top: -18px;
-    margin-right:-100px
+    margin-right:-150px;
     }
 
     .home-product-item__sold--wrap{
@@ -94,6 +94,23 @@
     margin-left: 30px;
     }
     
+    .product-detail__img {
+    margin-top: 20px;
+    height: 300px;
+    width: 300px;
+    border-radius: 0.75rem;
+    padding: 5px;
+    }
+
+    .product-preview__img {
+    width: 60px;
+    height: 60px;
+    margin-right: 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
 }
 

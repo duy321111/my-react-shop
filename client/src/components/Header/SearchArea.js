@@ -233,7 +233,7 @@ export default function Header() {
               alt="avatar"
               className="header__navbar-user-img"
             />
-           
+            <span className="header__navbar-user-name">{user.name.split(" ").slice(0, 2).join(" ")}</span>
             <ul className="header__navbar-user-menu">
               <li className="header__navbar-user-item">
                 <Link to="/profile">Tài khoản của tôi</Link>
@@ -245,13 +245,11 @@ export default function Header() {
                 <button onClick={handleLogout}>Đăng xuất</button>
               </li>
             </ul>
-          </li> 
+          </li>
         ) : (
           <>
-            <li className="header__navbar-item">
-              <Link to="/register">Đăng ký</Link>
-            </li>
-            <li className="header__navbar-item">
+            
+            <li className="header__navbar-item header__navbar-item--strong">
               <Link to="/login">Đăng nhập</Link>
             </li>
           </>

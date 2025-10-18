@@ -12,7 +12,50 @@ export default function Header() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?._id;
+    const token = localStorage.getItem("token");  
+    const [users, setUser] = useState(null);
+    const [form, setForm] = useState({
+      name: "",
+      avatar: "",
+      phone: "",
+      gender: "",
+      email: "",
+      province: "",
+      ward: "",
+      detail: ""
+    });
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get("http://localhost:5000/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((res) => {
+          setUser(res.data);
+          setForm({
+            name: res.data.name || "",
+            avatar: res.data.avatar || "",
+            phone: res.data.phone || "",
+            gender: res.data.gender || "",
+            email: res.data.email || "",
+            province: "",
+            ward: "",
+            detail: ""
+          });
+        })
+        .catch(() => setUser(null));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");  
+
+    setUser(null);
+     window.location.href = "/";
+  };
 
   // --- Search API ---
   useEffect(() => {
@@ -178,6 +221,43 @@ export default function Header() {
           )}
         </div>
       </div>
+
+
+{/* Thêm user vào đây */}
+      <div className="header__user hide-on-pc">
+        {user ? (
+          <li className="header__navbar-item header__navbar-user">
+            <img
+              src={`http://localhost:5000${form.avatar}` || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                
+              alt="avatar"
+              className="header__navbar-user-img"
+            />
+           
+            <ul className="header__navbar-user-menu">
+              <li className="header__navbar-user-item">
+                <Link to="/profile">Tài khoản của tôi</Link>
+              </li>
+              <li className="header__navbar-user-item">
+                <Link to="/orders">Đơn mua</Link>
+              </li>
+              <li className="header__navbar-user-item header__navbar-user-item--separate">
+                <button onClick={handleLogout}>Đăng xuất</button>
+              </li>
+            </ul>
+          </li> 
+        ) : (
+          <>
+            <li className="header__navbar-item">
+              <Link to="/register">Đăng ký</Link>
+            </li>
+            <li className="header__navbar-item">
+              <Link to="/login">Đăng nhập</Link>
+            </li>
+          </>
+        )}
+      </div>
+
     </div>
   );
 }

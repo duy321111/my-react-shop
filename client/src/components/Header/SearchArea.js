@@ -116,7 +116,7 @@ export default function Header() {
   return (
     <div className="header-with-search">
       {/* --- Logo --- */}
-      <div className="header__logo">
+      <div className="header__logo hide-on-mobile">
         <Link to="/" className="header__logo-link">
           <img src="/img/logo-removebg-preview.png" className="header__logo-img" alt="Logo" />
         </Link>

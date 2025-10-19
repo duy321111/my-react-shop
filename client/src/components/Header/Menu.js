@@ -13,7 +13,7 @@ export default function Menu() {
   ];
 
   return (
-    <div className="header__menu">
+    <div className="header__menu hide-on-mobile">
       <ul className="header__menu-list">
         {categories.map((cat) => (
           <li key={cat.name} className="header__menu-list-item">

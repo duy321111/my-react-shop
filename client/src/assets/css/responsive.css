@@ -176,7 +176,7 @@
   .header-with-search {
     display: flex;
     align-items: center;
-  }
+  }   
 
   .header__user {
     display: flex;
@@ -219,4 +219,12 @@
     padding-right: 5px;
     width: 50%;
 }
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 7px;
+    margin-right: -5px;
+}
+
 }

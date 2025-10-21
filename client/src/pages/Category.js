@@ -13,7 +13,8 @@ const CategoryPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("all"); 
   const [loading, setLoading] = useState(true);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 10;
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -55,7 +56,7 @@ const CategoryPage = () => {
             <div className="grid__column-10">
               <Filter />
               <ProductList products={products} />
-              <Pagnination />
+
             </div>
           </div>
         </div>

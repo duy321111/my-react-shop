@@ -17,7 +17,7 @@ const Home = () => {
       .then((res) => {
         const allProducts = res.data;
         setPromoProducts(allProducts.filter((p) => p.saleOff > 0));
-        setNewProducts(allProducts.slice(-30)); 
+        setNewProducts(allProducts.slice(-30).reverse()); 
       })
       .catch((err) => console.error("Lỗi tải sản phẩm:", err));
   }, []);

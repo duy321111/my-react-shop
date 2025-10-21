@@ -56,7 +56,7 @@ const CategoryPage = () => {
             <div className="grid__column-10">
               <Filter />
               <ProductList products={products} />
-
+              {/* <Pagnination /> */}
             </div>
           </div>
         </div>

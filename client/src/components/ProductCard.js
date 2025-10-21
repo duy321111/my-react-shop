@@ -21,13 +21,22 @@ const ProductCard = ({ product }) => {
 
         {/* Giá sản phẩm */}
         <div className="home-product-item__price">
-          <span className="home-product-item__price-old">
-            {product.priceOld?.toLocaleString()}₫
-          </span>
-          <span className="home-product-item__price-current">
-            {product.priceCurrent?.toLocaleString()}₫
-          </span>
+          {product.priceOld && product.priceOld !== product.priceCurrent ? (
+            <>
+              <span className="home-product-item__price-old">
+                {product.priceOld.toLocaleString()}₫
+              </span>
+              <span className="home-product-item__price-current">
+                {product.priceCurrent.toLocaleString()}₫
+              </span>
+            </>
+          ) : (
+            <span className="home-product-item__price-current">
+              {product.priceCurrent.toLocaleString()}₫
+            </span>
+          )}
         </div>
+
 
         {/* Hành động: yêu thích, sao, số lượng bán */}
         <div className="home-product-item__action">

@@ -27,24 +27,24 @@ const Filter = () => {
 
             </ul>
         </div>
+{/* 
+            <div className="home-filter__page">
+                <span className="home-filter__page-num">
+                    <span className="home-filter__page-current">1</span>/
+                    <span className="home-filter__page-max">1</span>
+                </span>
 
-        <div className="home-filter__page">
-            <span className="home-filter__page-num">
-                <span className="home-filter__page-current">1</span>/
-                <span className="home-filter__page-max">1</span>
-            </span>
+                <div className="home-filter__page-control">
+                    <a href="" className="home-filter__page-btn home-filter__page-btn--disabled">
+                        <i className="home-filter__page-icon fa-solid fa-angle-left"></i>
+                    </a>
 
-            <div className="home-filter__page-control">
-                <a href="" className="home-filter__page-btn home-filter__page-btn--disabled">
-                    <i className="home-filter__page-icon fa-solid fa-angle-left"></i>
-                </a>
+                        <a href="" className="home-filter__page-btn">
+                        <i className="home-filter__page-icon fa-solid fa-angle-right"></i>
+                    </a>
 
-                    <a href="" className="home-filter__page-btn">
-                    <i className="home-filter__page-icon fa-solid fa-angle-right"></i>
-                </a>
-
-            </div>
-        </div>
+                </div>
+            </div> */}
     </div>
     )
 }

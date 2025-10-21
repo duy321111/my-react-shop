@@ -125,13 +125,16 @@ const ProductDetail = () => {
             <div className="product-info">
               <h1>{product.name}</h1>
               <div className="price">
-                <p className="price-current">
-                  {product.priceCurrent?.toLocaleString()}₫
-                </p>
-                {product.priceOld && (
-                  <p className="price-old">{product.priceOld.toLocaleString()}₫</p>
+                {product.priceOld && product.priceOld !== product.priceCurrent ? (
+                  <>
+                    <p className="price-current">{product.priceCurrent?.toLocaleString()}₫</p>
+                    <p className="price-old">{product.priceOld?.toLocaleString()}₫</p>
+                  </>
+                ) : (
+                  <p className="price-current">{product.priceCurrent?.toLocaleString()}₫</p>
                 )}
               </div>
+
 
               <div className="brand-origin">
                 {product.brand && (

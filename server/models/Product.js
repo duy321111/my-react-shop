@@ -2,32 +2,33 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true }, 
-    brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand", required: true },  
+    name: { type: String, required: true },
+    brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand", required: true },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
 
-    origin: { type: String },               
-    description: { type: String },          
+    origin: { type: String },
+    description: { type: String },
 
-    image: { type: String, required: true }, 
-    images: [{ type: String }],              
+    image: { type: String, required: true },
+    images: [{ type: String }],
 
-    priceOld: { type: Number, required: true },      
-    priceCurrent: { type: Number, required: true },  
-    saleOff: { type: Number, default: 0 },           
+    priceOld: { type: Number, required: true },
+    priceCurrent: { type: Number, required: true },
+    saleOff: { type: Number, default: 0 },
 
-    rating: { type: Number, default: 0, min: 0, max: 5 }, 
-    sold: { type: Number, default: 0 },                  
-    quantityAvailable: { type: Number, default: 0 },     
+    rating: { type: Number, default: 0, min: 0, max: 5 },
+    sold: { type: Number, default: 0 },
+    quantityAvailable: { type: Number, default: 0 },
 
-    isFavorite: { type: Boolean, default: false },       
+    // Danh sách user thích sản phẩm
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 
-    promotions: [ { type: String } ],
+    promotions: [{ type: String }],
 
     specifications: [
       {
-        key: { type: String, required: true },   // Tên thông số (ví dụ: CPU, RAM,...)
-        value: { type: String, required: true }  // Giá trị tương ứng
+        key: { type: String, required: true },
+        value: { type: String, required: true }
       }
     ]
   },

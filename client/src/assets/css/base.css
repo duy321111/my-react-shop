@@ -226,6 +226,8 @@ p {
     text-decoration: none;
     display: block;
     padding: 6px 0;
+    background:none;
+    border:none;
 }
 
 .select-input-link:hover{

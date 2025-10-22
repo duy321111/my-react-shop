@@ -719,7 +719,7 @@
 .header__cart-item-head{
     display: flex;
     justify-content: space-between; 
-    width: 322px;
+    width: 200px;
 }
 
 .header__cart-item-name{

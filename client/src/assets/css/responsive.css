@@ -243,6 +243,8 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+
   /* Hàng trên: logo + cart + user */
 
 .grid__full-width .promotion-product-list{
@@ -333,6 +335,13 @@
     cursor: pointer;
     z-index: 2;
 }
+
+
+/* cart */
+.header__cart-list{
+    width:300px;
+}
+
 
 
 

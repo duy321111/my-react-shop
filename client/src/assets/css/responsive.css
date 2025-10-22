@@ -210,10 +210,15 @@
 /* mobile */
 
 @media (max-width: 739px){
-    .hide-on-mobile{
-        display: none;
-    }
     
+.hide-on-mobile{
+    display: none;
+}
+
+.hide-on-pc{
+    display:block !important;
+       
+    }
     .grid__column-2-4 {
     padding-left: 5px;
     padding-right: 5px;
@@ -227,4 +232,54 @@
     margin-right: -5px;
 }
 
+  .header-with-search {
+    flex-direction: column; /* Chuyển từ hàng ngang sang cột dọc */
+    align-items: stretch;
+    position: relative;
+  }
+
+  /* Hàng trên: logo + cart + user */
+
+
+  .header__logo {
+    margin-top:16px;
+    flex: 1;
+    text-align: left;
+    position: relative;
+  }
+
+  .header__logo-img {
+    height: 40px;
+  }
+
+  .header__cart{
+    position: absolute;
+    left: 240px;
+    bottom: 36px;
+  }
+
+  .header__user{
+    position: absolute;
+    left: 340px;
+    bottom: 14px;
+  }
+  .header__navbar-user-img{
+    width: 30px;
+    height: 30px;
+  }
+
+
+  .header__search-btn{
+    margin: 5px 2px;
+  }
+  /* Thanh tìm kiếm nằm riêng bên dưới */
+  .header__search {
+    order: 2;
+    width: 100%;
+    margin-top: -10px;
+  }
+    :root{
+        --navbar-height: 0px;
+        --header-height: 130px;
+    }
 }

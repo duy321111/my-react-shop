@@ -40,14 +40,14 @@ const ProductCard = ({ product }) => {
 
         {/* Hành động: yêu thích, sao, số lượng bán */}
         <div className="home-product-item__action">
-          <span
+          {/* <span
             className={`home-product-item__like ${
               product.isFavorite ? "home-product-item__like--liked" : ""
             }`}
           >
             <i className="home-product-item__like-icon-empty fa-regular fa-heart"></i>
             <i className="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-          </span>
+          </span> */}
 
           <div className="home-product-item__rating">
             {[...Array(5)].map((_, index) => (

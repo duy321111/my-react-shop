@@ -1283,7 +1283,9 @@ i.home-product-item__like-icon-fill{
     transform: scale(0.7);
     transform-origin: right;
     color:#D3D3D3;
-    margin-left: auto;
+    /* margin-left: auto; */
+    margin-left:-20px;
+    
 }
 
 .home-product-item__sold{

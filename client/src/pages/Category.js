@@ -5,27 +5,26 @@ import Header from "../components/Header/Header";
 import ProductList from "../components/ProductList";
 import Footer from "../components/Footer";
 import Filter from "../components/Filter";
-import Pagnination from "../components/Pagnination";
 import Category from "../components/Category";
 
 const CategoryPage = () => {
-  const { categoryName } = useParams(); // lấy từ URL /category/:categoryName
+  const { categoryName } = useParams();
   const [products, setProducts] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState("all"); 
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [sort, setSort] = useState("");
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const PRODUCTS_PER_PAGE = 10;
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        //  Tạo URL động dựa vào brand
         let url = `http://localhost:5000/api/products?category=${encodeURIComponent(categoryName)}`;
-
         if (selectedBrand && selectedBrand !== "all") {
           url += `&brand=${encodeURIComponent(selectedBrand)}`;
         }
-
+        if (sort) {
+          url += `&sort=${encodeURIComponent(sort)}`;
+        }
         const res = await axios.get(url);
         setProducts(res.data);
       } catch (err) {
@@ -36,9 +35,7 @@ const CategoryPage = () => {
     };
 
     if (categoryName) fetchProducts();
-  }, [categoryName, selectedBrand]); 
-
-
+  }, [categoryName, selectedBrand, sort]);
 
   return (
     <div className="app">
@@ -54,9 +51,12 @@ const CategoryPage = () => {
             </div>
 
             <div className="grid__column-10">
-              <Filter />
-              <ProductList products={products} />
-              {/* <Pagnination /> */}
+              <Filter onSortChange={(value) => setSort(value)} />
+              {loading ? (
+                <p>Đang tải sản phẩm...</p>
+              ) : (
+                <ProductList products={products} />
+              )}
             </div>
           </div>
         </div>

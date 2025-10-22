@@ -1,51 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Filter = () => {
-    return (
-    <div className="home-filter hide-on-moblie-tablet">
-        <span className="home-filter__label">Sắp xếp theo</span>
-        <button className="home-filter__btn btn">Phổ biến</button>
-        <button className="home-filter__btn btn btn--primary">Mới nhất</button>
-        <button className="home-filter__btn btn">Bán chạy</button>
+const Filter = ({ onSortChange }) => {
+  const [active, setActive] = useState("");
 
-        <div className="select-input">
-            <span className="select-input__label">Giá</span>
-            <i className="select-input__icon fa-solid fa-angle-down"></i>
-            <ul className="select-input__list">
-                <li className="select-input__item">
-                    <a href="" className="select-input-link">
-                        Giá: Thấp đến cao
-                        
-                    </a>
-                </li>
+  const handleSort = (type) => {
+    setActive(type);
+    onSortChange(type);
+  };
 
-                <li className="select-input__item">
-                    <a href="" className="select-input-link">
-                        Giá: Thấp đến cao
-                    </a>
-                </li>
+  return (
+    <div className="home-filter">
+      <span className="home-filter__label">Sắp xếp theo</span>
 
-            </ul>
-        </div>
-{/* 
-            <div className="home-filter__page">
-                <span className="home-filter__page-num">
-                    <span className="home-filter__page-current">1</span>/
-                    <span className="home-filter__page-max">1</span>
-                </span>
+      <button
+        className={`home-filter__btn btn ${active === "popular" ? "btn--primary" : ""}`}
+        onClick={() => handleSort("popular")}
+      >
+        Phổ biến
+      </button>
+      <button
+        className={`home-filter__btn btn ${active === "newest" ? "btn--primary" : ""}`}
+        onClick={() => handleSort("newest")}
+      >
+        Mới nhất
+      </button>
 
-                <div className="home-filter__page-control">
-                    <a href="" className="home-filter__page-btn home-filter__page-btn--disabled">
-                        <i className="home-filter__page-icon fa-solid fa-angle-left"></i>
-                    </a>
-
-                        <a href="" className="home-filter__page-btn">
-                        <i className="home-filter__page-icon fa-solid fa-angle-right"></i>
-                    </a>
-
-                </div>
-            </div> */}
+      <div className="select-input">
+        <span className="select-input__label">Giá</span>
+        <i className="select-input__icon fa-solid fa-angle-down"></i>
+        <ul className="select-input__list">
+          <li className="select-input-item">
+            <button
+              className="select-input-link"
+              onClick={() => handleSort("priceAsc")}
+            >
+              Giá: Thấp đến cao
+            </button>
+          </li>
+          <li className="select-input-item">
+            <button
+              className="select-input-link"
+              onClick={() => handleSort("priceDesc")}
+            >
+              Giá: Cao đến thấp
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-    )
-}
+  );
+};
+
 export default Filter;

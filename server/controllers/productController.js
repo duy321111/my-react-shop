@@ -5,42 +5,64 @@ import Brand from "../models/Brand.js";
 
 // Lấy tất cả sản phẩm, filter theo category/brand
 export const getProducts = async (req, res) => {
-    const { category: categoryName, brand: brandId } = req.query;
+  const { category: categoryName, brand: brandId, sort } = req.query;
 
-    try {
+  try {
     let filter = {};
 
-    //  Lọc theo category name (frontend gửi tên category)
+    // Lọc theo category name (frontend gửi tên category)
     if (categoryName) {
-        const category = await Category.findOne({
+      const category = await Category.findOne({
         name: new RegExp(`^${categoryName}$`, "i"),
-        });
-        if (!category)
+      });
+      if (!category)
         return res.status(404).json({ message: "Category not found" });
-        filter.category = category._id;
+      filter.category = category._id;
     }
 
     // Lọc theo brand _id nếu không phải "all"
     if (brandId && brandId !== "all") {
-        if (!mongoose.Types.ObjectId.isValid(brandId)) {
+      if (!mongoose.Types.ObjectId.isValid(brandId)) {
         return res.status(400).json({ message: "Invalid brand ID" });
-        }
+      }
 
-        const brand = await Brand.findById(brandId);
-        if (!brand) return res.status(404).json({ message: "Brand not found" });
+      const brand = await Brand.findById(brandId);
+      if (!brand) return res.status(404).json({ message: "Brand not found" });
 
-        filter.brand = brand._id;
+      filter.brand = brand._id;
+    }
+
+    // Xử lý sort
+    let sortOption = {};
+    switch (sort) {
+      case "popular":
+        sortOption = { sold: -1 }; // Giảm dần theo sold
+        break;
+      case "newest":
+        sortOption = { createdAt: -1 }; // Giảm dần theo ngày tạo
+        break;
+      case "priceAsc":
+        sortOption = { priceCurrent: 1 }; // Giá tăng dần
+        break;
+      case "priceDesc":
+        sortOption = { priceCurrent: -1 }; // Giá giảm dần
+        break;
+      default:
+        sortOption = {}; // Không sort
     }
 
     const products = await Product.find(filter)
-        .populate("brand", "name")
-        .populate("category", "name");
+      .populate("brand", "name")
+      .populate("category", "name")
+      .sort(sortOption);
 
     res.json(products);
-    } catch (err) {
+  } catch (err) {
+    console.error("Error in getProducts:", err);
     res.status(500).json({ message: err.message });
-    }
+  }
 };
+
 
 
 

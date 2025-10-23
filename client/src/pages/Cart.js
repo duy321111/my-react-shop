@@ -153,8 +153,8 @@ const Cart = () => {
                   />
                   <p>{item.name}</p>
                 </td>
-                <td>{item.price.toLocaleString()}đ</td>
-                <td>
+                <td><p className="hide-on-pc-tablet">Đơn giá: </p>{item.price.toLocaleString()}đ</td>
+                <td><p className="hide-on-pc-tablet">Số lượng:</p>
                   <QuantitySelector
                     quantity={item.quantity}
                     onChange={(newQuantity) =>
@@ -162,7 +162,7 @@ const Cart = () => {
                     }
                   />
                 </td>
-                <td>{(item.price * item.quantity).toLocaleString()}đ</td>
+                <td><p className="hide-on-pc-tablet">Tổng tiền: </p>{(item.price * item.quantity).toLocaleString()}đ</td>
                 <td>
                   <button
                     className="btn-delete"

@@ -462,4 +462,28 @@
     align-items: center;
     justify-content: flex-end;
 }
+
+  .checkout-container {
+    width: 380px;
+    padding: 20px;
+    background-color: var(--white-color);
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .place-order-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 120px;
+    margin-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    justify-content: end;
+    margin-left: 0;
 }
+} 

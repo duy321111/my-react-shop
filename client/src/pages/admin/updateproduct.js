@@ -25,11 +25,13 @@ const UpdateProduct = () => {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [mainImage, setMainImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [previewMain, setPreviewMain] = useState(null);
+
   const [extraImages, setExtraImages] = useState([]);
+  const [previewExtras, setPreviewExtras] = useState([]);
+
   const [specifications, setSpecifications] = useState([{ key: "", value: "" }]);
 
-  // Load brands, categories và thông tin sản phẩm
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,8 +40,10 @@ const UpdateProduct = () => {
           axios.get("http://localhost:5000/api/categories"),
           axios.get(`http://localhost:5000/api/products/${id}`),
         ]);
+
         setBrands(brandsRes.data);
         setCategories(categoriesRes.data);
+
         const product = productRes.data;
         setFormData({
           name: product.name,
@@ -53,7 +57,11 @@ const UpdateProduct = () => {
           quantityAvailable: product.quantityAvailable || "",
           promotions: product.promotions?.join(",") || "",
         });
-        setPreview(product.image ? `/uploads/${product.image}` : null);
+
+        // Load ảnh chính & phụ từ thư mục public/img
+        setPreviewMain(product.image ? `${process.env.PUBLIC_URL}/img/${product.image}` : null);
+        setPreviewExtras(product.images?.map((img) => `${process.env.PUBLIC_URL}/img/${img}`) || []);
+
         setSpecifications(product.specifications?.length > 0 ? product.specifications : [{ key: "", value: "" }]);
       } catch (err) {
         console.error(err);
@@ -89,14 +97,26 @@ const UpdateProduct = () => {
     const file = e.target.files[0];
     if (file) {
       setMainImage(file);
-      setPreview(URL.createObjectURL(file));
+      setPreviewMain(URL.createObjectURL(file));
     }
   };
-  const handleExtraImagesChange = (e) => setExtraImages(Array.from(e.target.files));
+
+  const handleExtraImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setExtraImages(files);
+    setPreviewExtras(files.map((f) => URL.createObjectURL(f)));
+  };
+
+  // Xóa tạm thời ảnh phụ trong preview (không ảnh hưởng DB ngay)
+  const removeExtraPreview = (index) => {
+    setPreviewExtras((prev) => prev.filter((_, i) => i !== index));
+    setExtraImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+
     for (const key in formData) {
       if (key === "promotions") {
         const promoArr = formData.promotions ? formData.promotions.split(",").map((p) => p.trim()) : [];
@@ -105,6 +125,7 @@ const UpdateProduct = () => {
         data.append(key, formData[key]);
       }
     }
+
     if (mainImage) data.append("image", mainImage);
     extraImages.forEach((img) => data.append("images", img));
     data.append("specifications", JSON.stringify(specifications));
@@ -114,7 +135,7 @@ const UpdateProduct = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Cập nhật sản phẩm thành công!");
-      navigate("/admin/products"); // quay về danh sách
+      navigate("/admin/products");
     } catch (err) {
       console.error(err);
       alert("Cập nhật thất bại!");
@@ -130,96 +151,114 @@ const UpdateProduct = () => {
           <div className={styles.addProductContainer}>
             <h2 className={styles.title}>Sửa sản phẩm</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
-              {/* Các input giống AddProduct */}
-                <div className={styles.formGroup}>
-                    <label>Tên sản phẩm</label>
-                    <input name="name" value={formData.name} onChange={handleChange} required />
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Thương hiệu</label>
-                    <select name="brand" value={formData.brand} onChange={handleChange} required>
-                    <option value="">-- Chọn thương hiệu --</option>
-                    {brands.map((b) => <option key={b._id} value={b._id}>{b.name}</option>)}
-                    </select>
-                </div>
-                <div className={styles.formGroup}>
-                    <label>Danh mục</label>
-                    <select name="category" value={formData.category} onChange={handleChange} required>
-                    <option value="">-- Chọn danh mục --</option>
-                    {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
-                    </select>
-                </div>
+              
+              {/* Các input thông tin */}
+              <div className={styles.formGroup}>
+                <label>Tên sản phẩm</label>
+                <input name="name" value={formData.name} onChange={handleChange} required />
+              </div>
 
-                <div className={styles.formGroup}>
-                    <label>Xuất xứ</label>
-                    <input name="origin" value={formData.origin} onChange={handleChange} />
-                </div>
+              <div className={styles.formGroup}>
+                <label>Thương hiệu</label>
+                <select name="brand" value={formData.brand} onChange={handleChange} required>
+                  <option value="">-- Chọn thương hiệu --</option>
+                  {brands.map((b) => (
+                    <option key={b._id} value={b._id}>{b.name}</option>
+                  ))}
+                </select>
+              </div>
 
-                <div className={styles.formGroup}>
-                    <label>Mô tả</label>
-                    <textarea name="description" value={formData.description} onChange={handleChange} />
-                </div>
+              <div className={styles.formGroup}>
+                <label>Danh mục</label>
+                <select name="category" value={formData.category} onChange={handleChange} required>
+                  <option value="">-- Chọn danh mục --</option>
+                  {categories.map((c) => (
+                    <option key={c._id} value={c._id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
 
-                <div className={styles.row}>
-                    <div className={styles.formGroup}>
-                    <label>Giá gốc</label>
-                    <input type="number" name="priceOld" value={formData.priceOld} onChange={handleChange} required />
+              <div className={styles.formGroup}>
+                <label>Xuất xứ</label>
+                <input name="origin" value={formData.origin} onChange={handleChange} />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Mô tả</label>
+                <textarea name="description" value={formData.description} onChange={handleChange} />
+              </div>
+
+              <div className={styles.row}>
+                <div className={styles.formGroup}>
+                  <label>Giá gốc</label>
+                  <input type="number" name="priceOld" value={formData.priceOld} onChange={handleChange} required />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Giảm giá (%)</label>
+                  <input type="number" name="saleOff" value={formData.saleOff} onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Giá hiện tại</label>
+                  <input type="number" name="priceCurrent" value={formData.priceCurrent} readOnly />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Số lượng tồn</label>
+                <input type="number" name="quantityAvailable" value={formData.quantityAvailable} onChange={handleChange} />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Khuyến mãi (phân cách bằng dấu ,)</label>
+                <input name="promotions" value={formData.promotions} onChange={handleChange} />
+              </div>
+
+              {/* Ảnh chính */}
+              <div className={styles.formGroup}>
+                <label>Ảnh chính</label>
+                <input type="file" accept="image/*" onChange={handleMainImageChange} />
+                {previewMain && (
+                  <img src={previewMain} alt="Preview" className={styles.preview} />
+                )}
+              </div>
+
+              {/* Ảnh phụ */}
+              <div className={styles.formGroup}>
+                <label>Ảnh phụ (có thể chọn nhiều)</label>
+                <input type="file" accept="image/*" multiple onChange={handleExtraImagesChange} />
+                <div className={styles.extraPreviewContainer}>
+                  {previewExtras.map((img, index) => (
+                    <div key={index} className={styles.extraPreviewItem}>
+                      <img src={img} alt={`Extra ${index}`} className={styles.previewExtra} />
+                      <button type="button" onClick={() => removeExtraPreview(index)}>X</button>
                     </div>
-
-                    <div className={styles.formGroup}>
-                    <label>Giảm giá (%)</label>
-                    <input type="number" name="saleOff" value={formData.saleOff} onChange={handleChange} />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                    <label>Giá hiện tại</label>
-                    <input type="number" name="priceCurrent" value={formData.priceCurrent} readOnly />
-                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className={styles.formGroup}>
-                    <label>Số lượng tồn</label>
-                    <input type="number" name="quantityAvailable" value={formData.quantityAvailable} onChange={handleChange} />
-                </div>
+              {/* Thông số kỹ thuật */}
+              <div className={styles.formGroup}>
+                <label>Thông số kỹ thuật</label>
+                {specifications.map((spec, index) => (
+                  <div key={index} className={styles.specRow}>
+                    <input
+                      placeholder="Tên thông số (VD: CPU)"
+                      value={spec.key}
+                      onChange={(e) => handleSpecChange(index, "key", e.target.value)}
+                      required
+                    />
+                    <input
+                      placeholder="Giá trị (VD: Intel i7)"
+                      value={spec.value}
+                      onChange={(e) => handleSpecChange(index, "value", e.target.value)}
+                      required
+                    />
+                    <button type="button" onClick={() => removeSpecification(index)}>X</button>
+                  </div>
+                ))}
+                <button type="button" onClick={addSpecification}>+ Thêm thông số</button>
+              </div>
 
-                <div className={styles.formGroup}>
-                    <label>Khuyến mãi (phân cách bằng dấu ,)</label>
-                    <input name="promotions" value={formData.promotions} onChange={handleChange} />
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label>Ảnh chính</label>
-                    <input type="file" accept="image/*" onChange={handleMainImageChange} />
-                    {preview && <img src={preview} alt="Preview" className={styles.preview} />}
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label>Ảnh phụ (có thể chọn nhiều)</label>
-                    <input type="file" accept="image/*" multiple onChange={handleExtraImagesChange} />
-                </div>
-
-                {/*Thông số kỹ thuật */}
-                <div className={styles.formGroup}>
-                    <label>Thông số kỹ thuật</label>
-                    {specifications.map((spec, index) => (
-                    <div key={index} className={styles.specRow}>
-                        <input
-                        placeholder="Tên thông số (VD: CPU)"
-                        value={spec.key}
-                        onChange={(e) => handleSpecChange(index, "key", e.target.value)}
-                        required
-                        />
-                        <input
-                        placeholder="Giá trị (VD: Intel i7)"
-                        value={spec.value}
-                        onChange={(e) => handleSpecChange(index, "value", e.target.value)}
-                        required
-                        />
-                        <button type="button" onClick={() => removeSpecification(index)}>X</button>
-                    </div>
-                    ))}
-                    <button type="button" onClick={addSpecification}>+ Thêm thông số</button>
-                </div>
               <button type="submit" className={styles.submitBtn}>Cập nhật sản phẩm</button>
             </form>
           </div>

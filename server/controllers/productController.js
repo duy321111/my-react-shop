@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import Brand from "../models/Brand.js";
+import fs from "fs";
+import path from "path";
 
 // Lấy tất cả sản phẩm, filter theo category/brand
 export const getProducts = async (req, res) => {

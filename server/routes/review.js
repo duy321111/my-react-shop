@@ -1,23 +1,10 @@
 import express from "express";
-import {
-  getAllSliders,
-  createSlider,
-  updateSlider,
-  deleteSlider
-} from "../controllers/sliderController.js";
+import { getReviewsByProduct,createReview } from "../controllers/reviewController.js";
 
 const router = express.Router();
 
-// Lấy tất cả slider
-router.get("/", getAllSliders);
-
-// Thêm slider
-router.post("/", createSlider);
-
-// Cập nhật slider theo id
-router.put("/:id", updateSlider);
-
-// Xóa slider theo id
-router.delete("/:id", deleteSlider);
+// Lấy danh sách review theo productId
+router.get("/product/:productId", getReviewsByProduct);
+router.post("/", createReview);
 
 export default router;

@@ -43,20 +43,22 @@ const CategoryPage = () => {
       <div className="app__container">
         <div className="grid">
           <div className="grid__row app__content">
-            <div className="grid__column-2">
-              <Category
-                categoryName={categoryName}
-                onSelectBrand={(brandId) => setSelectedBrand(brandId)}
-              />
-            </div>
-
-            <div className="grid__column-10">
-              <Filter onSortChange={(value) => setSort(value)} />
-              {loading ? (
-                <p>Đang tải sản phẩm...</p>
-              ) : (
-                <ProductList products={products} />
-              )}
+            <div className="category_row">
+              <div className="grid__column-2">
+                <Category
+                  categoryName={categoryName}
+                  onSelectBrand={(brandId) => setSelectedBrand(brandId)}
+                />
+              </div>
+              
+              <div className="grid__column-10">
+                <Filter onSortChange={(value) => setSort(value)} />
+                {loading ? (
+                  <p>Đang tải sản phẩm...</p>
+                ) : (
+                  <ProductList products={products} />
+                )}
+              </div>
             </div>
           </div>
         </div>

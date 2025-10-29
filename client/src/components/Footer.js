@@ -73,13 +73,13 @@ const Footer = () => {
           <div className="grid__column-2-4">
             <h3 className="footer__heading">Vào cửa hàng trên ứng dụng</h3>
             <div className="footer__download">
-              <img src="img/qr_code.png" alt="Download QR" className="footer__download-qr" />
+              <img src={`${process.env.PUBLIC_URL}/img/qr_code.png`} alt="Download QR" className="footer__download-qr" />
               <div className="footer__download-apps">
                 <a href="#" className="footer__download-app-link">
-                  <img src="img/Google-Play-Logo.png" alt="Google Play" className="footer__download-app-icon-img" />
+                  <img src={`${process.env.PUBLIC_URL}/img/Google-Play-Logo.png`} alt="Google Play" className="footer__download-app-icon-img" />
                 </a>
                 <a href="#" className="footer__download-app-link">
-                  <img src="img/appstore.png" alt="App Store" className="footer__download-app-icon-img" />
+                  <img src={`${process.env.PUBLIC_URL}/img/appstore.png`}  alt="App Store" className="footer__download-app-icon-img" />
                 </a>
               </div>
             </div>

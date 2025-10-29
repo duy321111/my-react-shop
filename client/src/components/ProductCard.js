@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
 
+  if (!product) return null; // tránh crash khi product null
   const imageUrl = product.images?.[0] || product.image;
 
   return (
@@ -77,13 +78,13 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        {/* Yêu thích */}
+        {/* Yêu thích
         {product.isFavorite && (
           <div className="home-product-item__favourite">
             <i className="fa-solid fa-check"></i>
             <span>Yêu thích</span>
           </div>
-        )}
+        )} */}
 
         {/* Sale-off */}
         {product.saleOff > 0 && (

@@ -13,8 +13,9 @@ export default function Menu() {
   ];
 
   return (
-    <div className="header__menu hide-on-mobile">
-      <ul className="header__menu-list">
+    
+    <div className="header__menu ">
+      <ul className="header__menu-list hide-on-mobile">
         {categories.map((cat) => (
           <li key={cat.name} className="header__menu-list-item">
           
@@ -30,5 +31,6 @@ export default function Menu() {
       </ul>
     </div>
   );
+  
 }
 // 

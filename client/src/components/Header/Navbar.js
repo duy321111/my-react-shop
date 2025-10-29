@@ -85,7 +85,7 @@ export default function Navbar() {
       </ul>
 
       <ul className="header__navbar-list">
-        <li className="header__navbar-item header__navbar-item-has-notify">
+        {/* <li className="header__navbar-item header__navbar-item-has-notify">
           <a href="" className="header__navbar-item-link">
             <i className="header__navbar-icon fa-regular fa-bell"></i>
             Thông báo
@@ -111,7 +111,7 @@ export default function Navbar() {
               <a href="" className="header__notify-footer-btn">Xem tất cả</a>
             </footer>
           </div>
-        </li>
+        </li> */}
 
         <li className="header__navbar-item">
           <a href="" className="header__navbar-item-link">

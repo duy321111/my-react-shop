@@ -1816,11 +1816,13 @@ i.home-product-item__like-icon-fill{
     font-size: 4rem;
     font-weight: bold;
     color: #ff9800;
+    
 }
 
 .rating-average .stars {
     font-size: 2rem;
     color: #ff9800;
+    margin-top: 10px;
 }
 
 .rating-distribution {
@@ -1902,7 +1904,9 @@ i.home-product-item__like-icon-fill{
     color: #ff9800;
     font-size: 2rem;
 }
+.review-date{
 
+}
 .review-section {
     margin-top: 20px;
     padding: 20px;

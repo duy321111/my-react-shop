@@ -91,18 +91,48 @@ const Register = () => {
                           <button type ="submit" className="btn btn--primary">ĐĂNG KÝ</button>
                         </div>
                     </form>
-                  </div>
-
-                  <div className="auth-form__social">
+                    
+                  <div className="auth-form__social hide-on-mobile">
                     <a href="/" className="auth-form__social--facebook btn btn--size-s btn--with-icon">
-                      <i className="auth-form__social-icon fa-brands fa-square-facebook"></i>
+                      <img 
+                        src="/img/icons8-facebook-48.png" 
+                        alt="Facebook" 
+                        className="auth-form__social-icon"
+                      />
                       <span className="auth-form__social--title">Kết nối với Facebook</span>
                     </a>
                     <a href="/" className="auth-form__social--google btn btn--size-s btn--with-icon">
-                      <i className="auth-form__social-icon fa-brands fa-google"></i>
+                      <img 
+                        src="/img/icons8-google-48.png" 
+                        alt="Google" 
+                        className="auth-form__social-icon"
+                      />
                       <span className="auth-form__social--title">Kết nối với Google</span>
                     </a>
                   </div>
+
+                  <div className="auth-form__social hide-on-pc-tablet">
+                    <a href="/" className="auth-form__social--facebook btn btn--size-s btn--with-icon">
+                      <img 
+                        src="/img/icons8-facebook-48.png" 
+                        alt="Facebook" 
+                        className="auth-form__social-icon"
+                      />
+                      <span className="auth-form__social--title">Kết nối với Facebook</span>
+                    </a>
+
+                    <a href="/" className="auth-form__social--google btn btn--size-s btn--with-icon">
+                      <img 
+                        src="/img/icons8-google-48.png" 
+                        alt="Google" 
+                        className="auth-form__social-icon"
+                      />
+                      <span className="auth-form__social--title">Kết nối với Google</span>
+                    </a>
+                  </div>
+
+                  </div>
+         
                 </div>
               </div>
             </div>

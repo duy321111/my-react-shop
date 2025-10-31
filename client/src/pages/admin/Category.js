@@ -42,7 +42,7 @@ export default function CategoryList() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc muốn xoá category này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/category/${id}`);
+      await axios.delete(`http://localhost:5000/api/categories/${id}`);
       setCategories(categories.filter((c) => c._id !== id));
     } catch (err) {
       console.error("Lỗi khi xoá category:", err);
@@ -55,7 +55,7 @@ export default function CategoryList() {
       name: category.name,
       image: category.image || "",
       description: category.description || "",
-      brands: category.brands || [],
+      brands: category.brands?.map((b) => b._id) || [],
       parentCategory: category.parentCategory || "",
     });
   };
@@ -73,14 +73,21 @@ export default function CategoryList() {
     const selectedOptions = Array.from(e.target.selectedOptions).map(
       (option) => option.value
     );
-    setFormData({ ...formData, brands: selectedOptions });
+    setFormData({ ...formData, brands: [...new Set([...formData.brands, ...selectedOptions])] });
+  };
+
+  const removeBrand = (brandId) => {
+    setFormData({
+      ...formData,
+      brands: formData.brands.filter((id) => id !== brandId),
+    });
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:5000/api/category/update/${editingCategory._id}`,
+        `http://localhost:5000/api/categories/update/${editingCategory._id}`,
         formData
       );
       alert("Cập nhật category thành công!");
@@ -90,6 +97,11 @@ export default function CategoryList() {
       console.error("Lỗi khi cập nhật category:", err);
       alert("Có lỗi xảy ra khi cập nhật!");
     }
+  };
+
+  const getBrandName = (id) => {
+    const b = brands.find((brand) => brand._id === id);
+    return b ? b.name : "Không xác định";
   };
 
   return (
@@ -194,10 +206,29 @@ export default function CategoryList() {
                       onChange={handleChange}
                     ></textarea>
 
-                    <label>Brands</label>
+                    <label>Brands hiện tại</label>
+                    <div className={styles.selectedBrands}>
+                      {formData.brands.length > 0 ? (
+                        formData.brands.map((id) => (
+                          <span key={id} className={styles.brandTag}>
+                            {getBrandName(id)}
+                            <button
+                              type="button"
+                              className={styles.removeBtn}
+                              onClick={() => removeBrand(id)}
+                            >
+                              ×
+                            </button>
+                          </span>
+                        ))
+                      ) : (
+                        <p className={styles.noBrand}>Chưa có brand nào</p>
+                      )}
+                    </div>
+
+                    <label>Thêm brands</label>
                     <select
                       multiple
-                      value={formData.brands}
                       onChange={handleBrandSelect}
                       className={styles.brandSelect}
                     >
@@ -217,7 +248,6 @@ export default function CategoryList() {
                         className={styles.cancelBtn}
                         onClick={closeEditModal}
                       >
-                        
                         Hủy
                       </button>
                     </div>
@@ -229,5 +259,5 @@ export default function CategoryList() {
         </div>
       </div>
     </div>
-  );  
+  );
 }

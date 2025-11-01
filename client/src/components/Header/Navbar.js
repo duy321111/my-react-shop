@@ -3,18 +3,21 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [user, setUser] = useState(null);
+  // Lấy user từ localStorage ngay khi component khởi tạo
+  const cachedUser = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(cachedUser || null);
   const [form, setForm] = useState({
-    name: "",
-    avatar: "",
-    phone: "",
-    gender: "",
-    email: "",
+    name: cachedUser?.name || "",
+    avatar: cachedUser?.avatar || "",
+    phone: cachedUser?.phone || "",
+    gender: cachedUser?.gender || "",
+    email: cachedUser?.email || "",
     province: "",
     ward: "",
     detail: ""
   });
 
+  // useEffect gọi API để cập nhật dữ liệu mới nhất
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -23,28 +26,32 @@ export default function Navbar() {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then((res) => {
-          setUser(res.data);
-          setForm({
-            name: res.data.name || "",
-            avatar: res.data.avatar || "",
-            phone: res.data.phone || "",
-            gender: res.data.gender || "",
-            email: res.data.email || "",
-            province: "",
-            ward: "",
-            detail: ""
-          });
+          const data = res.data;
+          setUser(data);
+          localStorage.setItem("user", JSON.stringify(data)); // update cache
+          
+          // Chỉ setForm nếu dữ liệu khác để tránh render thừa
+          setForm(prev => ({
+            ...prev,
+            name: data.name || prev.name,
+            avatar: data.avatar || prev.avatar,
+            phone: data.phone || prev.phone,
+            gender: data.gender || prev.gender,
+            email: data.email || prev.email
+          }));
         })
-        .catch(() => setUser(null));
+        .catch(() => {
+          setUser(null);
+          localStorage.removeItem("user");
+        });
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");  
-
     setUser(null);
-     window.location.href = "/";
+    window.location.href = "/";
   };
 
   return (
@@ -85,34 +92,6 @@ export default function Navbar() {
       </ul>
 
       <ul className="header__navbar-list">
-        {/* <li className="header__navbar-item header__navbar-item-has-notify">
-          <a href="" className="header__navbar-item-link">
-            <i className="header__navbar-icon fa-regular fa-bell"></i>
-            Thông báo
-          </a>
-          <div className="header__notify">
-            <header className="header__notify-header">
-              <h3>Thông báo mới nhận</h3>
-            </header>
-            <ul className="header__notify-list">
-              <li className="header__notify-item header__notify-item--viewed">
-                <a href="" className="header__notify-link">
-                  <img src="/img/deal.jpg" alt="" className="header__notify-img" />
-                  <div className="header__notify-info">
-                    <span className="header__notify-name">Nhanh lên kẻo lỡ trend!</span>
-                    <span className="header__notify-description">
-                      Sắm ngay quần áo abcxyz
-                    </span>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            <footer className="header__notify-footer">
-              <a href="" className="header__notify-footer-btn">Xem tất cả</a>
-            </footer>
-          </div>
-        </li> */}
-
         <li className="header__navbar-item">
           <a href="" className="header__navbar-item-link">
             <i className="header__navbar-icon fa-regular fa-circle-question"></i>
@@ -120,16 +99,16 @@ export default function Navbar() {
           </a>
         </li>
 
-        {/* Nếu có user thì hiện avatar + tên, ngược lại thì hiện login/register */}
         {user ? (
           <li className="header__navbar-item header__navbar-user">
             <img
-              src={`http://localhost:5000${form.avatar}` || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
-                
+              src={form.avatar ? `http://localhost:5000${form.avatar}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
               alt="avatar"
               className="header__navbar-user-img"
             />
-            <span className="header__navbar-user-name">{user.name.split(" ").slice(0, 2).join(" ")}</span>
+            <span className="header__navbar-user-name">
+              {user.name ? user.name.split(" ").slice(0, 2).join(" ") : "Người dùng"}
+            </span>
             <ul className="header__navbar-user-menu">
               <li className="header__navbar-user-item">
                 <Link to="/profile">Tài khoản của tôi</Link>
@@ -145,7 +124,7 @@ export default function Navbar() {
         ) : (
           <>
             <li className="header__navbar-item header__navbar-item--strong header__navbar-item--separate">
-                <Link to="/register">Đăng ký</Link>
+              <Link to="/register">Đăng ký</Link>
             </li>
             
             <li className="header__navbar-item header__navbar-item--strong">

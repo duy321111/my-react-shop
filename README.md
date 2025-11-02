@@ -87,15 +87,62 @@ npm start
 
 > Dưới đây là một số hình ảnh minh họa giao diện ứng dụng:
 
+### 👤 **Giao diện người dùng (Customer)**
+
 - 🏠 **Trang chủ:**  
-  ![Home Page Screenshot](./demo/home.png)
+  ![Home Page Screenshot](./demo/customer/home.png)
 
-- 🛒 **Trang giỏ hàng:**  
-  ![Cart Page Screenshot](./demo/cart.png)
+- 🛒 **Giỏ hàng:**  
+  ![Cart Page Screenshot](./demo/customer/cart.png)
 
-- ⚙️ **Dashboard quản trị:**  
-  ![Admin Dashboard Screenshot](./demo/admin.png)
+- 🛍️ **Danh mục sản phẩm:**  
+  ![Category Page Screenshot](./demo/customer/category.png)
+
+- ✅ **Thanh toán:**  
+  ![Checkout Page Screenshot](./demo/customer/checkout.png)
+
+- 🔐 **Đăng nhập:**  
+  ![Login Page Screenshot](./demo/customer/login.png)
+
+- 📦 **Đơn hàng:**  
+  ![Order Page Screenshot](./demo/customer/order.png)
+
+- 📄 **Chi tiết đơn hàng:**  
+  ![Order Detail Screenshot](./demo/customer/orderdetail.png)
+
+- 🛒 **Chi tiết sản phẩm:**  
+  ![Product Detail Screenshot](./demo/customer/productdetail.png)
+
+- 👤 **Hồ sơ người dùng:**  
+  ![Profile Page Screenshot](./demo/customer/profile.png)
+
+- 📝 **Đăng ký:**  
+  ![Register Page Screenshot](./demo/customer/register.png)
+
 ---
+
+### ⚙️ **Giao diện quản trị (Admin)**
+
+- 📊 **Dashboard quản trị:**  
+  ![Admin Dashboard Screenshot](./demo/admin/dashboard.png)
+
+- 🏷️ **Danh sách thương hiệu:**  
+  ![Brand List Screenshot](./demo/admin/brand_list.png)
+
+- 📂 **Danh sách danh mục:**  
+  ![Category List Screenshot](./demo/admin/category_list.png)
+
+- 👥 **Danh sách khách hàng:**  
+  ![Customer List Screenshot](./demo/admin/customer_list.png)
+
+- 📑 **Danh sách đơn hàng:**  
+  ![Order List Screenshot](./demo/admin/order_list.png)
+
+- 📦 **Danh sách sản phẩm:**  
+  ![Product List Screenshot](./demo/admin/product_list.png)
+
+- 🖼️ **Danh sách slider:**  
+  ![Slider List Screenshot](./demo/admin/slider_list.png)
 
 ## 📂 Cấu trúc thư mục
 
@@ -134,4 +181,5 @@ my-react-shop/
 > 👤 **Nguyễn Trung Duy**  
 > 📧 Email: duy321111@gmail.com  
 > 🌐 GitHub: [duy321111](https://github.com/duy321111)
+
 

@@ -76,8 +76,8 @@ npm start
 
 | Vai trò | Email | Mật khẩu |
 |----------|--------|----------|
-| **Admin** | admin@example.com | 123456 |
-| **Khách hàng** | user@example.com | 123456 |
+| **Admin** | duy@example.com | 123 |
+| **Khách hàng** | duy123@gmail.com | 123 |
 
 >  Dữ liệu demo được khởi tạo sẵn trong cơ sở dữ liệu để có thể trải nghiệm các chức năng chính như: đăng nhập, đặt hàng, xem sản phẩm, chỉnh sửa hồ sơ, v.v.
 
@@ -134,3 +134,4 @@ my-react-shop/
 > 👤 **Nguyễn Trung Duy**  
 > 📧 Email: duy321111@gmail.com  
 > 🌐 GitHub: [duy321111](https://github.com/duy321111)
+

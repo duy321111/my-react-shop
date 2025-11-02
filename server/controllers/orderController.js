@@ -68,3 +68,50 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: "Lỗi khi cập nhật trạng thái đơn hàng" });
   }
 };
+
+export const getOrderStats = async (req, res) => {
+  try {
+    // Tổng số đơn hàng
+    const totalOrders = await Order.countDocuments();
+
+    // Tổng doanh thu
+    const totalRevenueAgg = await Order.aggregate([
+      { $group: { _id: null, total: { $sum: "$totalAmount" } } },
+    ]);
+    const totalRevenue = totalRevenueAgg[0]?.total || 0;
+
+    // Số khách hàng
+    const totalCustomersAgg = await Order.aggregate([
+      { $group: { _id: "$userId" } },
+      { $count: "total" },
+    ]);
+    const totalCustomers = totalCustomersAgg[0]?.total || 0;
+
+    // Đơn hàng đang xử lý
+    const pendingOrders = await Order.countDocuments({ status: "Đang xử lý" });
+
+    // Doanh thu theo tháng (6 tháng gần nhất)
+    const monthlyRevenueAgg = await Order.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          revenue: { $sum: "$totalAmount" },
+        },
+      },
+      { $sort: { "_id": 1 } },
+    ]);
+
+    const monthlyRevenue = monthlyRevenueAgg.map((item) => ({
+      month: `Tháng ${item._id}`,
+      revenue: item.revenue,
+    }));
+
+    res.json({
+      overview: { totalOrders, totalRevenue, totalCustomers, pendingOrders },
+      monthlyRevenue,
+    });
+  } catch (err) {
+    console.error("Lỗi khi lấy dữ liệu thống kê:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

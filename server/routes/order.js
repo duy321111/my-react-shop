@@ -1,5 +1,5 @@
 import express from "express";
-import { createOrder, getOrdersByUser, getOrderDetail, getAllOrders, updateOrderStatus} from "../controllers/orderController.js";
+import { createOrder, getOrdersByUser, getOrderDetail, getAllOrders, updateOrderStatus, getOrderStats} from "../controllers/orderController.js";
 
 const router = express.Router();
 
@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", createOrder);
 
 router.get("/all", getAllOrders);
-
+router.get("/stats", getOrderStats);
 // GET: Lấy đơn hàng theo userId
 router.get("/:userId", getOrdersByUser);
 

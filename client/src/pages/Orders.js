@@ -3,14 +3,19 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import LoadingState from "../components/LoadingState";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        if (!user?._id || !token) return;
+        if (!user?._id || !token) {
+            setLoading(false);
+            return;
+        }
 
         const fetchOrders = async () => {
             try {
@@ -24,11 +29,15 @@ const Orders = () => {
             } catch (error) {
                 console.error("Fetch orders failed:", error);
                 setOrders([]);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchOrders();
     }, [user?._id, token]);
+
+    if (loading) return <LoadingState label="Đang tải danh sách đơn hàng..." />;
 
     return (
         <div className="app__container">

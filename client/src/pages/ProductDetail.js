@@ -5,6 +5,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
 import Tabs from "../components/Tab/Tab";
+import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
 
 const ProductDetail = () => {
@@ -33,7 +34,7 @@ const ProductDetail = () => {
         fetchProduct();
     }, [id]);
 
-    if (!product) return <p>Đang tải sản phẩm...</p>;
+    if (!product) return <LoadingState label="Đang tải sản phẩm..." />;
 
     // Thêm vào giỏ hàng
     const handleAddToCart = async () => {

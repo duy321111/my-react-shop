@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Reviews from "./Reviews";
+import LoadingState from "../LoadingState";
 
 const TabContent = ({ activeTab, productId }) => {
   const [product, setProduct] = useState(null);
@@ -21,7 +22,7 @@ const TabContent = ({ activeTab, productId }) => {
     if (productId) fetchProduct();
   }, [productId]);
 
-  if (loading) return <div>Đang tải dữ liệu sản phẩm...</div>;
+  if (loading) return <LoadingState label="Đang tải dữ liệu sản phẩm..." compact />;
   if (!product) return <div>Không tìm thấy sản phẩm</div>;
 
   const contents = [

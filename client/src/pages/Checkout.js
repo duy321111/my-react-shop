@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
 
 const Checkout = () => {
@@ -144,7 +145,7 @@ const Checkout = () => {
         );
     };
 
-    if (loading) return <p>Đang tải...</p>;
+    if (loading) return <LoadingState label="Đang tải thông tin thanh toán..." />;
 
     return (
         <div className="app__container">

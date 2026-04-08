@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import LoadingState from "../components/LoadingState";
 
 const OrderDetail = () => {
     const { orderId } = useParams(); // lấy id đơn hàng từ URL /orders/:orderId
@@ -31,7 +33,11 @@ const OrderDetail = () => {
                 setOrder(res.data);
             } catch (err) {
                 console.error("Lỗi khi tải chi tiết đơn hàng:", err);
-                setError("Không thể tải chi tiết đơn hàng");
+                if (err.response?.status === 403) {
+                    setError("Bạn không có quyền xem đơn hàng này");
+                } else {
+                    setError("Không thể tải chi tiết đơn hàng");
+                }
             } finally {
                 setLoading(false);
             }
@@ -39,8 +45,32 @@ const OrderDetail = () => {
         fetchOrderDetail();
     }, [orderId, token]);
 
-    if (loading) return <div>Đang tải chi tiết đơn hàng...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <LoadingState label="Đang tải chi tiết đơn hàng..." />;
+    if (error)
+        return (
+            <div className="app__container">
+                <Header />
+                <div className="grid">
+                    <div className="grid__row">
+                        <div className="order-detail-container order-detail-container--empty">
+                            <div className="order-detail-empty__icon">
+                                <i className="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h2>Thông báo</h2>
+                            <p className="order-detail-empty__message">
+                                {error}
+                            </p>
+                            <div className="order-detail-empty__actions">
+                                <Link to="/orders" className="order-detail-empty__btn">
+                                    Về danh sách đơn hàng
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
     if (!order) return <div>Không tìm thấy đơn hàng</div>;
 
     const fullAddress = [

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
 
 const Profile = () => {
@@ -221,7 +222,7 @@ const Profile = () => {
             });
     };
 
-    if (!user) return <p>Loading...</p>;
+    if (!user) return <LoadingState label="Đang tải hồ sơ..." />;
 
     return (
         <div className="app__container">

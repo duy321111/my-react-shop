@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingState from "./LoadingState";
 
 const Category = ({ categoryName, onSelectBrand }) => {
   const [brands, setBrands] = useState([]);
@@ -29,7 +30,7 @@ const Category = ({ categoryName, onSelectBrand }) => {
     if (onSelectBrand) onSelectBrand(brandId);
   };
 
-  if (loading) return <div>Loading brands...</div>;
+  if (loading) return <LoadingState label="Đang tải thương hiệu..." compact />;
 
   return (
     <nav className="category">

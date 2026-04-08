@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
+import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
 
 const Cart = () => {
@@ -101,7 +102,7 @@ const Cart = () => {
         window.location.href = "/checkout";
     };
 
-    if (loading) return <p>Đang tải giỏ hàng...</p>;
+    if (loading) return <LoadingState label="Đang tải giỏ hàng..." />;
 
     return (
         <div className="app__container">

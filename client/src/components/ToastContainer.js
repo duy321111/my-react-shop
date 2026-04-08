@@ -3,19 +3,19 @@ import { notificationService } from "../services/notificationService";
 
 const TOAST_META = {
     success: {
-        title: "Success",
+        title: "Thành công",
         iconClass: "fa-regular fa-circle-check",
     },
     info: {
-        title: "Info",
+        title: "Thông tin",
         iconClass: "fa-solid fa-circle-info",
     },
     warning: {
-        title: "Warning",
+        title: "Chú ý",
         iconClass: "fa-regular fa-circle-exclamation",
     },
     error: {
-        title: "Error",
+        title: "Lỗi",
         iconClass: "fa-regular fa-circle-xmark",
     },
 };

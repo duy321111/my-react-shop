@@ -7,12 +7,13 @@ import {
   changePassword,
 } from "../controllers/authController.js";
 import { verifyToken } from "../middleware/verifyToken.js"
+import { loginProtection } from "../middleware/loginProtection.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
 router.post("/register", register);
-router.post("/login", login);
+router.post("/login", loginProtection, login);
 router.get("/me", verifyToken, getMe);
 router.put("/update", verifyToken, upload.single("avatar"), updateProfile);
 router.put("/change-password", verifyToken, changePassword);

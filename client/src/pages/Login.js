@@ -60,7 +60,7 @@ const Login = () => {
                                         <input
                                             type="text"
                                             className="auth-form_input"
-                                            placeholder="Email của bạn"
+                                            placeholder="Tên đăng nhập"
                                             value={email}
                                             onChange={(e) =>
                                                 setEmail(e.target.value)

@@ -9,64 +9,82 @@ import Category from "../components/Category";
 import LoadingState from "../components/LoadingState";
 
 const CategoryPage = () => {
-  const { categoryName } = useParams();
-  const [products, setProducts] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState("all");
-  const [sort, setSort] = useState("");
-  const [loading, setLoading] = useState(true);
+    const { categoryName } = useParams();
+    const [products, setProducts] = useState([]);
+    const [selectedBrand, setSelectedBrand] = useState("all");
+    const [sort, setSort] = useState("");
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        let url = `http://localhost:5000/api/products?category=${encodeURIComponent(categoryName)}`;
-        if (selectedBrand && selectedBrand !== "all") {
-          url += `&brand=${encodeURIComponent(selectedBrand)}`;
-        }
-        if (sort) {
-          url += `&sort=${encodeURIComponent(sort)}`;
-        }
-        const res = await axios.get(url);
-        setProducts(res.data);
-      } catch (err) {
-        console.error("Lỗi khi load sản phẩm:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const baseUrl = "http://localhost:5000/api/products";
+                const params = new URLSearchParams();
 
-    if (categoryName) fetchProducts();
-  }, [categoryName, selectedBrand, sort]);
+                if (categoryName) {
+                    params.set("category", categoryName);
+                }
 
-  return (
-    <div className="app">
-      <Header />
-      <div className="app__container">
-        <div className="grid">
-          <div className="grid__row app__content">
-            <div className="category_row">
-              <div className="grid__column-2">
-                <Category
-                  categoryName={categoryName}
-                  onSelectBrand={(brandId) => setSelectedBrand(brandId)}
-                />
-              </div>
-              
-              <div className="grid__column-10">
-                <Filter onSortChange={(value) => setSort(value)} />
-                {loading ? (
-                  <LoadingState label="Đang tải sản phẩm..." compact />
-                ) : (
-                  <ProductList products={products} />
-                )}
-              </div>
+                if (selectedBrand && selectedBrand !== "all") {
+                    params.set("brand", selectedBrand);
+                }
+
+                if (sort) {
+                    params.set("sort", sort);
+                }
+
+                const url = params.toString()
+                    ? `${baseUrl}?${params.toString()}`
+                    : baseUrl;
+                const res = await axios.get(url);
+                setProducts(res.data);
+            } catch (err) {
+                console.error("Lỗi khi load sản phẩm:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, [categoryName, selectedBrand, sort]);
+
+    return (
+        <div className="app">
+            <Header />
+            <div className="app__container">
+                <div className="grid">
+                    <div className="grid__row app__content">
+                        <div className="category_row">
+                            <div className="grid__column-2">
+                                <Category
+                                    categoryName={categoryName}
+                                    onSelectBrand={(brandId) =>
+                                        setSelectedBrand(brandId)
+                                    }
+                                />
+                            </div>
+
+                            <div className="grid__column-10">
+                                <Filter
+                                    onSortChange={(value) => setSort(value)}
+                                />
+                                {loading ? (
+                                    <LoadingState
+                                        label="Đang tải sản phẩm..."
+                                        compact
+                                    />
+                                ) : (
+                                    <ProductList products={products} />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <Footer />
         </div>
-      </div>
-      <Footer />
-    </div>
-  );
+    );
 };
 
 export default CategoryPage;

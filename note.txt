@@ -1,8 +1,0 @@
-1. Cài nodemon để auto restart khi sửa code: npm i nodemon -D // -D là viết tắt của --save-dev, 
-    cài đặt như một dependency chỉ dùng trong quá trình phát triển, 
-    không cần thiết khi deploy lên production. Sau khi cài xong, thêm script vào package.json:
-    "scripts": {
-      "start": "node index.js",
-      "dev": "nodemon index.js"
-    }
-2. 

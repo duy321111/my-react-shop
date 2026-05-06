@@ -9,27 +9,23 @@ import reviewRoutes from "./routes/review.js";
 import categoryRoutes from "./routes/category.js";
 import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/order.js";
-import adminRoutes from "./routes/admin.js"
+import adminRoutes from "./routes/admin.js";
 import brandRoutes from "./routes/brand.js";
 import userRoutes from "./routes/user.js";
 import sliderRoutes from "./routes/slider.js";
-
 
 dotenv.config();
 const app = express();
 
 // Middleware
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "*",
-  })
+    cors({
+        origin: process.env.CLIENT_URL || "*",
+    }),
 );
 app.use(express.json());
 
 app.use("/uploads", express.static("uploads"));
-
-
-
 
 // Routes
 app.use("/auth", authRoutes);
@@ -45,9 +41,10 @@ app.use("/api/user", userRoutes);
 app.use("/api/slider", sliderRoutes);
 
 // Connect DB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("DB connected"))
-  .catch(err => console.error(err));
+mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => console.log("DB connected"))
+    .catch((err) => console.error(err));
 
 // Start server
 const port = process.env.PORT || 5000;

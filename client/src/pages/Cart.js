@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import QuantitySelector from "../components/QuantitySelector";
 import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -26,7 +27,7 @@ const Cart = () => {
         const fetchCart = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:5000/api/cart/${user._id}`,
+                    `${API_URL}/api/cart/${user._id}`,
                     { headers: { Authorization: `Bearer ${token}` } },
                 );
                 setCartItems(res.data.items || []);
@@ -43,7 +44,7 @@ const Cart = () => {
     const handleQuantityChange = async (productId, newQuantity) => {
         try {
             await axios.put(
-                `http://localhost:5000/api/cart/${user._id}/${productId}`,
+                `${API_URL}/api/cart/${user._id}/${productId}`,
                 { productId, quantity: newQuantity, userId: user._id },
                 { headers: { Authorization: `Bearer ${token}` } },
             );
@@ -63,7 +64,7 @@ const Cart = () => {
     const handleDelete = async (productId) => {
         try {
             const res = await axios.delete(
-                `http://localhost:5000/api/cart/${user._id}/${productId}`,
+                `${API_URL}/api/cart/${user._id}/${productId}`,
                 { headers: { Authorization: `Bearer ${token}` } },
             );
             setCartItems(res.data.items);

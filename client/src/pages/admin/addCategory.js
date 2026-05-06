@@ -4,6 +4,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/addcategory.module.css";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 // Component chọn nhiều brand kiểu tag/chip
 const BrandSelector = ({ brands, selectedBrands, setSelectedBrands }) => {
@@ -68,7 +69,7 @@ const AddCategory = () => {
 
     const fetchBrands = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/brand");
+            const res = await axios.get(`${API_URL}/api/brand`);
             setBrands(res.data);
         } catch (err) {
             console.error(err);
@@ -77,7 +78,7 @@ const AddCategory = () => {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/categories");
+            const res = await axios.get(`${API_URL}/api/categories`);
             setCategories(res.data);
         } catch (err) {
             console.error(err);
@@ -92,7 +93,7 @@ const AddCategory = () => {
         }
 
         try {
-            await axios.post("http://localhost:5000/api/categories", {
+            await axios.post(`${API_URL}/api/categories`, {
                 name,
                 description,
                 image,

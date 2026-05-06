@@ -4,6 +4,7 @@ import styles from "../../assets/css/admin/admin.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function AdminList() {
     const [admins, setAdmins] = useState([]);
@@ -30,7 +31,7 @@ export default function AdminList() {
         setLoading(true);
         try {
             const adminToken = localStorage.getItem("adminToken");
-            const res = await axios.get("http://localhost:5000/api/admin", {
+            const res = await axios.get(`${API_URL}/api/admin`, {
                 headers: adminToken
                     ? { Authorization: `Bearer ${adminToken}` }
                     : undefined,
@@ -84,7 +85,7 @@ export default function AdminList() {
         }
         try {
             const adminToken = localStorage.getItem("adminToken");
-            await axios.post("http://localhost:5000/api/admin", formData, {
+            await axios.post(`${API_URL}/api/admin`, formData, {
                 headers: adminToken
                     ? { Authorization: `Bearer ${adminToken}` }
                     : undefined,
@@ -107,7 +108,7 @@ export default function AdminList() {
             const adminToken = localStorage.getItem("adminToken");
             // gửi cả password (nếu rỗng backend nên giữ password cũ)
             await axios.put(
-                `http://localhost:5000/api/admin/update/${editingAdmin._id}`,
+                `${API_URL}/api/admin/update/${editingAdmin._id}`,
                 formData,
                 {
                     headers: adminToken
@@ -130,7 +131,7 @@ export default function AdminList() {
         if (!window.confirm("Bạn có chắc muốn xoá nhân viên này?")) return;
         try {
             const adminToken = localStorage.getItem("adminToken");
-            await axios.delete(`http://localhost:5000/api/admin/${id}`, {
+            await axios.delete(`${API_URL}/api/admin/${id}`, {
                 headers: adminToken
                     ? { Authorization: `Bearer ${adminToken}` }
                     : undefined,

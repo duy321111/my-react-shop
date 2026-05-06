@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const Checkout = () => {
     const [userInfo, setUserInfo] = useState(null);
@@ -20,7 +21,7 @@ const Checkout = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/auth/me`, {
+                const res = await axios.get(`${API_URL}/auth/me`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserInfo(res.data);
@@ -59,7 +60,7 @@ const Checkout = () => {
                 // Trường hợp Cart: selectedItems là mảng productId
                 else if (typeof selected[0] === "string") {
                     const res = await axios.get(
-                        `http://localhost:5000/api/cart/${user._id}`,
+                        `${API_URL}/api/cart/${user._id}`,
                         {
                             headers: { Authorization: `Bearer ${token}` },
                         },
@@ -121,7 +122,7 @@ const Checkout = () => {
                     : null,
             };
 
-            await axios.post("http://localhost:5000/api/orders", orderData, {
+            await axios.post(`${API_URL}/api/orders`, orderData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

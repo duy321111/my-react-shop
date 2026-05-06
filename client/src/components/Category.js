@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingState from "./LoadingState";
+import API_URL from "../config";
 
 const Category = ({ categoryName, onSelectBrand }) => {
     const [brands, setBrands] = useState([]);
@@ -13,8 +14,8 @@ const Category = ({ categoryName, onSelectBrand }) => {
             setLoading(true);
             try {
                 const url = categoryName
-                    ? `http://localhost:5000/api/categories/${encodeURIComponent(categoryName)}/brands`
-                    : "http://localhost:5000/api/brands";
+                    ? `${API_URL}/api/categories/${encodeURIComponent(categoryName)}/brands`
+                    : `${API_URL}/api/brands`;
                 const res = await axios.get(url);
                 setBrands(res.data);
             } catch (err) {

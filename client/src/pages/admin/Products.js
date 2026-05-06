@@ -5,6 +5,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { Link } from "react-router-dom";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 export default function ProductList() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -35,7 +36,7 @@ export default function ProductList() {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/products");
+            const res = await axios.get(`${API_URL}/api/products`);
             setProducts(res.data);
         } catch (err) {
             console.error("Lỗi khi tải sản phẩm:", err);
@@ -45,12 +46,12 @@ export default function ProductList() {
     };
 
     const fetchCategories = async () => {
-        const res = await axios.get("http://localhost:5000/api/categories/");
+        const res = await axios.get(`${API_URL}/api/categories/`);
         setCategories(res.data);
     };
 
     const fetchBrands = async () => {
-        const res = await axios.get("http://localhost:5000/api/brand/");
+        const res = await axios.get(`${API_URL}/api/brand/`);
         setBrands(res.data);
     };
 
@@ -62,7 +63,7 @@ export default function ProductList() {
 
         try {
             await axios.delete(
-                `http://localhost:5000/api/products/${productId}`,
+                `${API_URL}/api/products/${productId}`,
             );
             // Cập nhật lại danh sách sản phẩm sau khi xoá
             setProducts(products.filter((p) => p._id !== productId));
@@ -77,7 +78,7 @@ export default function ProductList() {
         e.preventDefault();
         try {
             await axios.put(
-                `http://localhost:5000/api/products/${editProduct._id}`,
+                `${API_URL}/api/products/${editProduct._id}`,
                 editForm,
             );
             notificationService.success("Cập nhật sản phẩm thành công!");

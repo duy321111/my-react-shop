@@ -4,6 +4,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/addproduct.module.css";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 const AddProduct = () => {
     const [formData, setFormData] = useState({
@@ -32,8 +33,8 @@ const AddProduct = () => {
     useEffect(() => {
         const fetchData = async () => {
             const [brandsRes, categoriesRes] = await Promise.all([
-                axios.get("http://localhost:5000/api/brand"),
-                axios.get("http://localhost:5000/api/categories"),
+                axios.get(`${API_URL}/api/brand`),
+                axios.get(`${API_URL}/api/categories`),
             ]);
             setBrands(brandsRes.data);
             setCategories(categoriesRes.data);
@@ -120,7 +121,7 @@ const AddProduct = () => {
         data.append("specifications", JSON.stringify(specifications));
 
         try {
-            await axios.post("http://localhost:5000/api/products/add", data, {
+            await axios.post(`${API_URL}/api/products/add`, data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 

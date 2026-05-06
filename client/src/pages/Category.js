@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Filter from "../components/Filter";
 import Category from "../components/Category";
 import LoadingState from "../components/LoadingState";
+import API_URL from "../config";
 
 const CategoryPage = () => {
     const { categoryName } = useParams();
@@ -19,7 +20,7 @@ const CategoryPage = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const baseUrl = "http://localhost:5000/api/products";
+                const baseUrl = `${API_URL}/api/products`;
                 const params = new URLSearchParams();
 
                 if (categoryName) {

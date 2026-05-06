@@ -1,3 +1,4 @@
+import API_URL from "../../config";
   import React, { useEffect, useState } from "react";
   import axios from "axios";
   import styles from "../../assets/css/admin/orderlist.module.css";
@@ -18,7 +19,7 @@
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/orders/all");
+        const res = await axios.get(`${API_URL}/api/orders/all`);
         setOrders(res.data);
       } catch (err) {
         console.error("Lỗi khi tải danh sách hoá đơn:", err);
@@ -30,7 +31,7 @@
     // Cập nhật trạng thái đơn hàng
     const handleStatusChange = async (orderId, newStatus) => {
       try {
-        await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, {
+        await axios.put(`${API_URL}/api/orders/${orderId}/status`, {
           status: newStatus,
         });
         fetchOrders(); // reload danh sách sau khi cập nhật

@@ -4,6 +4,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/addbrand.module.css";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 const AddBrand = () => {
     const [name, setName] = useState("");
@@ -15,7 +16,7 @@ const AddBrand = () => {
 
     const fetchBrands = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/brand");
+            const res = await axios.get(`${API_URL}/api/brand`);
             setBrands(res.data);
         } catch (err) {
             console.error(err);
@@ -30,7 +31,7 @@ const AddBrand = () => {
         }
 
         try {
-            await axios.post("http://localhost:5000/api/brand/add", { name });
+            await axios.post(`${API_URL}/api/brand/add`, { name });
             notificationService.success("Thêm thương hiệu thành công!");
             setName("");
             fetchBrands();

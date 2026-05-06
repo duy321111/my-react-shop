@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../config";
 
 const Banner = () => {
   const [slides, setSlides] = useState([]);
@@ -8,12 +9,12 @@ const Banner = () => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/slider");
+        const res = await axios.get(`${API_URL}/api/slider`);
         const slidesWithFullUrl = res.data.slice(0, 5).map(slide => ({
           ...slide,
           image: slide.image.startsWith("http")
             ? slide.image
-            : `http://localhost:5000${slide.image}`,
+            : `${API_URL}${slide.image}`,
         }));
         setSlides(slidesWithFullUrl);
       } catch (err) {

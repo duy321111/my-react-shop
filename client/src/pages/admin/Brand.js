@@ -4,6 +4,7 @@ import styles from "../../assets/css/admin/brand.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function BrandList() {
     const [brands, setBrands] = useState([]);
@@ -20,7 +21,7 @@ export default function BrandList() {
 
     const fetchBrands = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/brand");
+            const res = await axios.get(`${API_URL}/api/brand`);
             setBrands(res.data);
         } catch (err) {
             console.error("Lỗi khi tải danh sách thương hiệu:", err);
@@ -30,7 +31,7 @@ export default function BrandList() {
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc muốn xoá thương hiệu này?")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/brand/${id}`);
+            await axios.delete(`${API_URL}/api/brand/${id}`);
             setBrands(brands.filter((b) => b._id !== id));
         } catch (err) {
             console.error("Lỗi khi xoá thương hiệu:", err);
@@ -59,7 +60,7 @@ export default function BrandList() {
         e.preventDefault();
         try {
             await axios.put(
-                `http://localhost:5000/api/brand/update/${editingBrand._id}`,
+                `${API_URL}/api/brand/update/${editingBrand._id}`,
                 formData,
             );
             notificationService.success("Cập nhật thương hiệu thành công!");

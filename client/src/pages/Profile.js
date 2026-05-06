@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const Profile = () => {
     const [activeTab, setActiveTab] = useState("profile");
@@ -39,7 +40,7 @@ const Profile = () => {
         const token = localStorage.getItem("token");
         if (token) {
             axios
-                .get("http://localhost:5000/auth/me", {
+                .get(`${API_URL}/auth/me`, {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then((res) => {
@@ -96,7 +97,7 @@ const Profile = () => {
 
         try {
             const res = await fetch(
-                `http://localhost:5000/upload/${user._id}`,
+                `${API_URL}/upload/${user._id}`,
                 {
                     method: "POST",
                     body: formData,
@@ -116,7 +117,7 @@ const Profile = () => {
 
         axios
             .put(
-                "http://localhost:5000/auth/update",
+                `${API_URL}/auth/update`,
                 {
                     name: form.name,
                     avatar: form.avatar,
@@ -151,7 +152,7 @@ const Profile = () => {
 
         axios
             .put(
-                "http://localhost:5000/auth/update",
+                `${API_URL}/auth/update`,
                 { addresses: newAddresses },
                 {
                     headers: {
@@ -177,7 +178,7 @@ const Profile = () => {
 
         axios
             .put(
-                "http://localhost:5000/auth/update",
+                `${API_URL}/auth/update`,
                 { addresses: updatedAddresses },
                 {
                     headers: {
@@ -199,7 +200,7 @@ const Profile = () => {
 
         axios
             .put(
-                "http://localhost:5000/auth/change-password",
+                `${API_URL}/auth/change-password`,
                 {
                     currentPassword: form.currentPassword,
                     newPassword: form.newPassword,
@@ -232,7 +233,7 @@ const Profile = () => {
                 <div className="sidebar">
                     <div className="avatar-box">
                         <img
-                            src={`http://localhost:5000${form.avatar}`}
+                            src={`${API_URL}${form.avatar}`}
                             alt="avatar"
                             className="avatar"
                         />

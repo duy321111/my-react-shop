@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ const Register = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:5000/auth/register",
+                `${API_URL}/auth/register`,
                 {
                     name,
                     email,

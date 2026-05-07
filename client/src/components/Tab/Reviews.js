@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 const Reviews = ({ productId, userId }) => {
     const [reviews, setReviews] = useState([]);
@@ -16,7 +17,7 @@ const Reviews = ({ productId, userId }) => {
     const fetchReviews = async () => {
         try {
             const res = await fetch(
-                `http://localhost:5000/api/reviews/product/${productId}`,
+                `${API_URL}/api/reviews/product/${productId}`,
                 {
                     cache: "no-store",
                 },
@@ -73,7 +74,7 @@ const Reviews = ({ productId, userId }) => {
 
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:5000/api/reviews", {
+            const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

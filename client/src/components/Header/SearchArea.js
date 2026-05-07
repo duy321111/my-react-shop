@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../../config";
 
 export default function Header() {
   const [keyword, setKeyword] = useState("");
@@ -40,7 +41,7 @@ export default function Header() {
   useEffect(() => {
     if (token) {
       axios
-        .get("http://localhost:5000/auth/me", {
+        .get(`${API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then((res) => {
@@ -76,7 +77,7 @@ export default function Header() {
 
     const delay = setTimeout(() => {
       axios
-        .get(`http://localhost:5000/api/products/search?keyword=${keyword}`)
+        .get(`${API_URL}/api/products/search?keyword=${keyword}`)
         .then((res) => {
           setSuggestions(res.data || []);
           setShowDrop(true);
@@ -99,7 +100,7 @@ export default function Header() {
     const fetchCart = async () => {
       if (!userId) return;
       try {
-        const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+        const res = await axios.get(`${API_URL}/api/cart/${userId}`);
         setCartItems(res.data?.items || []);
       } catch (err) {
         console.error("Lỗi lấy giỏ hàng:", err);
@@ -114,7 +115,7 @@ export default function Header() {
     if (!userId || !token) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/cart/${userId}/${productId}`,
+        `${API_URL}/api/cart/${userId}/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCartItems(res.data.items || []);
@@ -295,7 +296,7 @@ export default function Header() {
         {user ? (
           <li className="header__navbar-item header__navbar-user">
             <img
-              src={form.avatar ? `http://localhost:5000${form.avatar}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+              src={form.avatar ? `${API_URL}${form.avatar}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
               alt="avatar"
               className="header__navbar-user-img"
             />

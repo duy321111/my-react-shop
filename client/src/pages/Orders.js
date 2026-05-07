@@ -4,6 +4,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import LoadingState from "../components/LoadingState";
+import API_URL from "../config";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -20,7 +21,7 @@ const Orders = () => {
         const fetchOrders = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:5000/api/orders/${user._id}`,
+                    `${API_URL}/api/orders/${user._id}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     },

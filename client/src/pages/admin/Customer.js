@@ -4,6 +4,7 @@ import styles from "../../assets/css/admin/customer.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function CustomerList() {
     const [customers, setCustomers] = useState([]);
@@ -24,7 +25,7 @@ export default function CustomerList() {
     const fetchCustomers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/user");
+            const res = await axios.get(`${API_URL}/api/user`);
             setCustomers(res.data);
         } catch (err) {
             console.error("Lỗi khi tải danh sách khách hàng:", err);
@@ -38,7 +39,7 @@ export default function CustomerList() {
         if (!window.confirm("Bạn có chắc muốn xoá khách hàng này?")) return;
 
         try {
-            await axios.delete(`http://localhost:5000/api/user/${id}`);
+            await axios.delete(`${API_URL}/api/user/${id}`);
             setCustomers((prev) => prev.filter((c) => c._id !== id));
             notificationService.success("Xoá thành công!");
         } catch (err) {
@@ -72,7 +73,7 @@ export default function CustomerList() {
 
         try {
             await axios.put(
-                `http://localhost:5000/api/user/update/${editingCustomer._id}`,
+                `${API_URL}/api/user/update/${editingCustomer._id}`,
                 formData,
             );
             notificationService.success("Cập nhật khách hàng thành công!");
@@ -148,7 +149,7 @@ export default function CustomerList() {
                                                 <td>
                                                     {cust.avatar ? (
                                                         <img
-                                                            src={`http://localhost:5000${cust.avatar}`}
+                                                            src={`${API_URL}${cust.avatar}`}
                                                             alt={cust.name}
                                                             className={
                                                                 styles.avatar

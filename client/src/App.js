@@ -28,6 +28,7 @@ import AddCategory from "./pages/admin/addCategory";
 import Customer from "./pages/admin/Customer";
 import Slider from "./pages/admin/Slider";
 import Admin from "./pages/admin/admin";
+import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
 
 function App() {
     return (
@@ -50,22 +51,27 @@ function App() {
                 <Route path="/orders/:orderId" element={<OrderDetail />} />
 
                 {/* Admin */}
-                <Route path="/admin/dashboard" element={<Dashboard />} />
-                <Route path="/admin/products" element={<Products />} />
-                <Route path="/admin/orders" element={<OrdersAdmin />} />
                 <Route path="/admin/login" element={<LoginAdmin />} />
-                <Route path="/admin/brand" element={<BrandList />} />
-                <Route path="/admin/addproduct" element={<AddProduct />} />
-                <Route
-                    path="/admin/updateproduct/:id"
-                    element={<UpdateProduct />}
-                />
-                <Route path="/admin/addbrand" element={<AddBrand />} />
-                <Route path="/admin/category" element={<CategoryAdmin />} />
-                <Route path="/admin/addcategory" element={<AddCategory />} />
-                <Route path="/admin/customer" element={<Customer />} />
-                <Route path="/admin/slider" element={<Slider />} />
-                <Route path="/admin/adminlist" element={<Admin />}></Route>
+                <Route element={<ProtectedAdminRoute />}>
+                    <Route path="/admin/dashboard" element={<Dashboard />} />
+                    <Route path="/admin/products" element={<Products />} />
+                    <Route path="/admin/orders" element={<OrdersAdmin />} />
+                    <Route path="/admin/brand" element={<BrandList />} />
+                    <Route path="/admin/addproduct" element={<AddProduct />} />
+                    <Route
+                        path="/admin/updateproduct/:id"
+                        element={<UpdateProduct />}
+                    />
+                    <Route path="/admin/addbrand" element={<AddBrand />} />
+                    <Route path="/admin/category" element={<CategoryAdmin />} />
+                    <Route
+                        path="/admin/addcategory"
+                        element={<AddCategory />}
+                    />
+                    <Route path="/admin/customer" element={<Customer />} />
+                    <Route path="/admin/slider" element={<Slider />} />
+                    <Route path="/admin/adminlist" element={<Admin />} />
+                </Route>
             </Routes>
         </Router>
     );

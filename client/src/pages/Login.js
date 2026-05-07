@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/auth/login", {
+            const res = await axios.post(`${API_URL}/auth/login`, {
                 email,
                 password,
             });

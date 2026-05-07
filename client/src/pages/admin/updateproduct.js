@@ -5,6 +5,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/addproduct.module.css";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 const UpdateProduct = () => {
     const { id } = useParams();
@@ -40,9 +41,9 @@ const UpdateProduct = () => {
             try {
                 const [brandsRes, categoriesRes, productRes] =
                     await Promise.all([
-                        axios.get("http://localhost:5000/api/brand"),
-                        axios.get("http://localhost:5000/api/categories"),
-                        axios.get(`http://localhost:5000/api/products/${id}`),
+                        axios.get(`${API_URL}/api/brand`),
+                        axios.get(`${API_URL}/api/categories`),
+                        axios.get(`${API_URL}/api/products/${id}`),
                     ]);
 
                 setBrands(brandsRes.data);
@@ -157,7 +158,7 @@ const UpdateProduct = () => {
         data.append("specifications", JSON.stringify(specifications));
 
         try {
-            await axios.put(`http://localhost:5000/api/products/${id}`, data, {
+            await axios.put(`${API_URL}/api/products/${id}`, data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             notificationService.success("Cập nhật sản phẩm thành công!");

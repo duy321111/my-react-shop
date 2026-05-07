@@ -4,6 +4,7 @@ import styles from "../../assets/css/admin/admin.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function AdminList() {
     const [admins, setAdmins] = useState([]);
@@ -29,7 +30,12 @@ export default function AdminList() {
     const fetchAdmins = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/admin");
+            const adminToken = localStorage.getItem("adminToken");
+            const res = await axios.get(`${API_URL}/api/admin`, {
+                headers: adminToken
+                    ? { Authorization: `Bearer ${adminToken}` }
+                    : undefined,
+            });
             setAdmins(res.data);
         } catch (err) {
             console.error("Lỗi khi tải danh sách admin:", err);
@@ -78,7 +84,12 @@ export default function AdminList() {
             return;
         }
         try {
-            await axios.post("http://localhost:5000/api/admin", formData);
+            const adminToken = localStorage.getItem("adminToken");
+            await axios.post(`${API_URL}/api/admin`, formData, {
+                headers: adminToken
+                    ? { Authorization: `Bearer ${adminToken}` }
+                    : undefined,
+            });
             notificationService.success("Tạo tài khoản nhân viên thành công!");
             closeAddModal();
             fetchAdmins();
@@ -94,10 +105,16 @@ export default function AdminList() {
         e.preventDefault();
         if (!editingAdmin) return;
         try {
+            const adminToken = localStorage.getItem("adminToken");
             // gửi cả password (nếu rỗng backend nên giữ password cũ)
             await axios.put(
-                `http://localhost:5000/api/admin/update/${editingAdmin._id}`,
+                `${API_URL}/api/admin/update/${editingAdmin._id}`,
                 formData,
+                {
+                    headers: adminToken
+                        ? { Authorization: `Bearer ${adminToken}` }
+                        : undefined,
+                },
             );
             notificationService.success("Cập nhật thành công!");
             closeEditModal();
@@ -113,7 +130,12 @@ export default function AdminList() {
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc muốn xoá nhân viên này?")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/admin/${id}`);
+            const adminToken = localStorage.getItem("adminToken");
+            await axios.delete(`${API_URL}/api/admin/${id}`, {
+                headers: adminToken
+                    ? { Authorization: `Bearer ${adminToken}` }
+                    : undefined,
+            });
             setAdmins((prev) => prev.filter((a) => a._id !== id));
             notificationService.success("Xoá thành công!");
         } catch (err) {

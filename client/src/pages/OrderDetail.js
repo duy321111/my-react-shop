@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import LoadingState from "../components/LoadingState";
+import API_URL from "../config";
 
 const OrderDetail = () => {
     const { orderId } = useParams(); // lấy id đơn hàng từ URL /orders/:orderId
@@ -25,7 +26,7 @@ const OrderDetail = () => {
         const fetchOrderDetail = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:5000/api/orders/detail/${orderId}`,
+                    `${API_URL}/api/orders/detail/${orderId}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     },

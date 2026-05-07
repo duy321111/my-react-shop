@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Reviews from "./Reviews";
 import LoadingState from "../LoadingState";
+import API_URL from "../../config";
 
 const TabContent = ({ activeTab, productId }) => {
   const [product, setProduct] = useState(null);
@@ -11,7 +12,7 @@ const TabContent = ({ activeTab, productId }) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/products/${productId}`);
+        const res = await axios.get(`${API_URL}/api/products/${productId}`);
         setProduct(res.data);
       } catch (err) {
         console.error("Lỗi khi lấy sản phẩm:", err);

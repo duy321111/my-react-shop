@@ -4,6 +4,7 @@ import styles from "../../assets/css/admin/category.module.css";
 import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function CategoryList() {
     const [categories, setCategories] = useState([]);
@@ -24,7 +25,7 @@ export default function CategoryList() {
 
     const fetchCategories = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/categories");
+            const res = await axios.get(`${API_URL}/api/categories`);
             setCategories(res.data);
         } catch (err) {
             console.error("Lỗi khi tải danh sách category:", err);
@@ -33,7 +34,7 @@ export default function CategoryList() {
 
     const fetchBrands = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/brand");
+            const res = await axios.get(`${API_URL}/api/brand`);
             setBrands(res.data);
         } catch (err) {
             console.error("Lỗi khi tải danh sách brand:", err);
@@ -43,7 +44,7 @@ export default function CategoryList() {
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc muốn xoá category này?")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/categories/${id}`);
+            await axios.delete(`${API_URL}/api/categories/${id}`);
             setCategories(categories.filter((c) => c._id !== id));
         } catch (err) {
             console.error("Lỗi khi xoá category:", err);
@@ -91,7 +92,7 @@ export default function CategoryList() {
         e.preventDefault();
         try {
             await axios.put(
-                `http://localhost:5000/api/categories/update/${editingCategory._id}`,
+                `${API_URL}/api/categories/update/${editingCategory._id}`,
                 formData,
             );
             notificationService.success("Cập nhật category thành công!");

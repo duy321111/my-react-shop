@@ -1,3 +1,4 @@
+import API_URL from "../config";
 // import React, { useEffect, useState } from "react";
 
 // const Cart = () => {
@@ -8,7 +9,7 @@
 //     const fetchCart = async () => {
 //       try {
 //         if (!userId) return; // Nếu chưa có userId thì không fetch
-//         const res = await fetch(`http://localhost:5000/api/cart/${userId}`);
+//         const res = await fetch(`${API_URL}/api/cart/${userId}`);
 //         const data = await res.json();
 //         setCartItems(data?.items || []);
 //       } catch (error) {
@@ -20,7 +21,7 @@
 
 //   const handleRemove = async (productId) => {
 //     try {
-//       await fetch(`http://localhost:5000/api/cart/${userId}/${productId}`, {
+//       await fetch(`${API_URL}/api/cart/${userId}/${productId}`, {
 //         method: "DELETE",
 //       });
 //       setCartItems(cartItems.filter((item) => item.productId !== productId));

@@ -7,6 +7,7 @@ import QuantitySelector from "../components/QuantitySelector";
 import Tabs from "../components/Tab/Tab";
 import LoadingState from "../components/LoadingState";
 import { notificationService } from "../services/notificationService";
+import API_URL from "../config";
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const ProductDetail = () => {
         const fetchProduct = async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:5000/api/products/${id}`,
+                    `${API_URL}/api/products/${id}`,
                 );
                 const data = await res.json();
                 setProduct(data);
@@ -45,7 +46,7 @@ const ProductDetail = () => {
         }
 
         try {
-            const res = await axios.post("http://localhost:5000/api/cart/add", {
+            const res = await axios.post(`${API_URL}/api/cart/add`, {
                 userId: user._id,
                 productId: product._id,
                 name: product.name,

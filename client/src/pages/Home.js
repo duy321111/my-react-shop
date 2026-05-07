@@ -5,6 +5,7 @@ import Header from "../components/Header/Header";
 import ProductList from "../components/ProductList";
 import Footer from "../components/Footer";
 import Banner from "../components/Banner";
+import API_URL from "../config";
 
 const Home = () => {
   const [promoProducts, setPromoProducts] = useState([]);
@@ -13,7 +14,7 @@ const Home = () => {
   useEffect(() => {
    
     axios
-      .get("http://localhost:5000/api/products")
+      .get(`${API_URL}/api/products`)
       .then((res) => {
         const allProducts = res.data;
         setPromoProducts(allProducts.filter((p) => p.saleOff > 0));

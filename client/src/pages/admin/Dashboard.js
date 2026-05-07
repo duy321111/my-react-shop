@@ -4,6 +4,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/admindashboard.module.css";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import API_URL from "../../config";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -21,7 +22,7 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/orders/stats");
+      const res = await axios.get(`${API_URL}/api/orders/stats`);
       setStats(res.data.overview);
       setChartData(res.data.monthlyRevenue);
     } catch (err) {

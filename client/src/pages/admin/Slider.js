@@ -4,6 +4,7 @@ import AdminSidebar from "../../components/admin/Sidebar";
 import AdminHeader from "../../components/admin/HeaderAdmin";
 import styles from "../../assets/css/admin/slider.module.css";
 import { notificationService } from "../../services/notificationService";
+import API_URL from "../../config";
 
 export default function SliderAdmin() {
     const [sliders, setSliders] = useState([]);
@@ -28,7 +29,7 @@ export default function SliderAdmin() {
     const fetchSliders = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/slider");
+            const res = await axios.get(`${API_URL}/api/slider`);
             setSliders(res.data);
         } catch (err) {
             console.error("Lỗi khi lấy slider:", err);
@@ -90,7 +91,7 @@ export default function SliderAdmin() {
         if (img.startsWith("http://") || img.startsWith("https://")) return img;
 
         // Nếu là đường dẫn local từ backend, prepend localhost:5000
-        return `http://localhost:5000/${img.replace(/^\/+/, "")}`;
+        return `${API_URL}/${img.replace(/^\/+/, "")}`;
     };
 
     const handleSave = async (e) => {
@@ -104,7 +105,7 @@ export default function SliderAdmin() {
         try {
             if (editing) {
                 await axios.put(
-                    `http://localhost:5000/api/slider/${editing._id}`,
+                    `${API_URL}/api/slider/${editing._id}`,
                     fd,
                     {
                         headers: { "Content-Type": "multipart/form-data" },
@@ -117,7 +118,7 @@ export default function SliderAdmin() {
                     !window.confirm("Bạn chưa chọn file ảnh. Tiếp tục không?")
                 )
                     return;
-                await axios.post("http://localhost:5000/api/slider", fd, {
+                await axios.post(`${API_URL}/api/slider`, fd, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
                 notificationService.success("Thêm slider thành công");
@@ -134,7 +135,7 @@ export default function SliderAdmin() {
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc muốn xóa slider này?")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/slider/${id}`);
+            await axios.delete(`${API_URL}/api/slider/${id}`);
             setSliders((prev) => prev.filter((s) => s._id !== id));
             notificationService.success("Xóa thành công");
         } catch (err) {
@@ -149,7 +150,7 @@ export default function SliderAdmin() {
             fd.append("status", (!s.status).toString());
             fd.append("title", s.title || "");
             fd.append("description", s.description || "");
-            await axios.put(`http://localhost:5000/api/slider/${s._id}`, fd, {
+            await axios.put(`${API_URL}/api/slider/${s._id}`, fd, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setSliders((prev) =>

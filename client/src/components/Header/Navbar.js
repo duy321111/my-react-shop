@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API_URL from "../../config";
 
 export default function Navbar() {
   // Lấy user từ localStorage ngay khi component khởi tạo
@@ -22,7 +23,7 @@ export default function Navbar() {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .get("http://localhost:5000/auth/me", {
+        .get(`${API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then((res) => {
@@ -102,7 +103,7 @@ export default function Navbar() {
         {user ? (
           <li className="header__navbar-item header__navbar-user">
             <img
-              src={form.avatar ? `http://localhost:5000${form.avatar}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+              src={form.avatar ? `${API_URL}${form.avatar}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
               alt="avatar"
               className="header__navbar-user-img"
             />

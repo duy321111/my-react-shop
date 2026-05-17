@@ -9,11 +9,16 @@ const Banner = () => {
     const fetchSlides = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/slider");
-        const slidesWithFullUrl = res.data.slice(0, 5).map(slide => ({
+        const data = Array.isArray(res.data) ? res.data : [];
+        // Chỉ lấy những slide có trạng thái bật (status truthy) và giới hạn 5 mục
+        const activeSlides = data.filter((slide) => slide && slide.status).slice(0, 5);
+        const slidesWithFullUrl = activeSlides.map((slide) => ({
           ...slide,
-          image: slide.image.startsWith("http")
-            ? slide.image
-            : `http://localhost:5000${slide.image}`,
+          image: slide.image
+            ? slide.image.startsWith("http")
+              ? slide.image
+              : `http://localhost:5000${slide.image}`
+            : "",
         }));
         setSlides(slidesWithFullUrl);
       } catch (err) {

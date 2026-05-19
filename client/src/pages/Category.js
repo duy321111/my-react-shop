@@ -60,9 +60,7 @@ const CategoryPage = () => {
                             <div className="grid__column-2">
                                 <Category
                                     categoryName={categoryName}
-                                    onSelectBrand={(brandId) =>
-                                        setSelectedBrand(brandId)
-                                    }
+                                    onSelectBrand={setSelectedBrand}
                                 />
                             </div>
 

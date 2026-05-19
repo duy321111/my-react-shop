@@ -302,7 +302,7 @@ const UpdateProduct = () => {
                                 <label>Ảnh chính</label>
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept="image/*,.webp"
                                     onChange={handleMainImageChange}
                                 />
                                 {previewMain && (
@@ -319,7 +319,7 @@ const UpdateProduct = () => {
                                 <label>Ảnh phụ (có thể chọn nhiều)</label>
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept="image/*,.webp"
                                     multiple
                                     onChange={handleExtraImagesChange}
                                 />

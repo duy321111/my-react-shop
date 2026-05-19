@@ -1101,6 +1101,27 @@
     right: -4px;
     color: var(--primary-color);
 }
+/* Category button styles */
+.category-item__link {
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: transparent;
+    border: none;
+    font-size: 1.4rem;
+    padding: 6px 16px;
+    display: block;
+    cursor: pointer;
+    text-align: left;
+}
+
+.category-item__link:hover {
+    background-color: #f4f0f0f7;
+}
+
+.category-item--active .category-item__link {
+    font-weight: bold;
+    color: var(--primary-color);
+}
 
 /* homefilter +sort*/
 
@@ -2969,3 +2990,4 @@ h2 {
     font-size: 1.8rem;
     font-weight: bold;
 }
+

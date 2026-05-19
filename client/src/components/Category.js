@@ -7,7 +7,6 @@ const Category = ({ categoryName, onSelectBrand }) => {
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeBrand, setActiveBrand] = useState("all");
-    const [sort, setSort] = useState("");
 
     useEffect(() => {
         const fetchBrands = async () => {
@@ -28,7 +27,7 @@ const Category = ({ categoryName, onSelectBrand }) => {
         setActiveBrand("all");
         if (onSelectBrand) onSelectBrand("all");
         fetchBrands();
-    }, [categoryName, onSelectBrand]); // chỉ chạy khi category đổi
+    }, [categoryName]); // chỉ chạy khi category đổi
 
     const handleClick = (brandId) => {
         setActiveBrand(brandId);
@@ -51,16 +50,13 @@ const Category = ({ categoryName, onSelectBrand }) => {
                         activeBrand === "all" ? "category-item--active" : ""
                     }`}
                 >
-                    <a
-                        href="#"
+                    <button
+                        type="button"
                         className="category-item__link"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleClick("all");
-                        }}
+                        onClick={() => handleClick("all")}
                     >
                         Tất cả
-                    </a>
+                    </button>
                 </li>
 
                 {brands.map((brand) => (
@@ -72,16 +68,13 @@ const Category = ({ categoryName, onSelectBrand }) => {
                                 : ""
                         }`}
                     >
-                        <a
-                            href="#"
+                        <button
+                            type="button"
                             className="category-item__link"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleClick(brand._id);
-                            }}
+                            onClick={() => handleClick(brand._id)}
                         >
                             {brand.name}
-                        </a>
+                        </button>
                     </li>
                 ))}
             </ul>

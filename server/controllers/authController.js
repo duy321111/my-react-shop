@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { getUploadUrl } from "../utils/uploadPaths.js";
 
 // REGISTER
 export const register = async (req, res) => {
@@ -68,7 +69,7 @@ export const updateProfile = async (req, res) => {
 
     // Nếu có file upload thì cập nhật avatar
     if (req.file) {
-      updatedData.avatar = `/uploads/${req.file.filename}`;
+      updatedData.avatar = getUploadUrl(req.file.filename);
     }
 
     const updatedUser = await User.findByIdAndUpdate(req.user.id, updatedData, {

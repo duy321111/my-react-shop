@@ -14,16 +14,18 @@ import adminRoutes from "./routes/admin.js"
 import brandRoutes from "./routes/brand.js";
 import userRoutes from "./routes/user.js";
 import sliderRoutes from "./routes/slider.js";
+import { ensureUploadDir, uploadDir } from "./utils/uploadPaths.js";
 
 
 dotenv.config();
+ensureUploadDir();
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(uploadDir));
 
 
 

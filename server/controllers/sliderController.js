@@ -1,4 +1,5 @@
 import Slider from "../models/Slider.js";
+import { getUploadUrl } from "../utils/uploadPaths.js";
 
 // Lấy tất cả slider
 export const getAllSliders = async (req, res) => {
@@ -14,7 +15,7 @@ export const getAllSliders = async (req, res) => {
 
 export const createSlider = async (req, res) => {
   try {
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    const imagePath = req.file ? getUploadUrl(req.file.filename) : null;
     const newSlider = new Slider({
       image: imagePath,
       description: req.body.description,

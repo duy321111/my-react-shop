@@ -2,12 +2,15 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import User from "../models/User.js";
+import { ensureUploadDir, uploadDir, getUploadUrl } from "../utils/uploadPaths.js";
+
+ensureUploadDir();
 
 const router = express.Router();
 
 // Multer config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
+  destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) =>
     cb(null, Date.now() + path.extname(file.originalname)),
 });
@@ -16,7 +19,7 @@ const upload = multer({ storage });
 // API upload avatar
 router.post("/:userId", upload.single("avatar"), async (req, res) => {
   try {
-    const imagePath = `/uploads/${req.file.filename}`;
+    const imagePath = getUploadUrl(req.file.filename);
 
     const user = await User.findByIdAndUpdate(
       req.params.userId,

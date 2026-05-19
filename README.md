@@ -72,6 +72,17 @@ npm start
 
 ---
 
+## ☁️ Deploy trên Render với Persistent Disk
+  
+- Tạo một **Persistent Disk** trên Render và mount vào một đường dẫn cố định, ví dụ: `/var/data`.
+- Đặt biến môi trường `UPLOAD_DIR=/var/data/uploads` cho backend.
+- Backend sẽ tự tạo thư mục upload và phục vụ ảnh từ `/uploads/...`.
+- Nếu đổi đường dẫn mount, chỉ cần cập nhật lại `UPLOAD_DIR` cho khớp.
+
+> Phần upload avatar/slider hiện đã dùng thư mục cấu hình này. Nếu em còn lưu ảnh sản phẩm vào nơi khác, cần chuyển nốt sang cùng cơ chế để ảnh không mất sau deploy.
+
+---
+
 ### 🧰 Tài khoản demo
 
 | Vai trò | Email | Mật khẩu |

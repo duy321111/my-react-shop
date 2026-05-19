@@ -1,7 +1,7 @@
 // controllers/adminController.js
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const loginAdmin = async (req, res) => {
   const { email, password } = req.body; // Đổi tên đúng với schema
